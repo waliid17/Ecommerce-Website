@@ -21,7 +21,7 @@
     <header>
         <!-- mobile menu -->
         <div class="mobile-menu bg-second">
-            <a href="#" class="mb-logo">9al9aloo-Shop</a>
+            <a href="#" class="mb-logo">9al9alo-Shop</a>
             <span class="mb-menu-toggle" id="mb-menu-toggle">
                 <i class='bx bx-menu'></i>
             </span>
