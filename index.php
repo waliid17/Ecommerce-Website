@@ -8,7 +8,9 @@
     <title>ATShop</title>
     <!-- google font -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,900&display=swap"
+        rel="stylesheet">
     <!-- boxicons -->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <!-- app css -->
@@ -45,6 +47,48 @@
                         <li><a href="#"><i class='bx bx-user-circle'></i></a></li>
                         <li><a href="#"><i class='bx bx-cart'></i></a></li>
                     </ul>
+                    <?php
+                    session_start();
+                    if (isset($_SESSION['user_id'])) {
+                        $connection = new mysqli("localhost", "root", "", "base");
+                        if ($connection->connect_error) {
+                            die("Connection failed: " . $connection->connect_error);
+                        }
+                        
+                        $id=$_SESSION['user_id'];
+                        $query = "SELECT `first-name` FROM `utilisateur` WHERE id=$id";
+                        $result = $connection->query($query);
+                        if ($result->num_rows > 0) {
+                            $row = mysqli_fetch_assoc($result);
+                            $user=$row['first-name'];
+                        echo"<a href='#' class='btn'>
+                        <div class='login'>
+                           welcome $user
+                        </div>
+                    </a>
+                    <a href='logout.php'>logout</a>"
+
+                    ;}else {
+                        echo"404";
+                    }
+                    }
+                    else {
+                        # code...
+                    
+                    ?>
+                    <a href="login_signup.html" class="btn">
+                        <div class="login">
+                            Connexion
+                        </div>
+                    </a>
+                    <a href="login_signup.html?slide=signup" class="btn">
+                        <div class="login">
+                            Inscription
+                        </div>
+                    </a>
+                    <?php
+                    }
+                    ?>
                 </div>
             </div>
             <!-- end mid header -->
@@ -132,7 +176,9 @@
                                 Next-gen design
                             </h2>
                             <p class="top-down trans-delay-0-4">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati dolor commodi dignissimos culpa, eaque eos necessitatibus possimus veniam, cupiditate rerum deleniti? Libero, ducimus error? Beatae velit dolore sint explicabo! Fugit.
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati dolor commodi
+                                dignissimos culpa, eaque eos necessitatibus possimus veniam, cupiditate rerum deleniti?
+                                Libero, ducimus error? Beatae velit dolore sint explicabo! Fugit.
                             </p>
                             <div class="top-down trans-delay-0-6">
                                 <button class="btn-flat btn-hover">
@@ -157,7 +203,9 @@
                                 Ipsum dolor
                             </h2>
                             <p class="top-down trans-delay-0-4">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. A optio, voluptatum aperiam nobis quis maxime corporis porro alias soluta sunt quae consectetur aliquid blanditiis perspiciatis labore cumque, ullam, quam eligendi!
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. A optio, voluptatum aperiam
+                                nobis quis maxime corporis porro alias soluta sunt quae consectetur aliquid blanditiis
+                                perspiciatis labore cumque, ullam, quam eligendi!
                             </p>
                             <div class="top-down trans-delay-0-6">
                                 <button class="btn-flat btn-hover">
@@ -182,7 +230,9 @@
                                 Consectetur Elit
                             </h2>
                             <p class="top-down trans-delay-0-4">
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo aut fugiat, libero magnam nemo inventore in tempora beatae officiis temporibus odit deserunt molestiae amet quam, asperiores, iure recusandae nulla labore!
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo aut fugiat, libero
+                                magnam nemo inventore in tempora beatae officiis temporibus odit deserunt molestiae amet
+                                quam, asperiores, iure recusandae nulla labore!
                             </p>
                             <div class="top-down trans-delay-0-6">
                                 <button class="btn-flat btn-hover">
@@ -250,7 +300,7 @@
                 <h2>NOS PRODUITS</h2>
             </div>
             <div class="row" id="latest-products">
-            <?php
+                <?php
 $connection = new mysqli("localhost", "root", "", "base");
 
 if ($connection->connect_error) {
@@ -302,7 +352,7 @@ $connection->close();
 ?>
 
             </div>
-            
+
             <div class="section-footer">
                 <a href="./products.html" class="btn-flat btn-hover">view all</a>
             </div>
@@ -324,7 +374,9 @@ $connection->close();
                         Lorem ipsum dolor sit amet
                     </div>
                     <div class="blog-preview">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi, eligendi dolore. Sapiente omnis numquam mollitia asperiores animi, veritatis sint illo magnam, voluptatum labore, quam ducimus! Nisi doloremque praesentium laudantium repellat.
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi, eligendi dolore. Sapiente omnis
+                        numquam mollitia asperiores animi, veritatis sint illo magnam, voluptatum labore, quam ducimus!
+                        Nisi doloremque praesentium laudantium repellat.
                     </div>
                     <button class="btn-flat btn-hover">read more</button>
                 </div>
@@ -338,7 +390,9 @@ $connection->close();
                         Lorem ipsum dolor sit amet
                     </div>
                     <div class="blog-preview">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi, eligendi dolore. Sapiente omnis numquam mollitia asperiores animi, veritatis sint illo magnam, voluptatum labore, quam ducimus! Nisi doloremque praesentium laudantium repellat.
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi, eligendi dolore. Sapiente omnis
+                        numquam mollitia asperiores animi, veritatis sint illo magnam, voluptatum labore, quam ducimus!
+                        Nisi doloremque praesentium laudantium repellat.
                     </div>
                     <button class="btn-flat btn-hover">read more</button>
                 </div>
