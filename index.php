@@ -38,7 +38,10 @@
             <!-- mid header -->
             <div class="bg-main">
                 <div class="mid-header container">
-                    <a href="#" class="logo">9al9alo-Shop</a>
+                    <div class="logo">
+                        <a href="index.php"><img src="images/prooutil.gif" alt="LOGO"></a>
+                    </div>
+
                     <div class="search">
                         <input type="text" placeholder="Search">
                         <i class='bx bx-search-alt'></i>
@@ -55,39 +58,40 @@
                         if ($connection->connect_error) {
                             die("Connection failed: " . $connection->connect_error);
                         }
-                        
-                        $id=$_SESSION['user_id'];
+
+                        $id = $_SESSION['user_id'];
                         $query = "SELECT `first-name` FROM `utilisateur` WHERE id=$id";
                         $result = $connection->query($query);
                         if ($result->num_rows > 0) {
                             $row = mysqli_fetch_assoc($result);
-                            $user=$row['first-name'];
-                        echo"<a href='#' class='btn'>
+                            $user = $row['first-name'];
+                            echo "<a href='
+                            user.php' class='btn'>
                         <div class='login'>
                            welcome $user
                         </div>
                     </a>
                     <a href='logout.php'><div class='logout'><i class='fas fa-sign-out-alt'></i></div></a>"
 
-                    ;}else {
-                        echo"404";
-                    }
-                    }
-                    else {
+                            ;
+                        } else {
+                            unset($_SESSION['user_id']);
+                        }
+                    } else {
                         # code...
                     
-                    ?>
-                    <a href="login_signup.html" class="btn">
-                        <div class="login">
-                            Connexion
-                        </div>
-                    </a>
-                    <a href="login_signup.html?slide=signup" class="btn">
-                        <div class="login">
-                            Inscription
-                        </div>
-                    </a>
-                    <?php
+                        ?>
+                        <a href="login_signup.html" class="btn">
+                            <div class="login">
+                                Connexion
+                            </div>
+                        </a>
+                        <a href="login_signup.html?slide=signup" class="btn">
+                            <div class="login">
+                                Inscription
+                            </div>
+                        </a>
+                        <?php
                     }
                     ?>
                 </div>
@@ -97,7 +101,7 @@
             <div class="bg-second">
                 <div class="bottom-header container">
                     <ul class="main-menu">
-                        <li><a href="#">home</a></li>
+                        <li><a href="index.php">home</a></li>
                         <!-- mega menu -->
                         <li class="mega-dropdown">
                             <a href="./products.html">Shop<i class='bx bxs-chevron-down'></i></a>
@@ -302,23 +306,24 @@
             </div>
             <div class="row" id="latest-products">
                 <?php
-$connection = new mysqli("localhost", "root", "", "base");
+                $connection = new mysqli("localhost", "root", "", "base");
 
-if ($connection->connect_error) {
-    die("Connection failed: " . $connection->connect_error);
-}
+                if ($connection->connect_error) {
+                    die("Connection failed: " . $connection->connect_error);
+                }
 
-$query = "SELECT * FROM `products` LIMIT 4";
-$result = $connection->query($query);
+                $query = "SELECT * FROM `products` LIMIT 4";
+                $result = $connection->query($query);
 
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $name = htmlspecialchars($row["name"]);
-        $image = htmlspecialchars("uploads/" . $row["image"]);
-        $old_price = htmlspecialchars($row["old_price"]);
-        $curr_price = htmlspecialchars($row["curr_price"]);
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $name = htmlspecialchars($row["name"]);
+                        $image = htmlspecialchars("uploads/" . $row["image"]);
+                        $old_price = htmlspecialchars($row["old_price"]);
+                        $curr_price = htmlspecialchars($row["curr_price"]);
+                        $id = htmlspecialchars($row["id"]);
 
-        echo "<div class='col-3 col-md-6 col-sm-12'>
+                        echo "<div class='col-3 col-md-6 col-sm-12'>
                 <div class='product-card'>
                     <div class='product-card-img'>
                         <img src='$image' alt='$name'>
@@ -326,7 +331,7 @@ if ($result->num_rows > 0) {
                     </div>
                     <div class='product-card-info'>
                         <div class='product-btn'>
-                        <a href='product-detail.php' class='btn-flat btn-hover btn-shop-now'>shop now</a>
+                        <a href='product-detail.php?id=$id' class='btn-flat btn-hover btn-shop-now'>shop now</a>
 
                             <button class='btn-flat btn-hover btn-cart-add'>
                                 <i class='bx bxs-cart-add'></i>
@@ -345,13 +350,13 @@ if ($result->num_rows > 0) {
                     </div>
                 </div>
             </div>";
-    }
-} else {
-    echo "No products found.";
-}
+                    }
+                } else {
+                    echo "No products found.";
+                }
 
-$connection->close();
-?>
+                $connection->close();
+                ?>
 
             </div>
 
@@ -443,7 +448,7 @@ $connection->close();
                 <div class="col-3 col-md-6 col-sm-12">
                     <div class="contact">
                         <h3 class="contact-header">
-                            9al9alo-Shop
+                            <img src="images/prooutil1.png" alt="LOGO">
                         </h3>
                         <ul class="contact-socials">
                             <li><a href="#">

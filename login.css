@@ -1,30 +1,35 @@
-.formContainer{
- margin: 10px auto;
+.formContainer {
+  margin: 10px auto;
 }
-.formContainer ::selection{
+
+.formContainer ::selection {
   background: #12e8f0;
   color: #fff;
 }
-.formContainer .wrapper{
+
+.formContainer .wrapper {
   overflow: hidden;
   max-width: 390px;
   background: #fff;
   padding: 30px;
   border-radius: 5px;
-  box-shadow: 0px 15px 20px rgba(0,0,0,0.1);
+  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
 }
-.formContainer .wrapper .title-text{
+
+.formContainer .wrapper .title-text {
   display: flex;
   width: 200%;
 }
-.formContainer .wrapper .title{
+
+.formContainer .wrapper .title {
   width: 50%;
   font-size: 35px;
   font-weight: 600;
   text-align: center;
-  transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
-.formContainer .wrapper .slide-controls{
+
+.formContainer .wrapper .slide-controls {
   position: relative;
   display: flex;
   height: 50px;
@@ -35,7 +40,8 @@
   border: 1px solid lightgrey;
   border-radius: 5px;
 }
-.formContainer .slide-controls .slide{
+
+.formContainer .slide-controls .slide {
   height: 100%;
   width: 100%;
   color: #fff;
@@ -47,10 +53,12 @@
   z-index: 1;
   transition: all 0.6s ease;
 }
-.formContainer .slide-controls label.signup{
+
+.formContainer .slide-controls label.signup {
   color: #000;
 }
-.formContainer .slide-controls .slider-tab{
+
+.formContainer .slide-controls .slider-tab {
   position: absolute;
   height: 100%;
   width: 50%;
@@ -58,48 +66,59 @@
   z-index: 0;
   border-radius: 5px;
   background: -webkit-linear-gradient(left, #000000, #ffffff);
-  transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
-.formContainer input[type="radio"]{
+
+.formContainer input[type="radio"] {
   display: none;
 }
-.formContainer #signup:checked ~ .slider-tab{
+
+.formContainer #signup:checked~.slider-tab {
   left: 50%;
   background: -webkit-linear-gradient(right, #000000, #ffffff);
 }
-.formContainer #signup:checked ~ label.signup{
+
+.formContainer #signup:checked~label.signup {
   color: #fff;
   cursor: default;
   user-select: none;
 }
-.formContainer #signup:checked ~ label.login{
+
+.formContainer #signup:checked~label.login {
   color: #000;
 }
-.formContainer #login:checked ~ label.signup{
+
+.formContainer #login:checked~label.signup {
   color: #000;
 }
-.formContainer #login:checked ~ label.login{
+
+.formContainer #login:checked~label.login {
   cursor: default;
   user-select: none;
 }
-.formContainer .wrapper .form-container{
+
+.formContainer .wrapper .form-container {
   width: 100%;
   overflow: hidden;
 }
-.formContainer .form-container .form-inner{
+
+.formContainer .form-container .form-inner {
   display: flex;
   width: 200%;
 }
-.formContainer .form-container .form-inner form{
+
+.formContainer .form-container .form-inner form {
   width: 50%;
-  transition: all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
+  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
-.formContainer .form-inner form .field{
+
+.formContainer .form-inner form .field {
   height: 50px;
   width: 100%;
   margin-top: 20px;
 }
-.formContainer .form-inner form .field input{
+
+.formContainer .form-inner form .field input {
   height: 100%;
   width: 100%;
   outline: none;
@@ -110,52 +129,64 @@
   font-size: 17px;
   transition: all 0.3s ease;
 }
-.formContainer .form-inner form .field input:focus{
+
+.formContainer .form-inner form .field input:focus {
   border-color: #12e8f0;
 }
-.formContainer .form-inner form .field input::placeholder{
+
+.formContainer .form-inner form .field input::placeholder {
   color: #999;
   transition: all 0.3s ease;
 }
-.formContainer form .field input:focus::placeholder{
+
+.formContainer form .field input:focus::placeholder {
   color: #b3b3b3;
 }
-.formContainer .form-inner form .pass-link{
+
+.formContainer .form-inner form .pass-link {
   margin-top: 5px;
 }
-.formContainer .form-inner form .signup-link{
+
+.formContainer .form-inner form .signup-link {
   text-align: center;
   margin-top: 30px;
 }
+
 .formContainer .form-inner form .pass-link a,
-.formContainer .form-inner form .signup-link a{
+.formContainer .form-inner form .signup-link a {
   color: #0e45dd;
   text-decoration: none;
 }
+
 .formContainer .form-inner form .pass-link a:hover,
-.formContainer .form-inner form .signup-link a:hover{
+.formContainer .form-inner form .signup-link a:hover {
   text-decoration: underline;
 }
-.formContainer form .btn{
+
+.formContainer form .btn {
   height: 50px;
   width: 100%;
   border-radius: 5px;
   position: relative;
   overflow: hidden;
 }
-.formContainer form .btn .btn-layer{
+
+.formContainer form .btn .btn-layer {
   height: 100%;
   width: 300%;
   position: absolute;
   left: -100%;
   background: black;
   border-radius: 5px;
-  transition: all 0.4s ease;;
+  transition: all 0.4s ease;
+  ;
 }
-.formContainer form .btn:hover .btn-layer{
+
+.formContainer form .btn:hover .btn-layer {
   left: 0;
 }
-.formContainer form .btn input[type="submit"]{
+
+.formContainer form .btn input[type="submit"] {
   height: 100%;
   width: 100%;
   z-index: 2;
@@ -169,6 +200,7 @@
   font-weight: 500;
   cursor: pointer;
 }
+
 :root {
   --main-bg-color: #fff;
   --second-bg-color: #f5f5f5;
@@ -262,13 +294,13 @@ img {
   font-size: 13px;
 }
 
-ul.devided > li {
+ul.devided>li {
   margin-right: 10px;
   padding-right: 10px;
   border-right: 1px solid;
 }
 
-ul.devided > li:last-child {
+ul.devided>li:last-child {
   border-right: none;
 }
 
@@ -297,13 +329,14 @@ ul.devided > li:last-child {
   z-index: 2;
 }
 
-.dropdown-content > li > a {
+.dropdown-content>li>a {
   padding: 10px;
 }
 
-.dropdown-content > li:hover {
+.dropdown-content>li:hover {
   color: var(--red);
 }
+
 /* end dropdown */
 
 .mid-header {
@@ -312,11 +345,6 @@ ul.devided > li:last-child {
   justify-content: space-between;
   height: 80px;
   background-color: var(--main-bg-color);
-}
-
-.logo {
-  font-size: 40px;
-  font-weight: 700;
 }
 
 .mb-logo {
@@ -354,7 +382,7 @@ ul.devided > li:last-child {
   display: flex;
 }
 
-.user-menu > li > a {
+.user-menu>li>a {
   font-size: 30px;
   margin-left: 15px;
 }
@@ -370,7 +398,7 @@ ul.devided > li:last-child {
   height: var(--bottom-header-size);
 }
 
-.main-menu > li > a {
+.main-menu>li>a {
   display: flex;
   align-items: center;
   margin: 0 20px;
@@ -379,12 +407,12 @@ ul.devided > li:last-child {
   text-transform: uppercase;
 }
 
-.main-menu > li {
+.main-menu>li {
   border-bottom: 2px solid transparent;
   border-top: 2px solid transparent;
 }
 
-.main-menu > li:hover {
+.main-menu>li:hover {
   border-bottom: 2px solid var(--red);
 }
 
@@ -419,7 +447,7 @@ ul.devided > li:last-child {
   flex-direction: column;
 }
 
-.mega-content ul > li > a {
+.mega-content ul>li>a {
   font-weight: normal;
   padding: 10px 0;
   border-bottom: 2px dashed #f5f5f5;
@@ -428,15 +456,15 @@ ul.devided > li:last-child {
   text-transform: capitalize;
 }
 
-.mega-content ul > li > a:hover {
+.mega-content ul>li>a:hover {
   padding-left: 10px;
 }
 
-.mega-content ul > li {
+.mega-content ul>li {
   border-bottom: 2px solid transparent;
 }
 
-.mega-content ul > li:hover {
+.mega-content ul>li:hover {
   border-bottom: 2px solid var(--red);
 }
 
@@ -544,7 +572,7 @@ footer ul li {
   text-transform: capitalize;
 }
 
-.filter-list > li {
+.filter-list>li {
   margin-bottom: 20px;
 }
 
@@ -598,7 +626,7 @@ footer ul li {
   border: 2px solid #7b7979;
 }
 
-.group-checkbox label > i {
+.group-checkbox label>i {
   position: absolute;
   left: 2px;
   top: -2px;
@@ -608,7 +636,7 @@ footer ul li {
   transition: transform 0.1s ease-in-out;
 }
 
-.group-checkbox input:checked + label i {
+.group-checkbox input:checked+label i {
   transform: scale(1);
 }
 
@@ -622,7 +650,7 @@ footer ul li {
   justify-content: flex-end;
 }
 
-.pagination > li > a {
+.pagination>li>a {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -632,12 +660,12 @@ footer ul li {
   font-size: 20px;
 }
 
-.pagination > li > a.active {
+.pagination>li>a.active {
   background-color: var(--black);
   color: var(--main-bg-color);
 }
 
-.pagination > li > a:hover {
+.pagination>li>a:hover {
   border: 2px solid var(--black);
 }
 
@@ -647,7 +675,7 @@ footer ul li {
   justify-content: center;
 }
 
-.product-img > img {
+.product-img>img {
   max-width: 70%;
 }
 
@@ -672,7 +700,7 @@ footer ul li {
   padding: 45px 0;
 }
 
-.product-info > * ~ * {
+.product-info>*~* {
   margin-top: 25px;
 }
 
@@ -834,7 +862,7 @@ footer ul li {
     height: unset;
   }
 
-  .mid-header > * {
+  .mid-header>* {
     margin-top: 15px;
   }
 
@@ -855,7 +883,7 @@ footer ul li {
     padding: 10px 0;
   }
 
-  .mega-dropdown > a > i {
+  .mega-dropdown>a>i {
     display: none;
   }
 
@@ -874,7 +902,7 @@ footer ul li {
     margin: unset;
   }
 
-  .mega-content ul > li > a {
+  .mega-content ul>li>a {
     padding: 5px 0;
   }
 
@@ -883,13 +911,7 @@ footer ul li {
   }
 
   .hero {
-    height: calc(
-      80vh -
-        (
-          var(--top-header-size) + var(--mid-header-size) +
-            var(--bottom-header-size)
-        )
-    );
+    height: calc(80vh - (var(--top-header-size) + var(--mid-header-size) + var(--bottom-header-size)));
     margin-bottom: 60px;
   }
 
@@ -897,12 +919,12 @@ footer ul li {
     flex-direction: column-reverse;
   }
 
-  .slide > .info,
-  .slide > .img {
+  .slide>.info,
+  .slide>.img {
     width: 100%;
   }
 
-  .slide > .img > img {
+  .slide>.img>img {
     max-width: 300px;
   }
 
@@ -979,13 +1001,7 @@ footer ul li {
 
 @media only screen and (max-width: 750px) {
   .hero {
-    height: calc(
-      70vh -
-        (
-          var(--top-header-size) + var(--mid-header-size) +
-            var(--bottom-header-size)
-        )
-    );
+    height: calc(70vh - (var(--top-header-size) + var(--mid-header-size) + var(--bottom-header-size)));
     margin-bottom: 60px;
   }
 
@@ -1002,6 +1018,7 @@ footer ul li {
     height: unset;
   }
 }
+
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -1168,6 +1185,12 @@ footer ul li {
     width: 100%;
   }
 }
+
 .hidden {
   display: none;
+}
+
+.logo {
+  font-weight: 700;
+  width: 20%;
 }
