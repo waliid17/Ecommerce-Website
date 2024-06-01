@@ -118,11 +118,15 @@
               <div class="field">
                 <i class="fa-solid fa-lock"></i>
                 <input
+                  id="password_login"
                   type="password"
                   placeholder="Password"
                   required
                   name="password"
-                />
+                /><i
+                  class="far fa-eye toggle-password"
+                  id="toggle-password3"
+                ></i>
               </div>
               <div class="pass-link">
                 <a href="#">Mot de passe oublié ?</a>
@@ -290,6 +294,7 @@
         const password = document.getElementById("password");
         const confirmPassword = document.getElementById("confirm-password");
         const mismatchMessage = document.getElementById("mismatch-message");
+        const password_login = document.getElementById("password_login");
 
         const checkPasswords = () => {
           if (
@@ -305,8 +310,11 @@
 
         password.addEventListener("input", checkPasswords);
         confirmPassword.addEventListener("input", checkPasswords);
+
         const togglePassword1 = document.getElementById("toggle-password1");
         const togglePassword2 = document.getElementById("toggle-password2");
+        const togglePassword3 = document.getElementById("toggle-password3");
+
         const togglePasswordVisibility = (passwordField, toggleIcon) => {
           if (passwordField.type === "password") {
             passwordField.type = "text";
@@ -318,11 +326,16 @@
             toggleIcon.classList.add("fa-eye");
           }
         };
+
         togglePassword1.addEventListener("click", () =>
           togglePasswordVisibility(password, togglePassword1)
         );
+
         togglePassword2.addEventListener("click", () =>
           togglePasswordVisibility(confirmPassword, togglePassword2)
+        );
+        togglePassword3.addEventListener("click", () =>
+          togglePasswordVisibility(password_login, togglePassword3)
         );
       });
     </script>

@@ -430,6 +430,11 @@
     <!-- app js -->
     <script src="./js/app.js"></script>
     <script src="./js/index.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", () => {
+            setInterval(() => {
+                console.log("This message is logged every second");
+            }, 1000);
+        });</script>
 </body>
 
 </html>
