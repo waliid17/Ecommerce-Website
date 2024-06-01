@@ -114,6 +114,7 @@
   margin-top: 20px;
   display: flex;
   align-items: center;
+  position: relative;
 }
 .formContainer .form-inner form .field i {
   font-size: 24px;
@@ -1197,4 +1198,15 @@ footer ul li {
 .logo {
   font-weight: 700;
   width: 20%;
+}
+#mismatch-message{
+  display: none;
+  padding-left: 15px;
+  color: red;
+}
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
 }

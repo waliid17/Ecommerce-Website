@@ -1,261 +1,278 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ATShop</title>
     <!-- google font -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,900&display=swap"
-        rel="stylesheet">
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
     <!-- boxicons -->
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link
+      href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css"
+      rel="stylesheet"
+    />
     <!-- app css -->
-    <link rel="stylesheet" href="login.css">
-</head>
+    <link rel="stylesheet" href="login.css" />
+  </head>
 
-<body style="display: flex; flex-direction: column; min-height: 100vh;">
-
+  <body style="display: flex; flex-direction: column; min-height: 100vh">
     <!-- header -->
     <header>
-        <!-- mobile menu -->
-        <div class="mobile-menu bg-second">
+      <!-- mobile menu -->
+      <div class="mobile-menu bg-second">
+        <div class="logo">
+          <img src="images/prooutil.gif" alt="LOGO" />
+        </div>
+        <span class="mb-menu-toggle" id="mb-menu-toggle">
+          <i class="bx bx-menu"></i>
+        </span>
+      </div>
+      <!-- end mobile menu -->
+      <!-- main header -->
+      <div class="header-wrapper" id="header-wrapper">
+        <span class="mb-menu-toggle mb-menu-close" id="mb-menu-close">
+          <i class="bx bx-x"></i>
+        </span>
+        <!-- mid header -->
+        <div class="bg-main">
+          <div class="mid-header container">
             <div class="logo">
-                <img src="images/prooutil.gif" alt="LOGO">
+              <a href="index.php"
+                ><img src="images/prooutil.gif" alt="LOGO"
+              /></a>
             </div>
-            <span class="mb-menu-toggle" id="mb-menu-toggle">
-                <i class='bx bx-menu'></i>
-            </span>
+            <div class="search">
+              <input type="text" placeholder="Search" />
+              <i class="bx bx-search-alt"></i>
+            </div>
+            <ul class="user-menu">
+              <li>
+                <a href="#"><i class="bx bx-bell"></i></a>
+              </li>
+              <li>
+                <a id="showDivButton" href="#"
+                  ><i class="bx bx-user-circle"></i
+                ></a>
+              </li>
+              <li>
+                <a href="#"><i class="bx bx-cart"></i></a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <!-- end mobile menu -->
-        <!-- main header -->
-        <div class="header-wrapper" id="header-wrapper">
-            <span class="mb-menu-toggle mb-menu-close" id="mb-menu-close">
-                <i class='bx bx-x'></i>
-            </span>
-            <!-- mid header -->
-            <div class="bg-main">
-                <div class="mid-header container">
-                    <div class="logo">
-                        <a href="index.php"><img src="images/prooutil.gif" alt="LOGO"></a>
-                    </div>
-                    <div class="search">
-                        <input type="text" placeholder="Search">
-                        <i class='bx bx-search-alt'></i>
-                    </div>
-                    <ul class="user-menu">
-                        <li><a href="#"><i class='bx bx-bell'></i></a></li>
-                        <li><a id="showDivButton" href="#"><i class='bx bx-user-circle'></i></a></li>
-                        <li><a href="#"><i class='bx bx-cart'></i></a></li>
-                    </ul>
-                </div>
-            </div>
-            <!-- end mid header -->
-            <!-- bottom header -->
-            <div class="bg-second">
-                <div class="bottom-header container">
-                    <ul class="main-menu">
-                        <li><a href="index.php">home</a></li>
-                        <!-- mega menu -->
-                        <li class="mega-dropdown">
-                            <a href="./products.html">Shop<i class='bx bxs-chevron-down'></i></a>
-                            <div class="mega-content">
-                                <div class="row">
-                                    <div class="col-3 col-md-12">
-                                        <div class="box">
-                                            <h3>Categories</h3>
-                                            <ul>
-                                                <li><a href="#">Wireless</a></li>
-                                                <li><a href="#">Inear headphone</a></li>
-                                                <li><a href="#">Overear headphone</a></li>
-                                                <li><a href="#">sport headphone</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-3 col-md-12">
-                                        <div class="box">
-                                            <h3>Categories</h3>
-                                            <ul>
-                                                <li><a href="#">Wireless</a></li>
-                                                <li><a href="#">Inear headphone</a></li>
-                                                <li><a href="#">Overear headphone</a></li>
-                                                <li><a href="#">sport headphone</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-3 col-md-12">
-                                        <div class="box">
-                                            <h3>Categories</h3>
-                                            <ul>
-                                                <li><a href="#">Wireless</a></li>
-                                                <li><a href="#">Inear headphone</a></li>
-                                                <li><a href="#">Overear headphone</a></li>
-                                                <li><a href="#">sport headphone</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-3 col-md-12">
-                                        <div class="box">
-                                            <h3>Categories</h3>
-                                            <ul>
-                                                <li><a href="#">Wireless</a></li>
-                                                <li><a href="#">Inear headphone</a></li>
-                                                <li><a href="#">Overear headphone</a></li>
-                                                <li><a href="#">sport headphone</a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- end mega menu -->
-                        <li><a href="#">blog</a></li>
-                        <li><a href="#">contact</a></li>
-                    </ul>
-                </div>
-            </div>
-            <!-- end bottom header -->
+        <!-- end mid header -->
+        <!-- bottom header -->
+        <div class="bg-second">
+          <div class="bottom-header container">
+            <ul class="main-menu">
+              <li><a href="index.php">home</a></li>
+              <!-- mega menu -->
+              <li class="mega-dropdown">
+                <a href="./products.html">Shop</a>
+              </li>
+              <!-- end mega menu -->
+              <li><a href="#">blog</a></li>
+              <li><a href="#">contact</a></li>
+            </ul>
+          </div>
         </div>
-        <!-- end main header -->
+        <!-- end bottom header -->
+      </div>
+      <!-- end main header -->
     </header>
     <!-- end header -->
-    <div class="formContainer" style="flex: 1;">
-        <div class="wrapper">
-            <div class="title-text">
-                <div class="title login">
-                    Account
-                </div>
-                <div class="title signup">
-                    Account
-                </div>
-            </div>
-            <div class="form-container">
-                <div class="slide-controls">
-                    <input type="radio" name="slide" id="login" checked>
-                    <input type="radio" name="slide" id="signup">
-                    <label for="login" class="slide login">Connexion</label>
-                    <label for="signup" class="slide signup">Inscription</label>
-                    <div class="slider-tab"></div>
-                </div>
-                <div class="form-inner">
-                    <form action="login.php" method="post" class="login">
-                        <div class="field">
-                            <i class="fa-solid fa-user"></i>
-                            <input type="email" placeholder="Email Address" required name="email">
-                        </div>
-                        <div class="field">
-                            <i class="fa-solid fa-lock"></i>
-                            <input type="password" placeholder="Password" required name="password">
-                        </div>
-                        <div class="pass-link">
-                            <a href="#">Mot de passe oublié ?</a>
-                        </div>
-                        <div class="field btn">
-                            <div class="btn-layer"></div>
-                            <input type="submit" value="Connexion">
-                        </div>
-                        <div class="signup-link">
-                            Don't Have Account? <a href="?slide=signup"> Inscrivez-vous</a>
-                        </div>
-                    </form>
-                    <form action="signup.php" method="post" class="signup">
-                        <div class="field">
-                            <input type="text" placeholder="Prénom" required name="firstname">
-                        </div>
-                        <div class="field">
-                            <input type="text" placeholder="Nom" required name="lastname">
-                        </div>
-                        <div class="field">
-                            <input type="tel" placeholder="Numéro de téléphone" required name="phone_number">
-                        </div>
-                        <div class="field">
-                            <input type="text" placeholder="Entrez votre adresse" required name="address_line">
-                        </div>
-                        <div class="field">
-                            <input type="email" placeholder="Email Address" required name="email">
-                        </div>
-                        <div class="field">
-                            <input type="password" placeholder="Password" required name="password">
-                        </div>
-                        <div class="field">
-                            <input type="password" placeholder="Confirm Password" required name="confirm_password">
-                        </div>
-                        <div class="field btn">
-                            <div class="btn-layer"></div>
-                            <input type="submit" value="S’inscrire">
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-
+    <div class="formContainer" style="flex: 1">
+      <div class="wrapper">
+        <div class="title-text">
+          <div class="title login">Account</div>
+          <div class="title signup">Account</div>
         </div>
+        <div class="form-container">
+          <div class="slide-controls">
+            <input type="radio" name="slide" id="login" checked />
+            <input type="radio" name="slide" id="signup" />
+            <label for="login" class="slide login">Connexion</label>
+            <label for="signup" class="slide signup">Inscription</label>
+            <div class="slider-tab"></div>
+          </div>
+          <div class="form-inner">
+            <form action="login.php" method="post" class="login">
+              <div class="field">
+                <i class="fa-solid fa-user"></i>
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  required
+                  name="email"
+                />
+              </div>
+              <div class="field">
+                <i class="fa-solid fa-lock"></i>
+                <input
+                  type="password"
+                  placeholder="Password"
+                  required
+                  name="password"
+                />
+              </div>
+              <div class="pass-link">
+                <a href="#">Mot de passe oublié ?</a>
+              </div>
+              <div class="field btn">
+                <div class="btn-layer"></div>
+                <input type="submit" value="Connexion" />
+              </div>
+              <div class="signup-link">
+                Don't Have Account? <a href="?slide=signup"> Inscrivez-vous</a>
+              </div>
+            </form>
+            <form action="signup.php" method="post" class="signup">
+              <div class="field">
+                <input
+                  type="text"
+                  placeholder="Prénom"
+                  required
+                  name="firstname"
+                />
+              </div>
+              <div class="field">
+                <input type="text" placeholder="Nom" required name="lastname" />
+              </div>
+              <div class="field">
+                <input
+                  type="tel"
+                  placeholder="Numéro de téléphone"
+                  required
+                  name="phone_number"
+                />
+              </div>
+              <div class="field">
+                <input
+                  type="text"
+                  placeholder="Entrez votre adresse"
+                  required
+                  name="address_line"
+                />
+              </div>
+              <div class="field">
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  required
+                  name="email"
+                />
+              </div>
+              <div class="field">
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="Password"
+                  required
+                  name="password"
+                />
+                <i class="far fa-eye toggle-password" id="toggle-password1"></i>
+              </div>
+              <div class="field">
+                <input
+                  type="password"
+                  id="confirm-password"
+                  placeholder="Confirm Password"
+                  required
+                  name="confirm_password"
+                />
+                <i class="far fa-eye toggle-password" id="toggle-password2"></i>
+              </div>
+              <div id="mismatch-message">
+                <i class="fas fa-exclamation-circle icon"></i> Les mots de passe
+                ne correspondent pas.
+              </div>
+              <div class="field btn">
+                <div class="btn-layer"></div>
+                <input type="submit" value="S’inscrire" />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- footer -->
     <footer class="bg-second">
-        <div class="container">
-            <div class="row">
-                <div class="col-3 col-md-6">
-                    <h3 class="footer-head">Products</h3>
-                    <ul class="menu">
-                        <li><a href="#">Help center</a></li>
-                        <li><a href="#">Contact us</a></li>
-                        <li><a href="#">product help</a></li>
-                        <li><a href="#">warranty</a></li>
-                        <li><a href="#">order status</a></li>
-                    </ul>
-                </div>
-                <div class="col-3 col-md-6">
-                    <h3 class="footer-head">services</h3>
-                    <ul class="menu">
-                        <li><a href="#">Help center</a></li>
-                        <li><a href="#">Contact us</a></li>
-                        <li><a href="#">product help</a></li>
-                        <li><a href="#">warranty</a></li>
-                        <li><a href="#">order status</a></li>
-                    </ul>
-                </div>
-                <div class="col-3 col-md-6">
-                    <h3 class="footer-head">support</h3>
-                    <ul class="menu">
-                        <li><a href="#">Help center</a></li>
-                        <li><a href="#">Contact us</a></li>
-                        <li><a href="#">product help</a></li>
-                        <li><a href="#">warranty</a></li>
-                        <li><a href="#">order status</a></li>
-                    </ul>
-                </div>
-                <div class="col-3 col-md-6 col-sm-12">
-                    <div class="contact">
-                        <h3 class="contact-header">
-                            <img src="images/prooutil1.png" alt="LOGO">
-                        </h3>
-                        <ul class="contact-socials">
-                            <li><a href="#">
-                                    <i class='bx bxl-facebook-circle'></i>
-                                </a></li>
-                            <li><a href="#">
-                                    <i class='bx bxl-instagram-alt'></i>
-                                </a></li>
-                            <li><a href="#">
-                                    <i class='bx bxl-youtube'></i>
-                                </a></li>
-                            <li><a href="#">
-                                    <i class='bx bxl-twitter'></i>
-                                </a></li>
-                        </ul>
-                    </div>
-                    <div class="subscribe">
-                        <input type="email" placeholder="ENTER YOUR EMAIL">
-                        <button>subscribe</button>
-                    </div>
-                </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-3 col-md-6">
+            <h3 class="footer-head">Products</h3>
+            <ul class="menu">
+              <li><a href="#">Help center</a></li>
+              <li><a href="#">Contact us</a></li>
+              <li><a href="#">product help</a></li>
+              <li><a href="#">warranty</a></li>
+              <li><a href="#">order status</a></li>
+            </ul>
+          </div>
+          <div class="col-3 col-md-6">
+            <h3 class="footer-head">services</h3>
+            <ul class="menu">
+              <li><a href="#">Help center</a></li>
+              <li><a href="#">Contact us</a></li>
+              <li><a href="#">product help</a></li>
+              <li><a href="#">warranty</a></li>
+              <li><a href="#">order status</a></li>
+            </ul>
+          </div>
+          <div class="col-3 col-md-6">
+            <h3 class="footer-head">support</h3>
+            <ul class="menu">
+              <li><a href="#">Help center</a></li>
+              <li><a href="#">Contact us</a></li>
+              <li><a href="#">product help</a></li>
+              <li><a href="#">warranty</a></li>
+              <li><a href="#">order status</a></li>
+            </ul>
+          </div>
+          <div class="col-3 col-md-6 col-sm-12">
+            <div class="contact">
+              <h3 class="contact-header">
+                <img src="images/prooutil1.png" alt="LOGO" />
+              </h3>
+              <ul class="contact-socials">
+                <li>
+                  <a href="#">
+                    <i class="bx bxl-facebook-circle"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="bx bxl-instagram-alt"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="bx bxl-youtube"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="bx bxl-twitter"></i>
+                  </a>
+                </li>
+              </ul>
             </div>
+            <div class="subscribe">
+              <input type="email" placeholder="ENTER YOUR EMAIL" />
+              <button>subscribe</button>
+            </div>
+          </div>
         </div>
+      </div>
     </footer>
     <!-- end footer -->
 
@@ -264,11 +281,50 @@
     <script src="./js/index.js"></script>
     <script src="login.js"></script>
     <script>
-        document.getElementById('showDivButton').addEventListener('click', function () {
-            document.getElementById('fixedDiv').classList.toggle('hidden');
+      document
+        .getElementById("showDivButton")
+        .addEventListener("click", function () {
+          document.getElementById("fixedDiv").classList.toggle("hidden");
         });
+      document.addEventListener("DOMContentLoaded", (event) => {
+        const password = document.getElementById("password");
+        const confirmPassword = document.getElementById("confirm-password");
+        const mismatchMessage = document.getElementById("mismatch-message");
+
+        const checkPasswords = () => {
+          if (
+            password.value &&
+            confirmPassword.value &&
+            password.value !== confirmPassword.value
+          ) {
+            mismatchMessage.style.display = "block";
+          } else {
+            mismatchMessage.style.display = "none";
+          }
+        };
+
+        password.addEventListener("input", checkPasswords);
+        confirmPassword.addEventListener("input", checkPasswords);
+        const togglePassword1 = document.getElementById("toggle-password1");
+        const togglePassword2 = document.getElementById("toggle-password2");
+        const togglePasswordVisibility = (passwordField, toggleIcon) => {
+          if (passwordField.type === "password") {
+            passwordField.type = "text";
+            toggleIcon.classList.remove("fa-eye");
+            toggleIcon.classList.add("fa-eye-slash");
+          } else {
+            passwordField.type = "password";
+            toggleIcon.classList.remove("fa-eye-slash");
+            toggleIcon.classList.add("fa-eye");
+          }
+        };
+        togglePassword1.addEventListener("click", () =>
+          togglePasswordVisibility(password, togglePassword1)
+        );
+        togglePassword2.addEventListener("click", () =>
+          togglePasswordVisibility(confirmPassword, togglePassword2)
+        );
+      });
     </script>
-
-</body>
-
+  </body>
 </html>

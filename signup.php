@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro-outi</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</head>
+
+<body></body>
 <?php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -16,7 +27,6 @@ if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
 }
 
-// Collect POST data
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
 $email = $_POST['email'];
@@ -25,30 +35,48 @@ $confirm_password = $_POST['confirm_password'];
 $phone_number = $_POST['phone_number'];
 $address_line = $_POST['address_line'];
 
-// Validate inputs
+$errors = array();
+
 if (empty($firstname) || empty($lastname) || empty($email) || empty($password) || empty($confirm_password) || empty($phone_number) || empty($address_line)) {
-    die("Please fill in all fields.");
+    $errors[] = "Veuillez remplir tous les champs.";
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    die("Invalid email format.");
+    $errors[] = "Format d'email invalide.";
 }
 
 if ($password !== $confirm_password) {
-    die("Passwords do not match.");
+    $errors[] = "Les mots de passe ne correspondent pas.";
 }
-// Prepare and bind
-$query = $connection->prepare("INSERT INTO utilisateur (`first-name`, `last-name`, `email`, `password`, `phone_number`, `address_line`) VALUES (?, ?, ?, ?, ?, ?)");
-$query->bind_param("ssssss", $firstname, $lastname, $email, $password, $phone_number, $address_line);
 
-// Execute the statement
-if ($query->execute()) {
-    echo "New record created successfully. Last inserted ID is: " . $connection->insert_id;
+if (!empty($errors)) {
+    foreach ($errors as $error) {
+        echo "<p style='color:red;'>$error</p>";
+    }
 } else {
-    echo "Error: " . $query->error;
+    $query = $connection->prepare("INSERT INTO utilisateur (`first-name`, `last-name`, `email`, `password`, `phone_number`, `address_line`) VALUES (?, ?, ?, ?, ?, ?)");
+    $query->bind_param("ssssss", $firstname, $lastname, $email, $password, $phone_number, $address_line);
+
+    if ($query->execute()) {
+        echo "<script>
+                Swal.fire({
+                  title: 'Compte créé !',
+                  text: 'Votre compte a été créé avec succès.',
+                  icon: 'success',
+                  confirmButtonText: 'OK',
+                  didClose: () => {
+                    window.location.href = 'login_signup.html';
+                  }
+                });
+              </script>";
+    } else {
+
+        echo "Error: " . $query->error;
+    }
 }
 
-// Close connections
-$query->close();
+if (isset($query)) {
+    $query->close();
+}
 $connection->close();
 ?>
