@@ -126,16 +126,11 @@
                 <div class="slide active">
                     <div class="info">
                         <div class="info-content">
-                            <h3 class="top-down">
-                                JBL TUNE 750TNC
-                            </h3>
                             <h2 class="top-down trans-delay-0-2">
-                                Next-gen design
+                                Bienvenue chez Pro Outil
                             </h2>
                             <p class="top-down trans-delay-0-4">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati dolor commodi
-                                dignissimos culpa, eaque eos necessitatibus possimus veniam, cupiditate rerum deleniti?
-                                Libero, ducimus error? Beatae velit dolore sint explicabo! Fugit.
+                                Toutes les marques et les catégories sont disponibles chez Pro Outil.
                             </p>
                             <div class="top-down trans-delay-0-6">
                                 <button class="btn-flat btn-hover">

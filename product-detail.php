@@ -28,7 +28,7 @@
     }
     $id = $_GET["id"];
     // Fetch all products
-    $sql = "SELECT name, image, curr_price, brand,prod_desc,image2,image3 FROM products where id=$id";
+    $sql = "SELECT name, image, curr_price, brand,prod_desc FROM products where id=$id";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
@@ -38,8 +38,6 @@
             $curr_price = htmlspecialchars($row["curr_price"]);
             $brand = htmlspecialchars($row["brand"]);
             $prod_desc = htmlspecialchars($row["prod_desc"]);
-            $image2 = htmlspecialchars("uploads/" . $row["image2"]);
-            $image3 = htmlspecialchars("uploads/" . $row["image3"]);
             ?>
             <!-- header -->
             <header>
@@ -116,12 +114,6 @@
                                 <div class="product-img-list ">
                                     <div class="product-img-item">
                                         <img src="<?= $image ?>" alt="">
-                                    </div>
-                                    <div class="product-img-item">
-                                        <img src="<?= $image2 ?>" alt="">
-                                    </div>
-                                    <div class="product-img-item">
-                                        <img src="<?= $image3 ?>" alt="">
                                     </div>
                                 </div>
                             </div>
