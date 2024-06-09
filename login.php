@@ -15,9 +15,9 @@ if ($result->num_rows > 0) {
         $_SESSION['user-id'] = $row['id_client'];
         header("Location: /pro-outil/");
     } else {
-        echo "mdps ralet";
+        echo "mot de passe incorrect";
     }
 } else {
-    echo "roh takhdem compte ";
+    echo "créer un compte";
 }
 ?>
