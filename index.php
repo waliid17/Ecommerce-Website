@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATShop</title>
+    <title>Pro-outil</title>
     <!-- google font -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link
@@ -24,7 +24,7 @@
     <header>
         <!-- mobile menu -->
         <div class="mobile-menu bg-second">
-            <a href="#" class="mb-logo">9al9alo-Shop</a>
+            <a href="#" class="mb-logo">Pro-outil</a>
             <span class="mb-menu-toggle" id="mb-menu-toggle">
                 <i class='bx bx-menu'></i>
             </span>
@@ -53,18 +53,18 @@
                     </ul>
                     <?php
                     session_start();
-                    if (isset($_SESSION['user_id'])) {
+                    if (isset($_SESSION['user-id'])) {
                         $connection = new mysqli("localhost", "root", "", "base");
                         if ($connection->connect_error) {
                             die("Connection failed: " . $connection->connect_error);
                         }
 
-                        $id = $_SESSION['user_id'];
-                        $query = "SELECT `first-name` FROM `utilisateur` WHERE id=$id";
+                        $id = $_SESSION['user-id'];
+                        $query = "SELECT `prenom` FROM `client` WHERE id_client =$id";
                         $result = $connection->query($query);
                         if ($result->num_rows > 0) {
                             $row = mysqli_fetch_assoc($result);
-                            $user = $row['first-name'];
+                            $user = $row['prenom'];
                             echo "<a href='
                             user.php' class='btn'>
                         <div class='login'>
@@ -75,11 +75,10 @@
 
                             ;
                         } else {
-                            unset($_SESSION['user_id']);
+                            unset($_SESSION['user-id']);
                         }
                     } else {
-                        # code...
-                    
+
                         ?>
                         <a href="login_signup.html" class="btn">
                             <div class="login">
@@ -101,10 +100,10 @@
             <div class="bg-second">
                 <div class="bottom-header container">
                     <ul class="main-menu">
-                        <li><a href="index.php">home</a></li>
+                        <li><a href="index.php">ACCUEIL</a></li>
                         <!-- mega menu -->
                         <li class="mega-dropdown">
-                            <a href="./products.html">Shop</a>
+                            <a href="./products.html">PRODUITS</a>
                         </li>
                         <!-- end mega menu -->
                         <li><a href="#">blog</a></li>
@@ -134,7 +133,7 @@
                             </p>
                             <div class="top-down trans-delay-0-6">
                                 <button class="btn-flat btn-hover">
-                                    <span>shop now</span>
+                                    <span>NOS PRODUITS</span>
                                 </button>
                             </div>
                         </div>
@@ -148,53 +147,18 @@
                 <div class="slide">
                     <div class="info">
                         <div class="info-content">
-                            <h3 class="top-down">
-                                JBL Quantum ONE
-                            </h3>
                             <h2 class="top-down trans-delay-0-2">
-                                Ipsum dolor
+                                DES PRODUITS DE MARQUE
                             </h2>
-                            <p class="top-down trans-delay-0-4">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. A optio, voluptatum aperiam
-                                nobis quis maxime corporis porro alias soluta sunt quae consectetur aliquid blanditiis
-                                perspiciatis labore cumque, ullam, quam eligendi!
-                            </p>
                             <div class="top-down trans-delay-0-6">
                                 <button class="btn-flat btn-hover">
-                                    <span>shop now</span>
+                                    <span>NOS PRODUITS</span>
                                 </button>
                             </div>
                         </div>
                     </div>
                     <div class="img right-left">
                         <img src="./images/man1.png" alt="">
-                    </div>
-                </div>
-                <!-- end slide item -->
-                <!-- slide item -->
-                <div class="slide">
-                    <div class="info">
-                        <div class="info-content">
-                            <h3 class="top-down">
-                                JBL JR 310BT
-                            </h3>
-                            <h2 class="top-down trans-delay-0-2">
-                                Consectetur Elit
-                            </h2>
-                            <p class="top-down trans-delay-0-4">
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo aut fugiat, libero
-                                magnam nemo inventore in tempora beatae officiis temporibus odit deserunt molestiae amet
-                                quam, asperiores, iure recusandae nulla labore!
-                            </p>
-                            <div class="top-down trans-delay-0-6">
-                                <button class="btn-flat btn-hover">
-                                    <span>shop now</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="img left-right">
-                        <img src="./images/man3.png" alt="">
                     </div>
                 </div>
                 <!-- end slide item -->
@@ -217,16 +181,16 @@
             <div class="col-4 col-md-12 col-sm-12">
                 <div class="promotion-box">
                     <div class="text">
-                        <h3>Headphone & Earbuds</h3>
+                        <h3>CLE A CHOC</h3>
                         <button class="btn-flat btn-hover"><span>shop collection</span></button>
                     </div>
-                    <img src="./images/p1.jpeg" alt="">
+                    <img src="./images/p4.jpeg" alt="">
                 </div>
             </div>
             <div class="col-4 col-md-12 col-sm-12">
                 <div class="promotion-box">
                     <div class="text">
-                        <h3>JBL Quantum Series</h3>
+                        <h3>CLE A CHOC</h3>
                         <button class="btn-flat btn-hover"><span>shop collection</span></button>
                     </div>
                     <img src="./images/p2.jpeg" alt="">
@@ -235,10 +199,10 @@
             <div class="col-4 col-md-12 col-sm-12">
                 <div class="promotion-box">
                     <div class="text">
-                        <h3>True Wireless Earbuds</h3>
+                        <h3>CLE A CHOC</h3>
                         <button class="btn-flat btn-hover"><span>shop collection</span></button>
                     </div>
-                    <img src="./images/p3.jpeg" alt="">
+                    <img src="./images/p6.jpeg" alt="">
                 </div>
             </div>
         </div>
@@ -259,16 +223,16 @@
                     die("Connection failed: " . $connection->connect_error);
                 }
 
-                $query = "SELECT * FROM `products` LIMIT 4";
+                $query = "SELECT * FROM `outil` LIMIT 4";
                 $result = $connection->query($query);
 
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
-                        $name = htmlspecialchars($row["name"]);
+                        $name = htmlspecialchars($row["nom"]);
                         $image = htmlspecialchars("uploads/" . $row["image"]);
-                        $old_price = htmlspecialchars($row["old_price"]);
-                        $curr_price = htmlspecialchars($row["curr_price"]);
-                        $id = htmlspecialchars($row["id"]);
+                        $old_price = htmlspecialchars($row["ancien_prix"]);
+                        $curr_price = htmlspecialchars($row["prix_actuel"]);
+                        $id = htmlspecialchars($row["id_outil"]);
 
                         echo "<div class='col-3 col-md-6 col-sm-12'>
                 <div class='product-card'>
@@ -278,28 +242,25 @@
                     </div>
                     <div class='product-card-info'>
                         <div class='product-btn'>
-                        <a href='product-detail.php?id=$id' class='btn-flat btn-hover btn-shop-now'>shop now</a>
+                        <a href='product-detail.php?id=$id' class='btn-flat btn-hover btn-shop-now'>Acheter</a>
 
                             <button class='btn-flat btn-hover btn-cart-add'>
                                 <i class='bx bxs-cart-add'></i>
-                            </button>
-                            <button class='btn-flat btn-hover btn-cart-add'>
-                                <i class='bx bxs-heart'></i>
                             </button>
                         </div>
                         <div class='product-card-name'>
                             $name
                         </div>
                         <div class='product-card-price'>
-                            <span><del>$$old_price</del></span>
-                            <span class='curr-price'>$$curr_price</span>
+                            <span><del>$old_price DA</del></span>
+                            <span class='curr-price'>$curr_price DA</span>
                         </div>
                     </div>
                 </div>
             </div>";
                     }
                 } else {
-                    echo "No products found.";
+                    echo "Aucun produit trouvé.";
                 }
 
                 $connection->close();
@@ -317,7 +278,7 @@
     <div class="section">
         <div class="container">
             <div class="section-header">
-                <h2>latest blog</h2>
+                <h2>blog</h2>
             </div>
             <div class="blog">
                 <div class="blog-img">
@@ -325,14 +286,14 @@
                 </div>
                 <div class="blog-info">
                     <div class="blog-title">
-                        Lorem ipsum dolor sit amet
+                        Découvrez Pro Outil Algérie
                     </div>
                     <div class="blog-preview">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi, eligendi dolore. Sapiente omnis
-                        numquam mollitia asperiores animi, veritatis sint illo magnam, voluptatum labore, quam ducimus!
-                        Nisi doloremque praesentium laudantium repellat.
+                        Naviguez sur notre site pour découvrir notre vaste sélection d’outillage professionnel à des
+                        prix compétitifs. Basée en Algérie, notre entreprise vous assure un service de qualité à chaque
+                        commande. Notre plateforme logistique à Alger permet une préparation et une expédition efficaces
+                        de vos colis.
                     </div>
-                    <button class="btn-flat btn-hover">read more</button>
                 </div>
             </div>
             <div class="blog row-revere">
@@ -341,18 +302,15 @@
                 </div>
                 <div class="blog-info">
                     <div class="blog-title">
-                        Lorem ipsum dolor sit amet
+                        Excellence et Réactivité à Votre Service
                     </div>
                     <div class="blog-preview">
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quasi, eligendi dolore. Sapiente omnis
-                        numquam mollitia asperiores animi, veritatis sint illo magnam, voluptatum labore, quam ducimus!
-                        Nisi doloremque praesentium laudantium repellat.
+                        Chez Pro Outil Algérie, nous comprenons l'importance d'avoir des outils fiables et de qualité.
+                        C'est pourquoi nous nous engageons à vous fournir non seulement les meilleurs produits, mais
+                        aussi un service clientèle exceptionnel. Notre équipe dédiée est toujours prête à répondre à vos
+                        questions et à vous conseiller sur les produits les mieux adaptés à vos besoins spécifiques.
                     </div>
-                    <button class="btn-flat btn-hover">read more</button>
                 </div>
-            </div>
-            <div class="section-footer">
-                <a href="#" class="btn-flat btn-hover">view all</a>
             </div>
         </div>
     </div>
@@ -363,33 +321,30 @@
         <div class="container">
             <div class="row">
                 <div class="col-3 col-md-6">
-                    <h3 class="footer-head">Products</h3>
+                    <h3 class="footer-head">PRODUITS</h3>
                     <ul class="menu">
-                        <li><a href="#">Help center</a></li>
-                        <li><a href="#">Contact us</a></li>
-                        <li><a href="#">product help</a></li>
-                        <li><a href="#">warranty</a></li>
-                        <li><a href="#">order status</a></li>
+                        <li><a href="#">Centre d'Aide</a></li>
+                        <li><a href="#">Contactez-nous</a></li>
+                        <li><a href="#">Aide Produit</a></li>
+                        <li><a href="#">Garantie</a></li>
                     </ul>
                 </div>
                 <div class="col-3 col-md-6">
-                    <h3 class="footer-head">services</h3>
+                    <h3 class="footer-head">SERVICES</h3>
                     <ul class="menu">
-                        <li><a href="#">Help center</a></li>
-                        <li><a href="#">Contact us</a></li>
-                        <li><a href="#">product help</a></li>
-                        <li><a href="#">warranty</a></li>
-                        <li><a href="#">order status</a></li>
+                        <li><a href="#">Livraison Rapide</a></li>
+                        <li><a href="#">Retours Gratuits</a></li>
+                        <li><a href="#">Installation et Réparation</a></li>
+                        <li><a href="#">Conseils Personnalisés</a></li>
                     </ul>
                 </div>
                 <div class="col-3 col-md-6">
-                    <h3 class="footer-head">support</h3>
+                    <h3 class="footer-head">SUPPORT</h3>
                     <ul class="menu">
-                        <li><a href="#">Help center</a></li>
-                        <li><a href="#">Contact us</a></li>
-                        <li><a href="#">product help</a></li>
-                        <li><a href="#">warranty</a></li>
-                        <li><a href="#">order status</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Support Technique</a></li>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Communauté d'Utilisateurs</a></li>
                     </ul>
                 </div>
                 <div class="col-3 col-md-6 col-sm-12">

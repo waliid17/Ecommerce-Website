@@ -15,15 +15,15 @@ if ($conn->connect_error) {
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Prepare and bind parameters
-    $stmt = $conn->prepare("INSERT INTO products (name, prod_desc, old_price, curr_price, image, brand) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO outil (nom, description, ancien_prix, prix_actuel, image, marque) VALUES (?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("ssddss", $name, $prod_desc, $old_price, $curr_price, $image, $brand);
 
     // Set parameters and execute
-    $name = $_POST['name'];
-    $prod_desc = $_POST['prod_desc'];
-    $old_price = $_POST['old_price'];
-    $curr_price = $_POST['curr_price'];
-    $brand = $_POST['brand'];
+    $name = $_POST['nom'];
+    $prod_desc = $_POST['description'];
+    $old_price = $_POST['ancien_prix'];
+    $curr_price = $_POST['prix_actuel'];
+    $brand = $_POST['marque'];
 
     // Handle file uploads
     $target_dir = "uploads/";

@@ -5,13 +5,13 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 // Redirect to login if user is not logged in
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user-id'])) {
     header("Location: login.php");
     exit();
 }
 
 // Fetch user rank from session or database
-$rank = $_SESSION['rank'] ?? '';
+$rank = $_SESSION['role'] ?? '';
 
 // Database connection and fetching user data
 $servername = "localhost";
@@ -25,8 +25,8 @@ if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
 }
 
-$user_id = $_SESSION['user_id'];
-$sql = "SELECT `first-name`, `last-name`, email, `phone_number`, `address_line`, `rank` FROM utilisateur WHERE id = ?";
+$user_id = $_SESSION['user-id'];
+$sql = "SELECT `prenom`, `nom`, email, `telephone`, `adresse`, `role` FROM client WHERE `id_client` = ?";
 $stmt = $connection->prepare($sql);
 
 if ($stmt) {
@@ -54,7 +54,7 @@ if ($rankFromDb) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ATShop</title>
+    <title>Pro-outil</title>
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
@@ -91,10 +91,10 @@ if ($rankFromDb) {
                     <div class="bg-second">
                         <div class="bottom-header container">
                             <ul class="main-menu">
-                                <li><a href="index.php">home</a></li>
+                                <li><a href="index.php">ACCUEIL</a></li>
                                 <!-- mega menu -->
                                 <li class="mega-dropdown">
-                                    <a href="./products.html">Shop</a>
+                                    <a href="./products.html">PRODUITS</a>
                                 </li>
                                 <!-- end mega menu -->
                                 <li><a href="#">blog</a></li>
@@ -109,6 +109,7 @@ if ($rankFromDb) {
                                 Admin
                             </div>
                         </a>';
+                    } else {
                     }
                     ?>
                 </div>
@@ -137,13 +138,13 @@ if ($rankFromDb) {
                 <form class="form" method="post" action="user_edit.php">
                     <div class="form-group">
                         <label for="name">Nom :</label>
-                        <input type="text" id="name" name="lastname" value="<?php echo htmlspecialchars($lastName); ?>"
+                        <input type="text" id="name" name="nom" value="<?php echo htmlspecialchars($lastName); ?>"
                             required>
                     </div>
                     <div class="form-group">
                         <label for="name">Prénom :</label>
-                        <input type="text" id="name" name="firstname"
-                            value="<?php echo htmlspecialchars($firstName); ?>" required>
+                        <input type="text" id="name" name="prenom" value="<?php echo htmlspecialchars($firstName); ?>"
+                            required>
                     </div>
                     <div class="form-group">
                         <label for="email">Adresse e-mail :</label>
@@ -152,8 +153,8 @@ if ($rankFromDb) {
                     </div>
                     <div class="form-group">
                         <label for="phone">Numéro de téléphone :</label>
-                        <input type="tel" id="phone" name="phone" value="<?php echo htmlspecialchars($phoneNumber); ?>"
-                            required>
+                        <input type="tel" id="phone" name="telephone"
+                            value="<?php echo htmlspecialchars($phoneNumber); ?>" required>
                     </div>
                     <button type="submit" name="save1" class="save-btn">Save</button>
                 </form>
@@ -177,7 +178,7 @@ if ($rankFromDb) {
                     <form class="form" method="post" action="user_edit.php" id="addressForm">
                         <div class="form-group">
                             <label for="address1">Adresse Ligne :</label>
-                            <input type="text" id="address1" name="address"
+                            <input type="text" id="address1" name="adresse"
                                 value="<?php echo htmlspecialchars($addressLine); ?>" required>
                         </div>
                         <button type="submit" name="save2" class="save-btn">Save</button>
@@ -191,27 +192,28 @@ if ($rankFromDb) {
                         <table class="form-table">
                             <tr>
                                 <td><label for="name">Nom du produit :</label></td>
-                                <td><input type="text" id="name" name="name" placeholder="Entrez le nom du produit"
-                                        required></td>
+                                <td><input type="text" id="name" name="nom" placeholder="Entrez le nom du produit" required>
+                                </td>
                             </tr>
                             <tr>
                                 <td><label for="prod_desc">Description du produit :</label></td>
-                                <td><input type="text" id="prod_desc" name="prod_desc"
+                                <td><input type="text" id="prod_desc" name="description"
                                         placeholder="Entrez la description du produit" required></td>
                             </tr>
                             <tr>
                                 <td><label for="old_price">Ancien prix :</label></td>
-                                <td><input type="text" id="old_price" name="old_price" placeholder="Entrez l'ancien prix"
-                                        required></td>
+                                <td><input type="text" id="old_price" name="ancien_prix" placeholder="Entrez l'ancien prix">
+                                </td>
                             </tr>
                             <tr>
                                 <td><label for="curr_price">Prix actuel :</label></td>
-                                <td><input type="text" id="curr_price" name="curr_price" placeholder="Entrez le prix actuel"
-                                        required></td>
+                                <td><input type="text" id="curr_price" name="prix_actuel"
+                                        placeholder="Entrez le prix actuel" required></td>
                             </tr>
                             <tr>
                                 <td><label for="brand">Marque :</label></td>
-                                <td><input type="text" id="brand" name="brand" placeholder="Entrez la marque" required></td>
+                                <td><input type="text" id="brand" name="marque" placeholder="Entrez la marque" required>
+                                </td>
                             </tr>
                             <tr>
                                 <td><label for="image">Photo du produit :</label></td>

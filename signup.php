@@ -27,13 +27,13 @@ if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
 }
 
-$firstname = $_POST['firstname'];
-$lastname = $_POST['lastname'];
+$firstname = $_POST['prenom'];
+$lastname = $_POST['nom'];
 $email = $_POST['email'];
-$password = $_POST['password'];
+$password = $_POST['mot_de_passe'];
 $confirm_password = $_POST['confirm_password'];
-$phone_number = $_POST['phone_number'];
-$address_line = $_POST['address_line'];
+$phone_number = $_POST['telephone'];
+$address_line = $_POST['adresse'];
 
 $errors = array();
 
@@ -54,7 +54,7 @@ if (!empty($errors)) {
         echo "<p style='color:red;'>$error</p>";
     }
 } else {
-    $query = $connection->prepare("INSERT INTO utilisateur (`first-name`, `last-name`, `email`, `password`, `phone_number`, `address_line`) VALUES (?, ?, ?, ?, ?, ?)");
+    $query = $connection->prepare("INSERT INTO client (`prenom`, `nom`, `email`, `mot_de_passe`, `telephone`, `adresse`) VALUES (?, ?, ?, ?, ?, ?)");
     $query->bind_param("ssssss", $firstname, $lastname, $email, $password, $phone_number, $address_line);
 
     if ($query->execute()) {

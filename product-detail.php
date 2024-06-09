@@ -28,16 +28,16 @@
     }
     $id = $_GET["id"];
     // Fetch all products
-    $sql = "SELECT name, image, curr_price, brand,prod_desc FROM products where id=$id";
+    $sql = "SELECT nom, image, prix_actuel, marque,description FROM outil where id_outil=$id";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-            $name = htmlspecialchars($row["name"]);
+            $name = htmlspecialchars($row["nom"]);
             $image = htmlspecialchars("uploads/" . $row["image"]);
-            $curr_price = htmlspecialchars($row["curr_price"]);
-            $brand = htmlspecialchars($row["brand"]);
-            $prod_desc = htmlspecialchars($row["prod_desc"]);
+            $curr_price = htmlspecialchars($row["prix_actuel"]);
+            $brand = htmlspecialchars($row["marque"]);
+            $prod_desc = htmlspecialchars($row["description"]);
             ?>
             <!-- header -->
             <header>
@@ -78,10 +78,10 @@
                     <div class="bg-second">
                         <div class="bottom-header container">
                             <ul class="main-menu">
-                                <li><a href="index.php">home</a></li>
+                                <li><a href="index.php">ACCUEIL</a></li>
                                 <!-- mega menu -->
                                 <li class="mega-dropdown">
-                                    <a href="./products.html">Shop</a>
+                                    <a href="./products.html">PRODUITS</a>
                                 </li>
                                 <!-- end mega menu -->
                                 <li><a href="#">blog</a></li>
@@ -128,7 +128,7 @@
                         $name
                         </h1>
                         <div class='product-info-detail'>
-                            <span class='product-info-detail-title'>Brand:</span>
+                            <span class='product-info-detail-title'>Marque:</span>
                             <a href='#'>$brand</a>
                         </div>
                         <div class='product-info-detail'>
@@ -144,7 +144,7 @@
                         <p class='product-description'>
                             $prod_desc
                         </p>
-                        <div class='product-info-price'>$curr_price</div>
+                        <div class='product-info-price'>$curr_price DA</div>
                         <div class='product-quantity-wrapper'>
                             <span class='product-quantity-btn'>
                                 <i class='bx bx-minus'></i>
@@ -155,7 +155,7 @@
                             </span>
                         </div>
                         <div>
-                            <button class='btn-flat btn-hover'>add to cart</button>
+                            <button class='btn-flat btn-hover'>AJOUTER AU PANIER</button>
                         </div>
                     </div>
                 </div>
