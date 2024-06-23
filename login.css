@@ -1,5 +1,6 @@
 .formContainer {
   margin: 10px auto;
+  align-self: center;
 }
 
 .formContainer ::selection {
@@ -1225,14 +1226,15 @@ footer ul li {
   transform: translateY(-50%);
 }
 
-
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 450px 1fr;
 }
 
-.flex{
-  display: flex;
-  margin: 0 auto;
+.imageleft{
+  justify-self: end;
 }
 
+.imageright{
+  justify-self: start;
+}
