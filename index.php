@@ -118,10 +118,61 @@
     <!-- end header -->
 
     <!-- hero section -->
-    <section>
-        <div class="home"><img src="./images/home.png" alt="">
+    <div class="hero">
+        <div class="slider">
+            <div class="container">
+                <!-- slide item -->
+                <div class="slide active">
+                    <div class="info">
+                        <div class="info-content">
+                            <h2 class="top-down trans-delay-0-2">
+                                Bienvenue chez
+                            </h2>
+                            <p class="top-down trans-delay-0-4">
+                                Toutes les marques et les catégories sont disponibles chez nous.
+                            </p>
+                            <div class="top-down trans-delay-0-6">
+                                <button class="btn-flat btn-hover">
+                                    <span>NOS PRODUITS</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="img top-down">
+                        <img src="./images/4" alt="" class="animated-image">
+                    </div>
+                </div>
+                <!-- end slide item -->
+                <!-- slide item -->
+                <div class="slide">
+                    <div class="info">
+                        <div class="info-content">
+                            <h2 class="top-down trans-delay-0-2">
+                                DES PRODUITS DE MARQUE
+                            </h2>
+                            <div class="top-down trans-delay-0-6">
+                                <button class="btn-flat btn-hover">
+                                    <span>NOS PRODUITS</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="img right-left">
+                        <img src="./images/6.png" alt="">
+                    </div>
+                </div>
+                <!-- end slide item -->
+            </div>
+            <!-- slider controller -->
+            <button class="slide-controll slide-next">
+                <i class='bx bxs-chevron-right'></i>
+            </button>
+            <button class="slide-controll slide-prev">
+                <i class='bx bxs-chevron-left'></i>
+            </button>
+            <!-- end slider controller -->
         </div>
-    </section><br><br>
+    </div>
     <!-- end hero section -->
 
     <!-- promotion section -->
@@ -288,12 +339,11 @@
                     </ul>
                 </div>
                 <div class="col-3 col-md-6">
-                    <h3 class="footer-head">SUPPORT</h3>
+                    <h3 class="footer-head">CONTACTEZ NOUS</h3>
                     <ul class="menu">
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Support Technique</a></li>
-                        <li><a href="#">Documentation</a></li>
-                        <li><a href="#">Communauté d'Utilisateurs</a></li>
+                        <li>Algérie, Alger, Route de bridja, Staoueli</li>
+                        <li>Tél : 055******** 7/7J 24/24H</li>
+                        <li>contact@pro-outil.com</li>
                     </ul>
                 </div>
                 <div class="col-3 col-md-6 col-sm-12">
