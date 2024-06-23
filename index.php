@@ -118,61 +118,10 @@
     <!-- end header -->
 
     <!-- hero section -->
-    <div class="hero">
-        <div class="slider">
-            <div class="container">
-                <!-- slide item -->
-                <div class="slide active">
-                    <div class="info">
-                        <div class="info-content">
-                            <h2 class="top-down trans-delay-0-2">
-                                Bienvenue chez Pro Outil
-                            </h2>
-                            <p class="top-down trans-delay-0-4">
-                                Toutes les marques et les catégories sont disponibles chez Pro Outil.
-                            </p>
-                            <div class="top-down trans-delay-0-6">
-                                <button class="btn-flat btn-hover">
-                                    <span>NOS PRODUITS</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="img top-down">
-                        <img src="./images/man2" alt="">
-                    </div>
-                </div>
-                <!-- end slide item -->
-                <!-- slide item -->
-                <div class="slide">
-                    <div class="info">
-                        <div class="info-content">
-                            <h2 class="top-down trans-delay-0-2">
-                                DES PRODUITS DE MARQUE
-                            </h2>
-                            <div class="top-down trans-delay-0-6">
-                                <button class="btn-flat btn-hover">
-                                    <span>NOS PRODUITS</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="img right-left">
-                        <img src="./images/man1.png" alt="">
-                    </div>
-                </div>
-                <!-- end slide item -->
-            </div>
-            <!-- slider controller -->
-            <button class="slide-controll slide-next">
-                <i class='bx bxs-chevron-right'></i>
-            </button>
-            <button class="slide-controll slide-prev">
-                <i class='bx bxs-chevron-left'></i>
-            </button>
-            <!-- end slider controller -->
+    <section>
+        <div class="home"><img src="./images/home.png" alt="">
         </div>
-    </div>
+    </section><br><br>
     <!-- end hero section -->
 
     <!-- promotion section -->
