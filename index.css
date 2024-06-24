@@ -1,7 +1,7 @@
 :root {
   --main-bg-color: #fff;
   --second-bg-color: #fff;
-  --third-bg-color: #eee;
+  --third-bg-color: #e9e5de;
   --grey: #4b4b4b;
   --black: #000;
   --red: #ff840a;
@@ -55,6 +55,7 @@ img {
 
 .bg-second {
   background-color: var(--second-bg-color);
+  background-color: #eee;
 }
 
 .bg-main {

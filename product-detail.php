@@ -75,7 +75,7 @@
                     </div>
                     <!-- end mid header -->
                     <!-- bottom header -->
-                    <div class="bg-second">
+                    <div class="">
                         <div class="bottom-header container">
                             <ul class="main-menu">
                                 <li><a href="index.php">ACCUEIL</a></li>
@@ -171,7 +171,7 @@
             <!-- end product-detail content -->
 
             <!-- footer -->
-            <footer class="bg-second">
+            <footer class="">
                 <div class="container">
                     <div class="row">
                         <div class="col-3 col-md-6">
