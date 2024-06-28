@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ATShop</title>
+  <title>pro-outil</title>
   <!-- google font -->
   <link rel="preconnect" href="https://fonts.gstatic.com" />
   <link
@@ -79,9 +79,9 @@
     <div class="container">
       <div class="box">
         <div class="breadcumb">
-          <a href="./index.html">home</a>
+          <a href="./index.php">home</a>
           <span><i class="bx bxs-chevrons-right"></i></span>
-          <a href="./products.html">all products</a>
+          <a href="./products.php">all products</a>
         </div>
       </div>
       <div class="box">
@@ -196,7 +196,11 @@
                     die("Connection failed: " . $connection->connect_error);
                   }
 
-                  $query = "SELECT * FROM `outil` ";
+                  $items_per_page = 12;
+                  $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+                  $offset = ($page - 1) * $items_per_page;
+
+                  $query = "SELECT * FROM `outil` LIMIT $items_per_page OFFSET $offset";
                   $result = $connection->query($query);
 
                   if ($result->num_rows > 0) {
@@ -216,7 +220,6 @@
                   <div class='product-card-info'>
                       <div class='product-btn'>
                       <a href='product-detail.php?id=$id' class='btn-flat btn-hover btn-shop-now'>Acheter</a>
-
                           <button class='btn-flat btn-hover btn-cart-add'>
                               <i class='bx bxs-cart-add'></i>
                           </button>
@@ -236,103 +239,103 @@
                     echo "Aucun produit trouvé.";
                   }
 
+                  $total_query = "SELECT COUNT(*) AS total FROM `outil`";
+                  $total_result = $connection->query($total_query);
+                  $total_row = $total_result->fetch_assoc();
+                  $total_items = $total_row['total'];
+                  $total_pages = ceil($total_items / $items_per_page);
+
                   $connection->close();
                   ?>
-
-                </div>
-                <div class="box">
-                  <ul class="pagination">
-                    <li>
-                      <a href="#"><i class="bx bxs-chevron-left"></i></a>
-                    </li>
-                    <li><a href="#" class="active">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li>
-                      <a href="#"><i class="bx bxs-chevron-right"></i></a>
-                    </li>
-                  </ul>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <!-- end products content -->
-    </div>
-    <!-- footer -->
-    <footer class="bg-second">
-      <div class="container">
-        <div class="row">
-          <div class="col-3 col-md-6">
-            <h3 class="footer-head">PRODUITS</h3>
-            <ul class="menu">
-              <li><a href="#">Centre d'Aide</a></li>
-              <li><a href="#">Contactez-nous</a></li>
-              <li><a href="#">Aide Produit</a></li>
-              <li><a href="#">Garantie</a></li>
-            </ul>
-          </div>
-          <div class="col-3 col-md-6">
-            <h3 class="footer-head">SERVICES</h3>
-            <ul class="menu">
-              <li><a href="#">Livraison Rapide</a></li>
-              <li><a href="#">Retours Gratuits</a></li>
-              <li><a href="#">Installation et Réparation</a></li>
-              <li><a href="#">Conseils Personnalisés</a></li>
-            </ul>
-          </div>
-          <div class="col-3 col-md-6">
-            <h3 class="footer-head">CONTACTEZ NOUS</h3>
-            <ul class="menu">
-              <li>Algérie, Alger, Route de bridja, Staoueli</li>
-              <li>Tél : 055******** 7/7J 24/24H</li>
-              <li>contact@pro-outil.com</li>
-            </ul>
-          </div>
-          <div class="col-3 col-md-6 col-sm-12">
-            <div class="contact">
-              <h3 class="contact-header">
-                <img src="images/prooutil1.png" alt="LOGO" />
-              </h3>
-              <ul class="contact-socials">
-                <li>
-                  <a href="#">
-                    <i class="bx bxl-facebook-circle"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="bx bxl-instagram-alt"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="bx bxl-youtube"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <i class="bx bxl-twitter"></i>
-                  </a>
-                </li>
+            <!-- end product list -->
+
+            <!-- pagination -->
+            <div class="box">
+              <ul class="pagination">
+                <?php
+                if ($page > 1) {
+                  echo "<li><a href='products.php?page=" . ($page - 1) . "'><i class='bx bxs-chevron-left'></i></a></li>";
+                }
+
+                for ($i = 1; $i <= $total_pages; $i++) {
+                  if ($i == $page) {
+                    echo "<li><a class='active' href='products.php?page=$i'>$i</a></li>";
+                  } else {
+                    echo "<li><a href='products.php?page=$i'>$i</a></li>";
+                  }
+                }
+
+                if ($page < $total_pages) {
+                  echo "<li><a href='products.php?page=" . ($page + 1) . "'><i class='bx bxs-chevron-right'></i></a></li>";
+                }
+                ?>
               </ul>
             </div>
-            <div class="subscribe">
-              <input type="email" placeholder="ENTER YOUR EMAIL" />
-              <button>subscribe</button>
-            </div>
+            <!-- end pagination -->
           </div>
         </div>
       </div>
-    </footer>
-    <!-- end footer -->
+    </div>
+  </div>
+  <!-- end products content -->
 
-    <!-- app js -->
-    <script src="./js/app.js"></script>
-    <script src="./js/products.js"></script>
+  <!-- footer -->
+  <footer class="bg-second">
+    <div class="container">
+      <div class="row">
+        <div class="col-3 col-md-6">
+          <h3 class="footer-head">Products</h3>
+          <ul class="menu">
+            <li><a href="#">Prices drop</a></li>
+            <li><a href="#">New products</a></li>
+            <li><a href="#">Best sales</a></li>
+            <li><a href="#">Contact us</a></li>
+            <li><a href="#">Sitemap</a></li>
+          </ul>
+        </div>
+        <div class="col-3 col-md-6">
+          <h3 class="footer-head">Our company</h3>
+          <ul class="menu">
+            <li><a href="#">Delivery</a></li>
+            <li><a href="#">Legal Notice</a></li>
+            <li><a href="#">About us</a></li>
+            <li><a href="#">Secure payment</a></li>
+            <li><a href="#">Sitemap</a></li>
+          </ul>
+        </div>
+        <div class="col-3 col-md-6">
+          <h3 class="footer-head">Your account</h3>
+          <ul class="menu">
+            <li><a href="#">Addresses</a></li>
+            <li><a href="#">Credit slips</a></li>
+            <li><a href="#">Orders</a></li>
+            <li><a href="#">Personal info</a></li>
+          </ul>
+        </div>
+        <div class="col-3 col-md-6">
+          <h3 class="footer-head">Store information</h3>
+          <ul class="menu">
+            <li>
+              <a href="#"><i class="bx bx-location-plus"></i>Company name, store</a>
+            </li>
+            <li>
+              <a href="#"><i class="bx bx-phone-call"></i>0123456789</a>
+            </li>
+            <li>
+              <a href="#"><i class="bx bx-envelope"></i>support@company.com</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- end footer -->
+
+  <!-- app js -->
+  <script src="js/app.js"></script>
 </body>
 
 </html>

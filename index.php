@@ -175,39 +175,51 @@
     </div>
     <!-- end hero section -->
 
-    <!-- promotion section -->
-    <div class="promotion">
-        <div class="row">
-            <div class="col-4 col-md-12 col-sm-12">
-                <div class="promotion-box">
-                    <div class="text">
-                        <h3>CLE A CHOC</h3>
-                        <button class="btn-flat btn-hover"><span>shop collection</span></button>
-                    </div>
-                    <img src="./images/p4.jpeg" alt="">
-                </div>
-            </div>
-            <div class="col-4 col-md-12 col-sm-12">
-                <div class="promotion-box">
-                    <div class="text">
-                        <h3>CLE A CHOC</h3>
-                        <button class="btn-flat btn-hover"><span>shop collection</span></button>
-                    </div>
-                    <img src="./images/p2.jpeg" alt="">
-                </div>
-            </div>
-            <div class="col-4 col-md-12 col-sm-12">
-                <div class="promotion-box">
-                    <div class="text">
-                        <h3>CLE A CHOC</h3>
-                        <button class="btn-flat btn-hover"><span>shop collection</span></button>
-                    </div>
-                    <img src="./images/p6.jpeg" alt="">
-                </div>
-            </div>
+    <!-- brands section -->
+    <div class="brands-carousel">
+        <div class="section-header">
+            <h2>NOS MARQUES</h2>
+        </div>
+        <div class="carousel-inner">
+            <img src="./images/logo1.png" alt="Brand Logo 1">
+            <img src="./images/logo2.png" alt="Brand Logo 2">
+            <img src="./images/logo3.png" alt="Brand Logo 3">
+            <img src="./images/logo4.png" alt="Brand Logo 4">
+            <img src="./images/logo5.png" alt="Brand Logo 5">
+            <img src="./images/logo6.png" alt="Brand Logo 6">
+            <img src="./images/logo7.png" alt="Brand Logo 7">
         </div>
     </div>
-    <!-- end promotion section -->
+    <!-- end brands section -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const carouselInner = document.querySelector('.carousel-inner');
+            const logos = document.querySelectorAll('.carousel-inner img');
+
+            // Clone the logos for seamless looping
+            logos.forEach(logo => {
+                const clone = logo.cloneNode(true);
+                carouselInner.appendChild(clone);
+            });
+
+            let offset = 0;
+            const logoWidth = logos[0].clientWidth;
+            const speed = 0.5; // Speed of the transition
+            const intervalTime = 20; // Time between each pixel movement
+
+            function slideCarousel() {
+                offset += speed;
+                if (offset >= logoWidth * logos.length) {
+                    offset = 0;
+                }
+                carouselInner.style.transform = `translateX(-${offset}px)`;
+            }
+
+            setInterval(slideCarousel, intervalTime);
+        });
+    </script>
+
 
     <!-- product list -->
     <div class="section">
@@ -315,6 +327,64 @@
         </div>
     </div>
     <!-- end blogs -->
+    <!-- section contact -->
+    <section id="contact">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2 class="section-title">Notre Adresse</h2>
+                <div class="map-container">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4522.291985245553!2d2.9517072100229504!3d36.72872514577083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fafea13b4d45b%3A0xac8934488ed4ad85!2sr%C3%A9sidence%20universitaire%203%20Ouled%20Fayet!5e0!3m2!1sfr!2sdz!4v1699637508648!5m2!1sfr!2sdz"
+                        width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <address>
+                    Résidence universitaire 3 Ouled Fayet<br>
+                    Algeria
+                </address>
+            </div>
+            <div class="contact-form-container">
+                <h2 class="section-title">Envoyer un message</h2>
+                <form action="#" class="contact-form">
+                    <div class="input-group">
+                        <div class="input-container">
+                            <div class="icon"><i class="fas fa-user"></i></div>
+                            <input type="text" placeholder="Prénom" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-container">
+                            <div class="icon"><i class="fas fa-phone"></i></div>
+                            <input type="tel" placeholder="Numéro de téléphone" required pattern="[0-9]{10}">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-container">
+                            <div class="icon"><i class="fas fa-envelope"></i></div>
+                            <input type="email" placeholder="Adresse Mail" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-container">
+                            <div class="icon"><i class="fas fa-comment-alt"></i></div>
+                            <input type="text" placeholder="Objet" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-container">
+                            <div class="icon"><i class="fas fa-comment"></i></div>
+                            <textarea cols="30" rows="10" placeholder="Message" required></textarea>
+                        </div>
+                    </div>
+                    <input type="submit" value="Envoyer" class="submit-btn">
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- end section contact -->
+
 
     <!-- footer -->
     <footer class="bg-second">
