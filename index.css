@@ -1573,6 +1573,7 @@ button:focus:before {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   margin: 0 10px; /* Add margin for spacing */
+  border: 1px solid #ff840a;
 }
 
 .map-container {
@@ -1584,6 +1585,7 @@ button:focus:before {
   font-size: 1.8em;
   color: #333;
   margin-bottom: 15px;
+  text-align: center; /* Center the text */
 }
 
 .contact-info address {
@@ -1610,13 +1612,17 @@ button:focus:before {
 .input-container .icon {
   background: #ff840a; /* Changed to #ff840a */
   color: white;
-  aspect-ratio: 1 / 1;
   text-align: center;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 5px 0 0 5px;
-  padding: 0 12px;
+  padding: 12px;
+  height: 46px; /* Ensures the icon takes the full height of the input */
+}
+
+.input-container textarea + .icon {
+  height: 100%; /* Ensures the icon takes the full height of the textarea */
 }
 
 .input-container input[type="text"],
@@ -1629,6 +1635,10 @@ button:focus:before {
   border: 1px solid #ddd;
   border-left: none;
   border-radius: 0 5px 5px 0;
+}
+
+.input-container textarea {
+  height: 150px; /* Set a specific height for the textarea */
 }
 
 .input-container input[type="text"]:focus,
@@ -1652,6 +1662,17 @@ button:focus:before {
 
 .submit-btn:hover {
   background-color: #e67503; /* Darker shade for hover effect */
+}
+.input-container .iconm {
+  background: #ff840a;
+  color: white;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px 0 0 5px;
+  padding: 12px;
+  height: 150px;
 }
 
 /* Responsive adjustments */

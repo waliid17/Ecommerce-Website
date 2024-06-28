@@ -327,6 +327,11 @@
         </div>
     </div>
     <!-- end blogs -->
+    <div class="container">
+        <div class="section-header">
+            <h2>CONTACT</h2>
+        </div>
+    </div>
     <!-- section contact -->
     <section id="contact">
         <div class="contact-container">
@@ -334,13 +339,13 @@
                 <h2 class="section-title">Notre Adresse</h2>
                 <div class="map-container">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4522.291985245553!2d2.9517072100229504!3d36.72872514577083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fafea13b4d45b%3A0xac8934488ed4ad85!2sr%C3%A9sidence%20universitaire%203%20Ouled%20Fayet!5e0!3m2!1sfr!2sdz!4v1699637508648!5m2!1sfr!2sdz"
-                        width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.268053857073!2d2.8747272764389673!3d36.74013647108209!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fa5d800390b4f%3A0xe885582e7ab8a554!2sMovent%20Agency!5e0!3m2!1sfr!2sdz!4v1719618253374!5m2!1sfr!2sdz"
+                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade" width="100%" height="300" style="border:0;"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
                 <address>
-                    Résidence universitaire 3 Ouled Fayet<br>
-                    Algeria
+                    Algérie, Alger, Route de bridja, Staoueli
                 </address>
             </div>
             <div class="contact-form-container">
@@ -372,7 +377,7 @@
                     </div>
                     <div class="input-group">
                         <div class="input-container">
-                            <div class="icon"><i class="fas fa-comment"></i></div>
+                            <div class="iconm"><i class="fas fa-comment"></i></div>
                             <textarea cols="30" rows="10" placeholder="Message" required></textarea>
                         </div>
                     </div>
@@ -381,10 +386,7 @@
             </div>
         </div>
     </section>
-
-
     <!-- end section contact -->
-
 
     <!-- footer -->
     <footer class="bg-second">
