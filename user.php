@@ -62,6 +62,26 @@ function fetchMessages($connection)
 
 $messages = fetchMessages($connection);
 
+// Function to fetch products (for admin only)
+function fetchProducts($connection)
+{
+    $products = [];
+    $sql = "SELECT `id_outil`, `nom`, `description`, `ancien_prix`, `prix_actuel`, `image`, `marque` FROM `outil`";
+    $result = $connection->query($sql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $products[] = $row;
+        }
+    }
+
+    return $products;
+}
+
+if ($rank == 'admin') {
+    $products = fetchProducts($connection);
+}
+
 $connection->close();
 ?>
 
@@ -82,6 +102,7 @@ $connection->close();
     <!-- App CSS -->
     <link rel="stylesheet" href="login.css">
     <link rel="stylesheet" href="user.css">
+
 </head>
 
 <body style="display: flex; flex-direction: column; min-height: 100vh;">
@@ -150,6 +171,7 @@ $connection->close();
                 <?php } else { ?>
                     <button class="tablink" onclick="openTab(event, 'AddProducts')">Add Products</button>
                     <button class="tablink" onclick="openTab(event, 'ShowMessages')">Afficher Messages</button>
+                    <button class="tablink" onclick="openTab(event, 'ShowProducts')">Afficher Produits</button>
                 <?php } ?>
             </div>
             <div id="PersonalInfo" class="tabcontent active">
@@ -271,6 +293,7 @@ $connection->close();
                                 <th>Sujet</th>
                                 <th>Contenu</th>
                                 <th>Date</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -284,11 +307,171 @@ $connection->close();
                                     <td><?php echo htmlspecialchars($message['sujet']); ?></td>
                                     <td><?php echo htmlspecialchars($message['contenu']); ?></td>
                                     <td><?php echo htmlspecialchars($message['date']); ?></td>
+                                    <td class="action-buttons">
+                                        <form action="delete_message.php" method="post" style="display: inline;">
+                                            <input type="hidden" name="id" value="<?php echo $message['id']; ?>">
+                                            <button class="delete-button">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 14"
+                                                    class="svgIcon bin-top">
+                                                    <g clip-path="url(#clip0_35_24)">
+                                                        <path fill="black"
+                                                            d="M20.8232 2.62734L19.9948 4.21304C19.8224 4.54309 19.4808 4.75 19.1085 4.75H4.92857C2.20246 4.75 0 6.87266 0 9.5C0 12.1273 2.20246 14.25 4.92857 14.25H64.0714C66.7975 14.25 69 12.1273 69 9.5C69 6.87266 66.7975 4.75 64.0714 4.75H49.8915C49.5192 4.75 49.1776 4.54309 49.0052 4.21305L48.1768 2.62734C47.3451 1.00938 45.6355 0 43.7719 0H25.2281C23.3645 0 21.6549 1.00938 20.8232 2.62734ZM64.0023 20.0648C64.0397 19.4882 63.5822 19 63.0044 19H5.99556C5.4178 19 4.96025 19.4882 4.99766 20.0648L8.19375 69.3203C8.44018 73.0758 11.6746 76 15.5712 76H53.4288C57.3254 76 60.5598 73.0758 60.8062 69.3203L64.0023 20.0648Z">
+                                                        </path>
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_35_24">
+                                                            <rect fill="white" height="14" width="69"></rect>
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 57"
+                                                    class="svgIcon bin-bottom">
+                                                    <g clip-path="url(#clip0_35_22)">
+                                                        <path fill="black"
+                                                            d="M20.8232 -16.3727L19.9948 -14.787C19.8224 -14.4569 19.4808 -14.25 19.1085 -14.25H4.92857C2.20246 -14.25 0 -12.1273 0 -9.5C0 -6.8727 2.20246 -4.75 4.92857 -4.75H64.0714C66.7975 -4.75 69 -6.8727 69 -9.5C69 -12.1273 66.7975 -14.25 64.0714 -14.25H49.8915C49.5192 -14.25 49.1776 -14.4569 49.0052 -14.787L48.1768 -16.3727C47.3451 -17.9906 45.6355 -19 43.7719 -19H25.2281C23.3645 -19 21.6549 -17.9906 20.8232 -16.3727ZM64.0023 1.0648C64.0397 0.4882 63.5822 0 63.0044 0H5.99556C5.4178 0 4.96025 0.4882 4.99766 1.0648L8.19375 50.3203C8.44018 54.0758 11.6746 57 15.5712 57H53.4288C57.3254 57 60.5598 54.0758 60.8062 50.3203L64.0023 1.0648Z">
+                                                        </path>
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_35_22">
+                                                            <rect fill="white" height="57" width="69"></rect>
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             <?php } ?>
                         </tbody>
                     </table>
                 </div>
+
+                <div id="ShowProducts" class="tabcontent">
+                    <h2>Produits</h2>
+                    <table class="product-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Description</th>
+                                <th>Ancien Prix</th>
+                                <th>Prix Actuel</th>
+                                <th>Image</th>
+                                <th>Marque</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($products as $product) { ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($product['id_outil']); ?></td>
+                                    <td><?php echo htmlspecialchars($product['nom']); ?></td>
+                                    <td><?php echo htmlspecialchars($product['description']); ?></td>
+                                    <td><?php echo htmlspecialchars($product['ancien_prix']); ?></td>
+                                    <td><?php echo htmlspecialchars($product['prix_actuel']); ?></td>
+                                    <td><img src="images/<?php echo htmlspecialchars($product['image']); ?>"
+                                            alt="<?php echo htmlspecialchars($product['nom']); ?>" width="100"></td>
+                                    <td><?php echo htmlspecialchars($product['marque']); ?></td>
+                                    <td class="action-buttons">
+                                        <button class="edit-button"
+                                            onclick="toggleEditForm(<?php echo $product['id_outil']; ?>)">Éditer</button>
+                                        <form action="delete_product.php" method="post" style="display: inline;">
+                                            <input type="hidden" name="id_outil" value="<?php echo $product['id_outil']; ?>">
+                                            <button class="delete-button">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 14"
+                                                    class="svgIcon bin-top">
+                                                    <g clip-path="url(#clip0_35_24)">
+                                                        <path fill="black"
+                                                            d="M20.8232 2.62734L19.9948 4.21304C19.8224 4.54309 19.4808 4.75 19.1085 4.75H4.92857C2.20246 4.75 0 6.87266 0 9.5C0 12.1273 2.20246 14.25 4.92857 14.25H64.0714C66.7975 14.25 69 12.1273 69 9.5C69 6.87266 66.7975 4.75 64.0714 4.75H49.8915C49.5192 4.75 49.1776 4.54309 49.0052 4.21305L48.1768 2.62734C47.3451 1.00938 45.6355 0 43.7719 0H25.2281C23.3645 0 21.6549 1.00938 20.8232 2.62734ZM64.0023 20.0648C64.0397 19.4882 63.5822 19 63.0044 19H5.99556C5.4178 19 4.96025 19.4882 4.99766 20.0648L8.19375 69.3203C8.44018 73.0758 11.6746 76 15.5712 76H53.4288C57.3254 76 60.5598 73.0758 60.8062 69.3203L64.0023 20.0648Z">
+                                                        </path>
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_35_24">
+                                                            <rect fill="white" height="14" width="69"></rect>
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 57"
+                                                    class="svgIcon bin-bottom">
+                                                    <g clip-path="url(#clip0_35_22)">
+                                                        <path fill="black"
+                                                            d="M20.8232 -16.3727L19.9948 -14.787C19.8224 -14.4569 19.4808 -14.25 19.1085 -14.25H4.92857C2.20246 -14.25 0 -12.1273 0 -9.5C0 -6.8727 2.20246 -4.75 4.92857 -4.75H64.0714C66.7975 -4.75 69 -6.8727 69 -9.5C69 -12.1273 66.7975 -14.25 64.0714 -14.25H49.8915C49.5192 -14.25 49.1776 -14.4569 49.0052 -14.787L48.1768 -16.3727C47.3451 -17.9906 45.6355 -19 43.7719 -19H25.2281C23.3645 -19 21.6549 -17.9906 20.8232 -16.3727ZM64.0023 1.0648C64.0397 0.4882 63.5822 0 63.0044 0H5.99556C5.4178 0 4.96025 0.4882 4.99766 1.0648L8.19375 50.3203C8.44018 54.0758 11.6746 57 15.5712 57H53.4288C57.3254 57 60.5598 54.0758 60.8062 50.3203L64.0023 1.0648Z">
+                                                        </path>
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_35_22">
+                                                            <rect fill="white" height="57" width="69"></rect>
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+                                            </button>
+
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr id="edit-form-<?php echo $product['id_outil']; ?>" class="edit-form-row"
+                                    style="display: none;">
+                                    <td colspan="8">
+                                        <form action="update_product.php" method="post" enctype="multipart/form-data">
+                                            <input type="hidden" name="id_outil"
+                                                value="<?php echo htmlspecialchars($product['id_outil']); ?>">
+                                            <table class="form-table">
+                                                <tr>
+                                                    <td><label for="name">Nom du produit :</label></td>
+                                                    <td><input type="text" id="name" name="nom"
+                                                            value="<?php echo htmlspecialchars($product['nom']); ?>" required>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label for="prod_desc">Description du produit :</label></td>
+                                                    <td><input type="text" id="prod_desc" name="description"
+                                                            value="<?php echo htmlspecialchars($product['description']); ?>"
+                                                            required></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label for="old_price">Ancien prix :</label></td>
+                                                    <td><input type="text" id="old_price" name="ancien_prix"
+                                                            value="<?php echo htmlspecialchars($product['ancien_prix']); ?>">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label for="curr_price">Prix actuel :</label></td>
+                                                    <td><input type="text" id="curr_price" name="prix_actuel"
+                                                            value="<?php echo htmlspecialchars($product['prix_actuel']); ?>"
+                                                            required></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label for="brand">Marque :</label></td>
+                                                    <td><input type="text" id="brand" name="marque"
+                                                            value="<?php echo htmlspecialchars($product['marque']); ?>"
+                                                            required></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><label for="image">Photo du produit :</label></td>
+                                                    <td>
+                                                        <img src="images/<?php echo htmlspecialchars($product['image']); ?>"
+                                                            alt="<?php echo htmlspecialchars($product['nom']); ?>" width="100">
+                                                        <input type="file" id="image" name="image">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <button type="submit">save</button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </div>
+
+
+
             <?php } ?>
         </div>
     </div>
@@ -319,6 +502,20 @@ $connection->close();
             var item = button.parentNode;
             item.parentNode.removeChild(item);
         }
+        function toggleEditForm(productId) {
+            // Hide any currently visible edit forms
+            const openForms = document.querySelectorAll('.edit-form-row');
+            openForms.forEach(form => {
+                if (form.id !== `edit-form-${productId}`) {
+                    form.style.display = 'none';
+                }
+            });
+
+            // Toggle the display of the clicked edit form
+            const formRow = document.getElementById(`edit-form-${productId}`);
+            formRow.style.display = formRow.style.display === 'none' ? 'table-row' : 'none';
+        }
+
     </script>
 </body>
 
