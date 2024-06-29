@@ -341,44 +341,48 @@
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.268053857073!2d2.8747272764389673!3d36.74013647108209!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fa5d800390b4f%3A0xe885582e7ab8a554!2sMovent%20Agency!5e0!3m2!1sfr!2sdz!4v1719618253374!5m2!1sfr!2sdz"
                         width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade" width="100%" height="300" style="border:0;"
-                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
-                <address>
-                    Algérie, Alger, Route de bridja, Staoueli
-                </address>
+                <address>Algérie, Alger, Route de bridja, Staoueli</address>
             </div>
             <div class="contact-form-container">
                 <h2 class="section-title">Envoyer un message</h2>
-                <form action="#" class="contact-form">
+                <form action="message.php" method="POST" class="contact-form">
                     <div class="input-group">
                         <div class="input-container">
                             <div class="icon"><i class="fas fa-user"></i></div>
-                            <input type="text" placeholder="Prénom" required>
+                            <input type="text" name="prenom" placeholder="Prénom" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-container">
+                            <div class="icon"><i class="fas fa-user"></i></div>
+                            <input type="text" name="nom" placeholder="Nom" required>
                         </div>
                     </div>
                     <div class="input-group">
                         <div class="input-container">
                             <div class="icon"><i class="fas fa-phone"></i></div>
-                            <input type="tel" placeholder="Numéro de téléphone" required pattern="[0-9]{10}">
+                            <input type="tel" name="phone" placeholder="Numéro de téléphone" required
+                                pattern="[0-9]{10}">
                         </div>
                     </div>
                     <div class="input-group">
                         <div class="input-container">
                             <div class="icon"><i class="fas fa-envelope"></i></div>
-                            <input type="email" placeholder="Adresse Mail" required>
+                            <input type="email" name="email" placeholder="Adresse Mail" required>
                         </div>
                     </div>
                     <div class="input-group">
                         <div class="input-container">
                             <div class="icon"><i class="fas fa-comment-alt"></i></div>
-                            <input type="text" placeholder="Objet" required>
+                            <input type="text" name="sujet" placeholder="sujet" required>
                         </div>
                     </div>
                     <div class="input-group">
                         <div class="input-container">
                             <div class="iconm"><i class="fas fa-comment"></i></div>
-                            <textarea cols="30" rows="10" placeholder="Message" required></textarea>
+                            <textarea name="contenu" cols="30" rows="10" placeholder="contenu" required></textarea>
                         </div>
                     </div>
                     <input type="submit" value="Envoyer" class="submit-btn">
@@ -386,6 +390,7 @@
             </div>
         </div>
     </section>
+
     <!-- end section contact -->
 
     <!-- footer -->

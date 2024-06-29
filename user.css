@@ -380,3 +380,28 @@ body {
 .button:active {
   border: 1px solid #2e8644;
 }
+.message-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.message-table th,
+.message-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.message-table th {
+  background-color: #ffb183;
+  color: #000000;
+}
+
+.message-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.message-table tbody tr:hover {
+  background-color: #e0e0e0;
+}

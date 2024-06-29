@@ -26,7 +26,7 @@ if ($connection->connect_error) {
 }
 
 $user_id = $_SESSION['user-id'];
-$sql = "SELECT `prenom`, `nom`, email, `telephone`, `adresse`, `role` FROM client WHERE `id_client` = ?";
+$sql = "SELECT `prenom`, `nom`, `email`, `telephone`, `adresse`, `role` FROM client WHERE `id_client` = ?";
 $stmt = $connection->prepare($sql);
 
 if ($stmt) {
@@ -39,12 +39,30 @@ if ($stmt) {
     echo "Error preparing statement: " . $connection->error;
 }
 
-$connection->close();
-
 // Use the rank fetched from the database if available
 if ($rankFromDb) {
     $rank = $rankFromDb;
 }
+
+// Function to fetch messages
+function fetchMessages($connection)
+{
+    $messages = [];
+    $sql = "SELECT `id`, `prenom`, `nom`, `phone`, `email`, `sujet`, `contenu`, `date` FROM `message`";
+    $result = $connection->query($sql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $messages[] = $row;
+        }
+    }
+
+    return $messages;
+}
+
+$messages = fetchMessages($connection);
+
+$connection->close();
 ?>
 
 <!DOCTYPE html>
@@ -131,6 +149,7 @@ if ($rankFromDb) {
                     <button class="tablink" onclick="openTab(event, 'Address')">Adresse</button>
                 <?php } else { ?>
                     <button class="tablink" onclick="openTab(event, 'AddProducts')">Add Products</button>
+                    <button class="tablink" onclick="openTab(event, 'ShowMessages')">Afficher Messages</button>
                 <?php } ?>
             </div>
             <div id="PersonalInfo" class="tabcontent active">
@@ -238,6 +257,37 @@ if ($rankFromDb) {
                             </tr>
                         </table>
                     </form>
+                </div>
+                <div id="ShowMessages" class="tabcontent">
+                    <h2>Messages</h2>
+                    <table class="message-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Prénom</th>
+                                <th>Nom</th>
+                                <th>Téléphone</th>
+                                <th>Email</th>
+                                <th>Sujet</th>
+                                <th>Contenu</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($messages as $message) { ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($message['id']); ?></td>
+                                    <td><?php echo htmlspecialchars($message['prenom']); ?></td>
+                                    <td><?php echo htmlspecialchars($message['nom']); ?></td>
+                                    <td><?php echo htmlspecialchars($message['phone']); ?></td>
+                                    <td><?php echo htmlspecialchars($message['email']); ?></td>
+                                    <td><?php echo htmlspecialchars($message['sujet']); ?></td>
+                                    <td><?php echo htmlspecialchars($message['contenu']); ?></td>
+                                    <td><?php echo htmlspecialchars($message['date']); ?></td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
                 </div>
             <?php } ?>
         </div>
