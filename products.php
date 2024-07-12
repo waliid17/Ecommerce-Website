@@ -61,10 +61,15 @@
       <div class="">
         <div class="bottom-header container">
           <ul class="main-menu">
-            <li><a href="#">ACCUEIL</a></li>
-            <li><a href="#">PRODUITS</a></li>
-            <li><a href="#">BLOG</a></li>
-            <li><a href="#">CONTACT</a></li>
+            <li><a href="index.php">ACCUEIL</a></li>
+            <!-- mega menu -->
+            <li class="mega-dropdown">
+              <a href="./products.html">OUTILS</a>
+            </li>
+            <!-- end mega menu -->
+            <li><a href="#">à propos</a></li>
+            <li><a href="#">SERVICES</a></li>
+            <li><a href="#">contact</a></li>
           </ul>
         </div>
       </div>

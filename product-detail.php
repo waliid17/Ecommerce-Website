@@ -81,10 +81,11 @@
                                 <li><a href="index.php">ACCUEIL</a></li>
                                 <!-- mega menu -->
                                 <li class="mega-dropdown">
-                                    <a href="./products.html">PRODUITS</a>
+                                    <a href="./products.php">OUTILS</a>
                                 </li>
                                 <!-- end mega menu -->
-                                <li><a href="#">blog</a></li>
+                                <li><a href="#">à propos</a></li>
+                                <li><a href="#">SERVICES</a></li>
                                 <li><a href="#">contact</a></li>
                             </ul>
                         </div>

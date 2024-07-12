@@ -127,20 +127,23 @@ $connection->close();
                     <div class="logo">
                         <a href="index.php"><img src="images/prooutil.gif" alt="LOGO"></a>
                     </div>
-                    <div class="bg-second">
+                    <!-- bottom header -->
+                    <div class="">
                         <div class="bottom-header container">
                             <ul class="main-menu">
                                 <li><a href="index.php">ACCUEIL</a></li>
                                 <!-- mega menu -->
                                 <li class="mega-dropdown">
-                                    <a href="./products.html">PRODUITS</a>
+                                    <a href="./products.php">OUTILS</a>
                                 </li>
                                 <!-- end mega menu -->
-                                <li><a href="#">blog</a></li>
+                                <li><a href="#">à propos</a></li>
+                                <li><a href="#">SERVICES</a></li>
                                 <li><a href="#">contact</a></li>
                             </ul>
                         </div>
                     </div>
+                    <!-- end bottom header -->
                     <?php
                     if ($rank == "admin") {
                         echo '<a href="#" class="btn">

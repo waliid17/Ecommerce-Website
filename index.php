@@ -103,10 +103,11 @@
                         <li><a href="index.php">ACCUEIL</a></li>
                         <!-- mega menu -->
                         <li class="mega-dropdown">
-                            <a href="./products.html">PRODUITS</a>
+                            <a href="./products.html">OUTILS</a>
                         </li>
                         <!-- end mega menu -->
-                        <li><a href="#">blog</a></li>
+                        <li><a href="#">à propos</a></li>
+                        <li><a href="#">SERVICES</a></li>
                         <li><a href="#">contact</a></li>
                     </ul>
                 </div>
@@ -132,9 +133,9 @@
                                 Toutes les marques et les catégories sont disponibles chez nous.
                             </p>
                             <div class="top-down trans-delay-0-6">
-                                <button class="btn-flat btn-hover">
-                                    <span>NOS PRODUITS</span>
-                                </button>
+                                <a href="products.php"> <button class="btn-flat btn-hover">
+                                        <span>NOS OUTILS</span>
+                                    </button></a>
                             </div>
                         </div>
                     </div>
@@ -152,7 +153,7 @@
                             </h2>
                             <div class="top-down trans-delay-0-6">
                                 <button class="btn-flat btn-hover">
-                                    <span>NOS PRODUITS</span>
+                                    <span>NOS MARQUES</span>
                                 </button>
                             </div>
                         </div>
@@ -290,7 +291,7 @@
     <div class="section">
         <div class="container">
             <div class="section-header">
-                <h2>blog</h2>
+                <h2>À PROPOS</h2>
             </div>
             <div class="blog">
                 <div class="blog-img">
