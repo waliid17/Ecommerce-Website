@@ -1,0 +1,44 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const sidebar = document.querySelector(".sidebar");
+    const navItems = document.querySelectorAll(".nav-item");
+
+    // Function to show specific content based on the target ID
+    function showContent(targetId) {
+        // Hide all content sections
+        document.querySelectorAll(".home .content").forEach(content => {
+            content.style.display = "none";
+        });
+
+        // Show the content section with the matching ID
+        const targetContent = document.getElementById(targetId);
+        console.log(`afficher el div: ${targetId}`);
+        if (targetContent) {
+            targetContent.style.display = "block";
+        }
+    }
+
+    // Sidebar toggle functionality
+    const toggle = document.querySelector(".toggle");
+    toggle.addEventListener("click", () => {
+        sidebar.classList.toggle("closed");
+    });
+
+    // Show content when a nav item is clicked
+    navItems.forEach(item => {
+        item.addEventListener("click", (e) => {
+            e.preventDefault();
+            navItems.forEach(item=>{
+                item.classList.remove('activer');
+            });
+            item.classList.add('activer');
+            const targetId = e.currentTarget.getAttribute("data-target");
+
+            if (targetId) {
+                showContent(targetId);
+            }
+        });
+    });
+
+    // Optionally, show the default content when the page loads
+    showContent("accueil-content"); // Set default content ID
+});

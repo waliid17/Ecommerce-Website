@@ -35,67 +35,75 @@
             <span class="mb-menu-toggle mb-menu-close" id="mb-menu-close">
                 <i class='bx bx-x'></i>
             </span>
-            <!-- mid header -->
-            <div class="bg-main">
-                <div class="mid-header container">
-                    <div class="logo">
-                        <a href="index.php"><img src="images/prooutil.gif" alt="LOGO"></a>
-                    </div>
+           <!-- mid header -->
+<div class="bg-main">
+    <div class="mid-header container">
+        <div class="logo">
+            <a href="index.php"><img src="images/prooutil.gif" alt="LOGO"></a>
+        </div>
 
-                    <div class="search">
-                        <input type="text" placeholder="Search">
-                        <i class='bx bx-search-alt'></i>
-                    </div>
-                    <ul class="user-menu">
-                        <li><a href="#"><i class='bx bx-bell'></i></a></li>
-                        <li><a href="#"><i class='bx bx-user-circle'></i></a></li>
-                        <li><a href="#"><i class='bx bx-cart'></i></a></li>
-                    </ul>
-                    <?php
-                    session_start();
-                    if (isset($_SESSION['user-id'])) {
-                        $connection = new mysqli("localhost", "root", "", "base");
-                        if ($connection->connect_error) {
-                            die("Connection failed: " . $connection->connect_error);
-                        }
+        <div class="search">
+            <input type="text" placeholder="Search">
+            <i class='bx bx-search-alt'></i>
+        </div>
+        <ul class="user-menu">
+            <li><a href="#"><i class='bx bx-bell'></i></a></li>
+            <li><a href="#"><i class='bx bx-user-circle'></i></a></li>
+            <li><a href="#"><i class='bx bx-cart'></i></a></li>
+        </ul>
+        <?php
+        session_start();
+        if (isset($_SESSION['user-id'])) {
+            $connection = new mysqli("localhost", "root", "", "base");
+            if ($connection->connect_error) {
+                die("Connection failed: " . $connection->connect_error);
+            }
 
-                        $id = $_SESSION['user-id'];
-                        $query = "SELECT `prenom` FROM `client` WHERE id_client =$id";
-                        $result = $connection->query($query);
-                        if ($result->num_rows > 0) {
-                            $row = mysqli_fetch_assoc($result);
-                            $user = $row['prenom'];
-                            echo "<a href='
-                            user.php' class='btn'>
-                        <div class='login'>
-                           welcome $user
-                        </div>
-                    </a>
-                    <a href='logout.php'><div class='logout'><i class='fas fa-sign-out-alt'></i></div></a>"
+            $id = $_SESSION['user-id'];
+            $query = "SELECT `prenom`, `role` FROM `client` WHERE id_client = $id";
+            $result = $connection->query($query);
+            if ($result->num_rows > 0) {
+                $row = mysqli_fetch_assoc($result);
+                $user = $row['prenom'];
+                $role = $row['role'];
 
-                            ;
-                        } else {
-                            unset($_SESSION['user-id']);
-                        }
-                    } else {
-
-                        ?>
-                        <a href="login_signup.html" class="btn">
-                            <div class="login">
-                                Connexion
+                if ($role == 'admin') {
+                    echo "<a href='admin/admin.php' class='btn'>
+                            <div class='login'>
+                                Welcome $user (Admin)
                             </div>
-                        </a>
-                        <a href="login_signup.html?slide=signup" class="btn">
-                            <div class="login">
-                                Inscription
+                          </a>
+                          <a href='logout.php'><div class='logout'><i class='fas fa-sign-out-alt'></i></div></a>";
+                } else {
+                    echo "<a href='user.php' class='btn'>
+                            <div class='login'>
+                                Welcome $user
                             </div>
-                        </a>
-                        <?php
-                    }
-                    ?>
+                          </a>
+                          <a href='logout.php'><div class='logout'><i class='fas fa-sign-out-alt'></i></div></a>";
+                }
+            } else {
+                unset($_SESSION['user-id']);
+            }
+        } else {
+            ?>
+            <a href="login_signup.html" class="btn">
+                <div class="login">
+                    Connexion
                 </div>
-            </div>
-            <!-- end mid header -->
+            </a>
+            <a href="login_signup.html?slide=signup" class="btn">
+                <div class="login">
+                    Inscription
+                </div>
+            </a>
+            <?php
+        }
+        ?>
+    </div>
+</div>
+<!-- end mid header -->
+
             <!-- bottom header -->
             <div class="">
                 <div class="bottom-header container">

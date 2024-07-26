@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_outil'])) {
 
     // Execute the delete
     if ($stmt->execute()) {
-        header("Location: user.php"); // Redirect back to user.php or any other page
+        header("Location: ./admin/admin.php"); // Redirect back to user.php or any other page
     } else {
         echo "Error deleting product: " . $stmt->error;
     }

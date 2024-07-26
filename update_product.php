@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("ssddssi", $nom, $description, $ancien_prix, $prix_actuel, $marque, $image, $id_outil);
 
     if ($stmt->execute()) {
-        header('Location: user.php');
+        header('Location: admin/admin.php');
     } else {
         echo "Error updating record: " . $connection->error;
     }
