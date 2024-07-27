@@ -335,9 +335,9 @@ header .image-text .header .image-text {
   font-size: 18px;
   text-align: left;
   background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
   border-radius: 15px;
   overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .product-table th,
@@ -351,10 +351,6 @@ header .image-text .header .image-text {
   color: #ffffff;
   text-align: left;
   font-weight: bold;
-}
-
-.product-table tbody tr:nth-of-type(even) {
-  background-color: #f2f2f2;
 }
 
 .product-table tbody tr:hover {
@@ -653,11 +649,6 @@ header .image-text .header .image-text {
 .client-table tbody tr:hover {
   background-color: #e9ecef;
 }
-
-.client-table tbody tr:nth-child(even) {
-  background-color: #f1f3f5;
-}
-
 .client-table td {
   color: #495057;
 }
@@ -685,7 +676,7 @@ header .image-text .header .image-text {
 .edit-role {
   color: #007bff;
   text-decoration: none;
-  font-size: 1.2em;
+  font-size: 1.6em;
   transition: color 0.3s ease;
   cursor: pointer;
 }
@@ -693,7 +684,9 @@ header .image-text .header .image-text {
 .edit-role:hover {
   color: #0056b3;
 }
-
+table tr td:last-child {
+  text-align: center;
+}
 /* Inline Form Styles */
 .edit-role-form {
   display: none; /* Initially hidden */
@@ -726,6 +719,7 @@ header .image-text .header .image-text {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  text-wrap: nowrap;
 }
 
 .edit-role-form button:hover {
