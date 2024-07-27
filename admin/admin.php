@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="assets/css/google_fonts.css" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link rel="stylesheet" href="user.css" />
 
   <!-- emoji favicon  -->
@@ -17,31 +18,46 @@
 </head>
 
 <body>
-  <?php
-  // Database connection and fetching user data
-  $servername = "localhost";
-  $username = "root";
-  $password = "";
-  $dbname = "base";
+<?php
+// Database connection and fetching user data
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "base";
 
-  $connection = new mysqli($servername, $username, $password, $dbname);
+$connection = new mysqli($servername, $username, $password, $dbname);
 
-  if ($connection->connect_error) {
+if ($connection->connect_error) {
     die("Connection failed: " . $connection->connect_error);
-  }
-  $products = [];
-  $sql = "SELECT `id_outil`, `nom`, `description`, `ancien_prix`, `prix_actuel`, `image`, `marque` FROM `outil`";
-  $result = $connection->query($sql);
+}
 
-  if ($result->num_rows > 0) {
+// Fetch clients
+$clients = [];
+$sql = "SELECT id_client, prenom, nom, email, role, telephone, adresse FROM client";
+$result = $connection->query($sql);
+
+if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
-      $products[] = $row;
+        $clients[] = $row;
     }
-  }
+}
+
+// Fetch products
+$products = [];
+$sql = "SELECT id_outil, nom, description, ancien_prix, prix_actuel, image, marque FROM outil";
+$result = $connection->query($sql);
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $products[] = $row;
+    }
+}
+
+// Fetch messages
 function fetchMessages($connection)
 {
     $messages = [];
-    $sql = "SELECT `id`, `prenom`, `nom`, `phone`, `email`, `sujet`, `contenu`, `date` FROM `message`";
+    $sql = "SELECT id, prenom, nom, phone, email, sujet, contenu, date FROM message";
     $result = $connection->query($sql);
 
     if ($result->num_rows > 0) {
@@ -51,8 +67,9 @@ function fetchMessages($connection)
     }
     return $messages;
 }
+
 $messages = fetchMessages($connection);
-  ?>
+?>
   <nav class="sidebar closed">
     <header>
       <div class="image-text">
@@ -185,8 +202,56 @@ $messages = fetchMessages($connection);
       </div>
       </div>
       <div class="content" id="users-content" style="display: none;">
-        <h2>Users Content</h2>
-        <p>This is the content for Users.</p>
+      <h2>Client List</h2>
+<table class="client-table">
+    <thead>
+        <tr>
+            <th>Prénom</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Téléphone</th>
+            <th>Adresse</th>
+            <th>Modifier le rôle</th> <!-- Column for Edit Icon -->
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        if (!empty($clients)) {
+            foreach ($clients as $client) {
+                echo "<tr data-client-id='{$client['id_client']}'>
+                        <td>{$client['prenom']}</td>
+                        <td>{$client['nom']}</td>
+                        <td>{$client['email']}</td>
+                        <td>
+                            <span class='role-display {$client['role']}'>".ucfirst($client['role'])."</span>
+                            <div class='edit-role-form'>
+                                <form action='edit_role.php' method='POST'>
+                                    <input type='hidden' name='id_client' value='{$client['id_client']}'>
+                                    <label for='role-{$client['id_client']}' style='display: none;'>Select New Role:</label>
+                                    <select id='role-{$client['id_client']}' name='role' required>
+                                        <option value='admin' ".($client['role'] == 'admin' ? 'selected' : '').">Admin</option>
+                                        <option value='user' ".($client['role'] == 'user' ? 'selected' : '').">User</option>
+                                    </select>
+                                    <button type='submit'>Modifier le rôle</button>
+                                </form>
+                            </div>
+                        </td>
+                        <td>{$client['telephone']}</td>
+                        <td>{$client['adresse']}</td>
+                        <td>
+                            <a href='#' class='edit-role' data-client-id='{$client['id_client']}' title='Edit Role'>
+                                <i class='fas fa-edit'></i>
+                            </a>
+                        </td>
+                      </tr>";
+            }
+        } else {
+            echo "<tr><td colspan='7'>No clients found</td></tr>";
+        }
+        ?>
+    </tbody>
+</table>
       </div>
       <div class="content" id="outil-content" style="display: none;">
         <div id="ShowProducts" class="tabcontent">
@@ -462,6 +527,47 @@ $messages = fetchMessages($connection);
     </script>
 
   <script src="assets/js/app.js"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+    let currentOpenForm = null;
+
+    document.querySelectorAll('.edit-role').forEach(function(editIcon) {
+        editIcon.addEventListener('click', function(event) {
+            event.preventDefault();
+            const clientId = this.getAttribute('data-client-id');
+            const row = this.closest('tr');
+            const roleDisplay = row.querySelector('.role-display');
+            const form = row.querySelector('.edit-role-form');
+
+            if (currentOpenForm && currentOpenForm !== form) {
+                // Hide the previously opened form
+                const prevRow = currentOpenForm.closest('tr');
+                const prevRoleDisplay = prevRow.querySelector('.role-display');
+                currentOpenForm.style.display = 'none';
+                prevRoleDisplay.style.display = 'inline-block';
+            }
+
+            if (form) {
+                if (form.style.display === 'none' || form.style.display === '') {
+                    // Show the current form and hide role
+                    roleDisplay.style.display = 'none';
+                    form.style.display = 'flex';
+                    currentOpenForm = form;
+                } else {
+                    // Hide form and show role
+                    roleDisplay.style.display = 'inline-block';
+                    form.style.display = 'none';
+                    currentOpenForm = null;
+                }
+            }
+        });
+    });
+});
+</script>
+
+
+
+
 </body>
 
 </html>

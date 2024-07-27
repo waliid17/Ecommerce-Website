@@ -348,7 +348,7 @@ header .image-text .header .image-text {
 
 .product-table thead tr {
   background-color: #ffb183;
-  color: #000000;
+  color: #ffffff;
   text-align: left;
   font-weight: bold;
 }
@@ -557,7 +557,6 @@ header .image-text .header .image-text {
 /* Header styles */
 .message-table thead tr {
   background-color: #ffb183;
-  color: white;
   text-align: left;
 }
 
@@ -571,10 +570,10 @@ header .image-text .header .image-text {
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 1px;
+  color: #ffffff;
 }
 
 .message-table td {
-  font-size: 14px;
   color: #333;
 }
 
@@ -609,6 +608,158 @@ header .image-text .header .image-text {
   }
 
   .message-table td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 0;
+      width: 50%;
+      padding-left: 15px;
+      font-weight: bold;
+      text-align: left;
+  }
+}
+/* Client Table Styles */
+.client-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+}
+
+.client-table thead {
+  background-color: #ffb183;
+  color: #ffffff;
+}
+
+.client-table th, .client-table td {
+  padding: 14px 20px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.client-table th {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.client-table tbody tr {
+  transition: background-color 0.3s ease;
+}
+
+.client-table tbody tr:hover {
+  background-color: #e9ecef;
+}
+
+.client-table tbody tr:nth-child(even) {
+  background-color: #f1f3f5;
+}
+
+.client-table td {
+  color: #495057;
+}
+
+/* Role Styles */
+.client-table .role-display {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.client-table .role-admin {
+  color: #ffffff;
+  background-color: #dc3545; /* Red color for admin */
+}
+
+.client-table .role-user {
+  color: #ffffff;
+  background-color: #17a2b8; /* Teal color for user */
+}
+
+/* Edit Role Icon */
+.edit-role {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 1.2em;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.edit-role:hover {
+  color: #0056b3;
+}
+
+/* Inline Form Styles */
+.edit-role-form {
+  display: none; /* Initially hidden */
+  margin-top: 10px;
+}
+
+.edit-role-form form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.edit-role-form label {
+  display: none; /* Hide the label */
+}
+
+.edit-role-form select {
+  padding: 5px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #495057;
+}
+
+.edit-role-form button {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.edit-role-form button:hover {
+  background-color: #218838;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  table, thead, tbody, th, td, tr {
+      display: block;
+      width: 100%;
+  }
+
+  th, td {
+      box-sizing: border-box;
+  }
+
+  thead {
+      display: none;
+  }
+
+  tbody tr {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
+  }
+
+  tbody tr td {
+      text-align: right;
+      padding-left: 50%;
+      position: relative;
+  }
+
+  tbody tr td::before {
       content: attr(data-label);
       position: absolute;
       left: 0;
