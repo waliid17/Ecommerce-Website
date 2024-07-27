@@ -36,7 +36,7 @@
 /* Variables Light Mode */
 :root[data-theme="light"] {
   /* General colors */
-  --body-color: #e4e9f7;
+  --body-color: #ededed;
   --sidebar-color: #ffffff;
   --primary-color: #ff840a;
   --secundary-color: #ffffff;
@@ -495,7 +495,7 @@ header .image-text .header .image-text {
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  background: #fff;
+  background: #ff9966;
   border-radius: 10px;
   box-shadow: var(--box_shadow);
   transition: 0.1s;
@@ -507,11 +507,11 @@ header .image-text .header .image-text {
 }
 .Card .name {
   font-weight: 600;
-  color: #222;
+  color: white;
 }
 .Card i {
   font-size: 45px;
-  color: var(--main);
+  color: white;
   cursor: pointer;
 }
 /* Main Content End */

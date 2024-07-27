@@ -70,8 +70,9 @@
                 if ($role == 'admin') {
                     echo "<a href='admin/admin.php' class='btn'>
                             <div class='login'>
-                                Welcome $user (Admin)
-                            </div>
+  Welcome $user <i class='fa-solid fa-crown'></i>
+</div>
+
                           </a>
                           <a href='logout.php'><div class='logout'><i class='fas fa-sign-out-alt'></i></div></a>";
                 } else {

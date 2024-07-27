@@ -31,6 +31,12 @@ body {
 button {
   cursor: pointer;
 }
+.login i.fa-crown {
+  margin-left: 5px; 
+  color: #b8860b; 
+  font-size: 15px; 
+}
+
 
 a {
   display: inline-block;
