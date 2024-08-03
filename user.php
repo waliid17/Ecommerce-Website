@@ -1,19 +1,12 @@
 <?php
-// Ensure session_start() is called at the beginning of the script
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Redirect to login if user is not logged in
 if (!isset($_SESSION['user-id'])) {
     header("Location: login.php");
     exit();
 }
-
-// Fetch user rank from session or database
-$rank = $_SESSION['role'] ?? '';
-
-// Database connection and fetching user data
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -38,50 +31,6 @@ if ($stmt) {
 } else {
     echo "Error preparing statement: " . $connection->error;
 }
-
-// Use the rank fetched from the database if available
-if ($rankFromDb) {
-    $rank = $rankFromDb;
-}
-
-// Function to fetch messages
-function fetchMessages($connection)
-{
-    $messages = [];
-    $sql = "SELECT `id`, `prenom`, `nom`, `phone`, `email`, `sujet`, `contenu`, `date` FROM `message`";
-    $result = $connection->query($sql);
-
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $messages[] = $row;
-        }
-    }
-
-    return $messages;
-}
-
-$messages = fetchMessages($connection);
-
-// Function to fetch products (for admin only)
-function fetchProducts($connection)
-{
-    $products = [];
-    $sql = "SELECT `id_outil`, `nom`, `description`, `ancien_prix`, `prix_actuel`, `image`, `marque` FROM `outil`";
-    $result = $connection->query($sql);
-
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $products[] = $row;
-        }
-    }
-
-    return $products;
-}
-
-if ($rank == 'admin') {
-    $products = fetchProducts($connection);
-}
-
 $connection->close();
 ?>
 
@@ -97,6 +46,7 @@ $connection->close();
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Boxicons -->
     <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet">
     <!-- App CSS -->
@@ -144,16 +94,6 @@ $connection->close();
                         </div>
                     </div>
                     <!-- end bottom header -->
-                    <?php
-                    if ($rank == "admin") {
-                        echo '<a href="#" class="btn">
-                            <div class="login">
-                                Admin
-                            </div>
-                        </a>';
-                    } else {
-                    }
-                    ?>
                 </div>
             </div>
         </div>
@@ -168,55 +108,53 @@ $connection->close();
             <div class="tabs">
                 <button class="tablink active" onclick="openTab(event, 'PersonalInfo')">Informations
                     Personnelles</button>
-                <?php if ($rank != 'admin') { ?>
-                    <button class="tablink" onclick="openTab(event, 'Wishlist')">Liste de Souhaits</button>
+                    <button class="tablink" onclick="openTab(event, 'Wishlist')">Panier</button>
                     <button class="tablink" onclick="openTab(event, 'Address')">Adresse</button>
-                <?php } else { ?>
-                    <button class="tablink" onclick="openTab(event, 'AddProducts')">Add Products</button>
-                    <button class="tablink" onclick="openTab(event, 'ShowMessages')">Afficher Messages</button>
-                    <button class="tablink" onclick="openTab(event, 'ShowProducts')">Afficher Produits</button>
-                <?php } ?>
             </div>
             <div id="PersonalInfo" class="tabcontent active">
                 <h2>Informations Personnelles</h2>
-                <form class="form" method="post" action="user_edit.php">
-                    <div class="form-group">
-                        <label for="name">Nom :</label>
-                        <input type="text" id="name" name="nom" value="<?php echo htmlspecialchars($lastName); ?>"
-                            required>
-                    </div>
-                    <div class="form-group">
-                        <label for="name">Prénom :</label>
-                        <input type="text" id="name" name="prenom" value="<?php echo htmlspecialchars($firstName); ?>"
-                            required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Adresse e-mail :</label>
-                        <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>"
-                            required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Numéro de téléphone :</label>
-                        <input type="tel" id="phone" name="telephone"
-                            value="<?php echo htmlspecialchars($phoneNumber); ?>" required>
-                    </div>
-                    <button type="submit" name="save1" class="save-btn">Save</button>
-                </form>
-            </div>
-            <?php if ($rank != 'admin') { ?>
-                <div id="Wishlist" class="tabcontent">
-                    <h2>Liste de Souhaits</h2>
-                    <ul class="wishlist">
-                        <li>
-                            <p>Product 1</p>
-                            <button class="remove-btn" onclick="removeFromWishlist(this)">Remove</button>
-                        </li>
-                        <li>
-                            <p>Product 2</p>
-                            <button class="remove-btn" onclick="removeFromWishlist(this)">Remove</button>
-                        </li>
-                    </ul>
-                </div>
+                
+  <form class="contact-form" method="post" action="user_edit.php">
+    <div class="input-group">
+      <div class="input-container">
+        <div class="icon"><i class="fas fa-user"></i></div>
+        <input type="text" name="nom" value="<?php echo htmlspecialchars($lastName); ?>" placeholder="Nom" required>
+      </div>
+    </div>
+    <div class="input-group">
+      <div class="input-container">
+        <div class="icon"><i class="fas fa-user"></i></div>
+        <input type="text" name="prenom" value="<?php echo htmlspecialchars($firstName); ?>" placeholder="Prénom" required>
+      </div>
+    </div>
+    <div class="input-group">
+      <div class="input-container">
+        <div class="icon"><i class="fas fa-envelope"></i></div>
+        <input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>" placeholder="Adresse e-mail" required>
+      </div>
+    </div>
+    <div class="input-group">
+      <div class="input-container">
+        <div class="icon"><i class="fas fa-phone"></i></div>
+        <input type="tel" name="telephone" value="<?php echo htmlspecialchars($phoneNumber); ?>" placeholder="Numéro de téléphone" required pattern="[0-9]{10}">
+      </div>
+    </div>
+    <input type="submit" name="save1" value="Save" class="submit-btn">
+  </form>
+ </div>
+ <div id="Wishlist" class="tabcontent">
+    <h2>Panier</h2>
+    <form id="wishlistForm">
+        <ul id="wishlistItems" class="wishlist-items">
+            <!-- Wishlist items will be dynamically inserted here -->
+        </ul>
+        <div id="wishlistTotal" class="wishlist-total">
+            <!-- Total price will be displayed here -->
+        </div>
+        <button id="confirmOrder" type="button" class="btn-confirm">Commander</button>
+    </form>
+</div>
+
                 <div id="Address" class="tabcontent">
                     <h2>Adresse</h2>
                     <form class="form" method="post" action="user_edit.php" id="addressForm">
@@ -228,257 +166,6 @@ $connection->close();
                         <button type="submit" name="save2" class="save-btn">Save</button>
                     </form>
                 </div>
-            <?php } ?>
-            <?php if ($rank == 'admin') { ?>
-                <div id="AddProducts" class="tabcontent">
-                    <h2>Add Products</h2>
-                    <form action="add_product.php" method="post" enctype="multipart/form-data">
-                        <table class="form-table">
-                            <tr>
-                                <td><label for="name">Nom du produit :</label></td>
-                                <td><input type="text" id="name" name="nom" placeholder="Entrez le nom du produit" required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><label for="prod_desc">Description du produit :</label></td>
-                                <td><input type="text" id="prod_desc" name="description"
-                                        placeholder="Entrez la description du produit" required></td>
-                            </tr>
-                            <tr>
-                                <td><label for="old_price">Ancien prix :</label></td>
-                                <td><input type="text" id="old_price" name="ancien_prix" placeholder="Entrez l'ancien prix">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><label for="curr_price">Prix actuel :</label></td>
-                                <td><input type="text" id="curr_price" name="prix_actuel"
-                                        placeholder="Entrez le prix actuel" required></td>
-                            </tr>
-                            <tr>
-                                <td><label for="brand">Marque :</label></td>
-                                <td><input type="text" id="brand" name="marque" placeholder="Entrez la marque" required>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><label for="image">Photo du produit :</label></td>
-                                <td>
-                                    <div class="file-input-container">
-                                        <label for="image" class="file-input-label">Choisissez une photo</label>
-                                        <input type="file" id="image" name="image" class="file-input" required>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2"><button type="submit" class="button">
-                                        <span class="button__text">Ajouter le produit</span>
-                                        <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round"
-                                                stroke-linecap="round" stroke="currentColor" height="24" fill="none"
-                                                class="svg">
-                                                <line y2="19" y1="5" x2="12" x1="12"></line>
-                                                <line y2="12" y1="12" x2="19" x1="5"></line>
-                                            </svg></span>
-                                    </button></td>
-                            </tr>
-                        </table>
-                    </form>
-                </div>
-                <div id="ShowMessages" class="tabcontent">
-                    <h2>Messages</h2>
-                    <table class="message-table">
-                        <thead>
-                            <tr>
-                                <th>Prénom</th>
-                                <th>Nom</th>
-                                <th>Téléphone</th>
-                                <th>Email</th>
-                                <th>Sujet</th>
-                                <th>Contenu</th>
-                                <th>Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($messages as $message) { ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($message['prenom']); ?></td>
-                                    <td><?php echo htmlspecialchars($message['nom']); ?></td>
-                                    <td><?php echo htmlspecialchars($message['phone']); ?></td>
-                                    <td><?php echo htmlspecialchars($message['email']); ?></td>
-                                    <td><?php echo htmlspecialchars($message['sujet']); ?></td>
-                                    <td><?php echo htmlspecialchars($message['contenu']); ?></td>
-                                    <td><?php echo htmlspecialchars($message['date']); ?></td>
-                                    <td>
-                                        <form action="delete_message.php" method="post" class="action-buttons"
-                                            style="display: inline;">
-                                            <input type="hidden" name="id" value="<?php echo $message['id']; ?>">
-                                            <button class="delete-button">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 14"
-                                                    class="svgIcon bin-top">
-                                                    <g clip-path="url(#clip0_35_24)">
-                                                        <path fill="black"
-                                                            d="M20.8232 2.62734L19.9948 4.21304C19.8224 4.54309 19.4808 4.75 19.1085 4.75H4.92857C2.20246 4.75 0 6.87266 0 9.5C0 12.1273 2.20246 14.25 4.92857 14.25H64.0714C66.7975 14.25 69 12.1273 69 9.5C69 6.87266 66.7975 4.75 64.0714 4.75H49.8915C49.5192 4.75 49.1776 4.54309 49.0052 4.21305L48.1768 2.62734C47.3451 1.00938 45.6355 0 43.7719 0H25.2281C23.3645 0 21.6549 1.00938 20.8232 2.62734ZM64.0023 20.0648C64.0397 19.4882 63.5822 19 63.0044 19H5.99556C5.4178 19 4.96025 19.4882 4.99766 20.0648L8.19375 69.3203C8.44018 73.0758 11.6746 76 15.5712 76H53.4288C57.3254 76 60.5598 73.0758 60.8062 69.3203L64.0023 20.0648Z">
-                                                        </path>
-                                                    </g>
-                                                    <defs>
-                                                        <clipPath id="clip0_35_24">
-                                                            <rect fill="white" height="14" width="69"></rect>
-                                                        </clipPath>
-                                                    </defs>
-                                                </svg>
-
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 57"
-                                                    class="svgIcon bin-bottom">
-                                                    <g clip-path="url(#clip0_35_22)">
-                                                        <path fill="black"
-                                                            d="M20.8232 -16.3727L19.9948 -14.787C19.8224 -14.4569 19.4808 -14.25 19.1085 -14.25H4.92857C2.20246 -14.25 0 -12.1273 0 -9.5C0 -6.8727 2.20246 -4.75 4.92857 -4.75H64.0714C66.7975 -4.75 69 -6.8727 69 -9.5C69 -12.1273 66.7975 -14.25 64.0714 -14.25H49.8915C49.5192 -14.25 49.1776 -14.4569 49.0052 -14.787L48.1768 -16.3727C47.3451 -17.9906 45.6355 -19 43.7719 -19H25.2281C23.3645 -19 21.6549 -17.9906 20.8232 -16.3727ZM64.0023 1.0648C64.0397 0.4882 63.5822 0 63.0044 0H5.99556C5.4178 0 4.96025 0.4882 4.99766 1.0648L8.19375 50.3203C8.44018 54.0758 11.6746 57 15.5712 57H53.4288C57.3254 57 60.5598 54.0758 60.8062 50.3203L64.0023 1.0648Z">
-                                                        </path>
-                                                    </g>
-                                                    <defs>
-                                                        <clipPath id="clip0_35_22">
-                                                            <rect fill="white" height="57" width="69"></rect>
-                                                        </clipPath>
-                                                    </defs>
-                                                </svg>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div id="ShowProducts" class="tabcontent">
-                    <h2>Produits</h2>
-                    <table class="product-table">
-                        <thead>
-                            <tr>
-                                <th>Nom</th>
-                                <th>Description</th>
-                                <th>Ancien Prix</th>
-                                <th>Prix Actuel</th>
-                                <th>Image</th>
-                                <th>Marque</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($products as $product) { ?>
-                                <tr>
-                                    <td><?php echo htmlspecialchars($product['nom']); ?></td>
-                                    <td><?php echo htmlspecialchars($product['description']); ?></td>
-                                    <td><?php echo htmlspecialchars($product['ancien_prix']); ?></td>
-                                    <td><?php echo htmlspecialchars($product['prix_actuel']); ?></td>
-                                    <td><img src="images/<?php echo htmlspecialchars($product['image']); ?>"
-                                            alt="<?php echo htmlspecialchars($product['nom']); ?>" width="100"></td>
-                                    <td><?php echo htmlspecialchars($product['marque']); ?></td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <button class="edit-button"
-                                                onclick="toggleEditForm(<?php echo $product['id_outil']; ?>)">Éditer</button>
-                                            <form action="delete_product.php" method="post" style="display: inline;">
-                                                <input type="hidden" name="id_outil"
-                                                    value="<?php echo $product['id_outil']; ?>">
-                                                <button class="delete-button">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 14"
-                                                        class="svgIcon bin-top">
-                                                        <g clip-path="url(#clip0_35_24)">
-                                                            <path fill="black"
-                                                                d="M20.8232 2.62734L19.9948 4.21304C19.8224 4.54309 19.4808 4.75 19.1085 4.75H4.92857C2.20246 4.75 0 6.87266 0 9.5C0 12.1273 2.20246 14.25 4.92857 14.25H64.0714C66.7975 14.25 69 12.1273 69 9.5C69 6.87266 66.7975 4.75 64.0714 4.75H49.8915C49.5192 4.75 49.1776 4.54309 49.0052 4.21305L48.1768 2.62734C47.3451 1.00938 45.6355 0 43.7719 0H25.2281C23.3645 0 21.6549 1.00938 20.8232 2.62734ZM64.0023 20.0648C64.0397 19.4882 63.5822 19 63.0044 19H5.99556C5.4178 19 4.96025 19.4882 4.99766 20.0648L8.19375 69.3203C8.44018 73.0758 11.6746 76 15.5712 76H53.4288C57.3254 76 60.5598 73.0758 60.8062 69.3203L64.0023 20.0648Z">
-                                                            </path>
-                                                        </g>
-                                                        <defs>
-                                                            <clipPath id="clip0_35_24">
-                                                                <rect fill="white" height="14" width="69"></rect>
-                                                            </clipPath>
-                                                        </defs>
-                                                    </svg>
-
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 57"
-                                                        class="svgIcon bin-bottom">
-                                                        <g clip-path="url(#clip0_35_22)">
-                                                            <path fill="black"
-                                                                d="M20.8232 -16.3727L19.9948 -14.787C19.8224 -14.4569 19.4808 -14.25 19.1085 -14.25H4.92857C2.20246 -14.25 0 -12.1273 0 -9.5C0 -6.8727 2.20246 -4.75 4.92857 -4.75H64.0714C66.7975 -4.75 69 -6.8727 69 -9.5C69 -12.1273 66.7975 -14.25 64.0714 -14.25H49.8915C49.5192 -14.25 49.1776 -14.4569 49.0052 -14.787L48.1768 -16.3727C47.3451 -17.9906 45.6355 -19 43.7719 -19H25.2281C23.3645 -19 21.6549 -17.9906 20.8232 -16.3727ZM64.0023 1.0648C64.0397 0.4882 63.5822 0 63.0044 0H5.99556C5.4178 0 4.96025 0.4882 4.99766 1.0648L8.19375 50.3203C8.44018 54.0758 11.6746 57 15.5712 57H53.4288C57.3254 57 60.5598 54.0758 60.8062 50.3203L64.0023 1.0648Z">
-                                                            </path>
-                                                        </g>
-                                                        <defs>
-                                                            <clipPath id="clip0_35_22">
-                                                                <rect fill="white" height="57" width="69"></rect>
-                                                            </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                </button>
-
-                                            </form>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr id="edit-form-<?php echo $product['id_outil']; ?>" class="edit-form-row"
-                                    style="display: none;">
-                                    <td colspan="8">
-                                        <form action="update_product.php" method="post" enctype="multipart/form-data">
-                                            <input type="hidden" name="id_outil"
-                                                value="<?php echo htmlspecialchars($product['id_outil']); ?>">
-                                            <table class="form-table">
-                                                <tr>
-                                                    <td><label for="name">Nom du produit :</label></td>
-                                                    <td><input type="text" id="name" name="nom"
-                                                            value="<?php echo htmlspecialchars($product['nom']); ?>" required>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label for="prod_desc">Description du produit :</label></td>
-                                                    <td><input type="text" id="prod_desc" name="description"
-                                                            value="<?php echo htmlspecialchars($product['description']); ?>"
-                                                            required></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label for="old_price">Ancien prix :</label></td>
-                                                    <td><input type="text" id="old_price" name="ancien_prix"
-                                                            value="<?php echo htmlspecialchars($product['ancien_prix']); ?>">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label for="curr_price">Prix actuel :</label></td>
-                                                    <td><input type="text" id="curr_price" name="prix_actuel"
-                                                            value="<?php echo htmlspecialchars($product['prix_actuel']); ?>"
-                                                            required></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label for="brand">Marque :</label></td>
-                                                    <td><input type="text" id="brand" name="marque"
-                                                            value="<?php echo htmlspecialchars($product['marque']); ?>"
-                                                            required></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><label for="image">Photo du produit :</label></td>
-                                                    <td>
-                                                        <input type="text"
-                                                            value="<?php echo htmlspecialchars($product['image']); ?>"
-                                                            name="current_image" style="display: none;">
-                                                        <img src="images/<?php echo htmlspecialchars($product['image']); ?>"
-                                                            alt="<?php echo htmlspecialchars($product['nom']); ?>" width="100">
-                                                        <input type="file" id="image" name="image">
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2">
-                                                        <button type="submit">save</button>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </form>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
-                </div>
-
-
-
-            <?php } ?>
         </div>
     </div>
     <!-- Scripts -->
@@ -503,24 +190,150 @@ $connection->close();
             document.getElementById("PersonalInfo").style.display = "block";
             document.querySelector(".tablink").classList.add("active");
         });
+// Function to render the wishlist items
+function renderWishlist() {
+    const wishlistItemsContainer = document.getElementById('wishlistItems');
+    const wishlistTotalContainer = document.getElementById('wishlistTotal');
+    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    wishlistItemsContainer.innerHTML = ''; // Clear existing items
 
-        function removeFromWishlist(button) {
-            var item = button.parentNode;
-            item.parentNode.removeChild(item);
+    let totalPrice = 0;
+
+    wishlist.forEach(item => {
+        totalPrice += item.price * item.quantity; // Calculate total price
+
+        const itemElement = document.createElement('li');
+        itemElement.className = 'wishlist-item';
+        itemElement.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <div class="item-details">
+                <h3>${item.name}</h3>
+                <p>Prix: <span class="item-price">${(item.price * item.quantity).toFixed(2)} DA</span></p>
+                Quantité :
+                <div class="quantity-controls">
+                    <button class="quantity-btn minus" data-id="${item.id}">-</button>
+                    <input type="number" class="item-quantity" value="${item.quantity}" min="1" data-id="${item.id}">
+                    <button class="quantity-btn plus" data-id="${item.id}">+</button>
+                </div>
+            </div>
+            <div class="item-actions">
+                <button type="button" onclick="removeItem(${item.id})">Supprimer</button>
+            </div>
+        `;
+        wishlistItemsContainer.appendChild(itemElement);
+    });
+
+    // Display the total price
+    wishlistTotalContainer.innerHTML = `
+        <h3>Total: <span class="total-price">${totalPrice.toFixed(2)} DA</span></h3>
+    `;
+
+    // Attach event listeners to quantity buttons
+    document.querySelectorAll('.quantity-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const itemId = parseInt(this.getAttribute('data-id'));
+            const action = this.classList.contains('plus') ? 'increase' : 'decrease';
+            updateQuantity(itemId, action);
+        });
+    });
+
+    // Attach event listeners to quantity inputs
+    document.querySelectorAll('.item-quantity').forEach(input => {
+        input.addEventListener('change', function() {
+            const itemId = parseInt(this.getAttribute('data-id'));
+            const newQuantity = parseInt(this.value);
+            updateQuantity(itemId, newQuantity);
+        });
+    });
+
+    // Attach event listener to the "Commander" button
+    document.getElementById('confirmOrder').addEventListener('click', function() {
+        confirmOrder();
+    });
+}
+
+// Function to update the quantity and price of an item
+function updateQuantity(itemId, actionOrNewQuantity) {
+    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    wishlist = wishlist.map(item => {
+        if (item.id === itemId) {
+            if (typeof actionOrNewQuantity === 'string') {
+                item.quantity = actionOrNewQuantity === 'increase' ? item.quantity + 1 : Math.max(item.quantity - 1, 1);
+            } else {
+                item.quantity = actionOrNewQuantity;
+            }
+            // Ensure price is correctly updated, if needed
+            item.price = item.price; 
         }
-        function toggleEditForm(productId) {
-            // Hide any currently visible edit forms
-            const openForms = document.querySelectorAll('.edit-form-row');
-            openForms.forEach(form => {
-                if (form.id !== `edit-form-${productId}`) {
-                    form.style.display = 'none';
-                }
+        return item;
+    });
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    renderWishlist();
+}
+
+// Function to remove an item from the wishlist
+function removeItem(itemId) {
+    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    wishlist = wishlist.filter(item => item.id !== itemId);
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    renderWishlist();
+}
+
+// Function to handle order confirmation
+function confirmOrder() {
+    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+    if (wishlist.length === 0) {
+        alert('Votre panier est vide.');
+        return;
+    }
+
+    // Collect items for the order
+    const items = wishlist.map(item => ({
+        id_com: null, // This will be set on the server
+        id_outil: item.id,
+        Qte_com: item.quantity
+    }));
+
+    // Send order data to the server
+    fetch('createOrder.php', {
+        method: 'POST',
+        body: JSON.stringify({ userId: 1 }) // Replace with actual user ID
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.orderId) {
+            items.forEach(item => {
+                item.id_com = data.orderId;
             });
 
-            // Toggle the display of the clicked edit form
-            const formRow = document.getElementById(`edit-form-${productId}`);
-            formRow.style.display = formRow.style.display === 'none' ? 'table-row' : 'none';
+            return fetch('addItemsToOrder.php', {
+                method: 'POST',
+                body: JSON.stringify({ items })
+            });
+        } else {
+            throw new Error('Failed to create order.');
         }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            localStorage.removeItem('wishlist');
+            alert('Votre commande a été confirmée avec succès.');
+            renderWishlist(); // Clear the wishlist display
+        } else {
+            throw new Error('Failed to add items to order.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Une erreur s\'est produite lors de la confirmation de votre commande.');
+    });
+}
+
+// Initial render
+renderWishlist();
+
 
     </script>
 </body>

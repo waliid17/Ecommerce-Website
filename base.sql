@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 01 juil. 2024 à 02:22
+-- Généré le : ven. 02 août 2024 à 22:24
 -- Version du serveur : 8.3.0
 -- Version de PHP : 8.2.18
 
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `client` (
 
 INSERT INTO `client` (`id_client`, `prenom`, `nom`, `email`, `mot_de_passe`, `role`, `telephone`, `adresse`) VALUES
 (11, 'walid', 'kheloufi', 'walidkheloufi00@gmail.com', 'walid123', 'admin', '0540363847', 'ouled fayet plato win ybi3o ldjadj'),
-(57, 'dsds', 'gfgfgf', 'walidkheloufi00@gmail.com', 'wawawa', 'user', '0540363847', 'wawawawawa'),
+(57, 'dsds', 'gfgfgf', 'walidkheloufi000@gmail.com', 'wawawa', 'user', '0540363847', 'wawawawawa'),
 (50, 'chaouki', 'beddiar', 'chaouki@gmail.com', 'walid123', 'user', '0540363847', 'cheraga');
 
 -- --------------------------------------------------------
@@ -87,10 +87,41 @@ INSERT INTO `client` (`id_client`, `prenom`, `nom`, `email`, `mot_de_passe`, `ro
 
 DROP TABLE IF EXISTS `commande`;
 CREATE TABLE IF NOT EXISTS `commande` (
-  `id_com` int NOT NULL,
+  `id_com` int NOT NULL AUTO_INCREMENT,
   `date_com` date DEFAULT NULL,
+  `statut` varchar(30) NOT NULL,
   PRIMARY KEY (`id_com`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `commande`
+--
+
+INSERT INTO `commande` (`id_com`, `date_com`, `statut`) VALUES
+(1, NULL, 'panier');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `conteniroutil`
+--
+
+DROP TABLE IF EXISTS `conteniroutil`;
+CREATE TABLE IF NOT EXISTS `conteniroutil` (
+  `id_com` int NOT NULL,
+  `id_outil` int NOT NULL,
+  `Qte_com` int DEFAULT NULL,
+  PRIMARY KEY (`id_com`,`id_outil`),
+  KEY `id_outil` (`id_outil`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `conteniroutil`
+--
+
+INSERT INTO `conteniroutil` (`id_com`, `id_outil`, `Qte_com`) VALUES
+(1, 50, 2),
+(1, 52, 1);
 
 -- --------------------------------------------------------
 
@@ -104,6 +135,27 @@ CREATE TABLE IF NOT EXISTS `devis` (
   `date_devis` datetime NOT NULL,
   PRIMARY KEY (`id_devis`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `effectuer_com`
+--
+
+DROP TABLE IF EXISTS `effectuer_com`;
+CREATE TABLE IF NOT EXISTS `effectuer_com` (
+  `id_com` int NOT NULL,
+  `id_client` int NOT NULL,
+  PRIMARY KEY (`id_com`,`id_client`),
+  KEY `id_client` (`id_client`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `effectuer_com`
+--
+
+INSERT INTO `effectuer_com` (`id_com`, `id_client`) VALUES
+(1, 50);
 
 -- --------------------------------------------------------
 
@@ -135,14 +187,15 @@ CREATE TABLE IF NOT EXISTS `message` (
   `contenu` text,
   `date` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `message`
 --
 
 INSERT INTO `message` (`id`, `prenom`, `nom`, `phone`, `email`, `sujet`, `contenu`, `date`) VALUES
-(3, 'walid', 'kheloufi', '0540363847', 'walidkheloufi00@gmail.com', 'cle', 'kjfdskjhfdhfgddhjkfdhgfdf', '2024-06-29 21:43:41');
+(3, 'walid', 'kheloufi', '0540363847', 'walidkheloufi00@gmail.com', 'cle', 'kjfdskjhfdhfgddhjkfdhgfdf', '2024-06-29 21:43:41'),
+(4, 'walid', 'khelouffi', '0540363847', 'walidkheloufi00@gmail.com', 'jfhjgshdgshdsdsds', 'dsdsdsdsdsds', '2024-07-26 20:42:08');
 
 -- --------------------------------------------------------
 
@@ -167,11 +220,6 @@ CREATE TABLE IF NOT EXISTS `outil` (
 --
 
 INSERT INTO `outil` (`id_outil`, `nom`, `description`, `ancien_prix`, `prix_actuel`, `image`, `marque`) VALUES
-(51, 'CLE A CHOC', '2IN1 PNEUMATIC TOLSEN', 15300.00, 12700.00, '15138.jpeg', 'YATO'),
-(28, 'CLE A CHOC', 'CLE A CHOC PNEUMATIQUE 1/4 YATO', 17900.00, 17800.00, '15118.jpeg', 'YATO'),
-(32, 'BATTERIE', 'BATTERIE 20V 2000MAH HONESTPRO', 5000.00, 4800.00, 'YAE2375B (1).jpeg', 'HONESTPRO'),
-(33, ' PERFORATEUR', ' PERFORATEUR 1050W BODA', 11000.00, 10500.00, 'H6-28.jpeg', 'BODA'),
-(47, 'CLE A CHOC', '2IN1 PNEUMATIC TOLSEN', 15300.00, 12700.00, 'JEAB0216.jpeg', 'HONESTPRO'),
 (48, 'CLE A CHOC', '2IN1 PNEUMATIC TOLSEN', 15300.00, 12700.00, 'T825010R.jpeg', 'BODA'),
 (49, 'CLE A CHOC', '2IN1 PNEUMATIC TOLSEN', 15300.00, 12700.00, '15118.jpeg', 'TOLSEN'),
 (50, 'CLE A CHOC', '2IN1 PNEUMATIC TOLSEN', 15300.00, 12700.00, 'YT8823.jpeg', 'HONESTPRO'),
