@@ -298,7 +298,7 @@ function confirmOrder() {
     // Send order data to the server
     fetch('createOrder.php', {
         method: 'POST',
-        body: JSON.stringify({ userId: 1 }) // Replace with actual user ID
+        body: JSON.stringify({ userId: <?= $user_id ?> })
     })
     .then(response => response.json())
     .then(data => {
