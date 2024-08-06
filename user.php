@@ -46,7 +46,7 @@ $connection->close();
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Boxicons -->
     <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet">
     <!-- App CSS -->
@@ -108,64 +108,68 @@ $connection->close();
             <div class="tabs">
                 <button class="tablink active" onclick="openTab(event, 'PersonalInfo')">Informations
                     Personnelles</button>
-                    <button class="tablink" onclick="openTab(event, 'Wishlist')">Panier</button>
-                    <button class="tablink" onclick="openTab(event, 'Address')">Adresse</button>
+                <button class="tablink" onclick="openTab(event, 'Wishlist')">Panier</button>
+                <button class="tablink" onclick="openTab(event, 'Address')">Adresse</button>
             </div>
             <div id="PersonalInfo" class="tabcontent active">
                 <h2>Informations Personnelles</h2>
-                
-  <form class="contact-form" method="post" action="user_edit.php">
-    <div class="input-group">
-      <div class="input-container">
-        <div class="icon"><i class="fas fa-user"></i></div>
-        <input type="text" name="nom" value="<?php echo htmlspecialchars($lastName); ?>" placeholder="Nom" required>
-      </div>
-    </div>
-    <div class="input-group">
-      <div class="input-container">
-        <div class="icon"><i class="fas fa-user"></i></div>
-        <input type="text" name="prenom" value="<?php echo htmlspecialchars($firstName); ?>" placeholder="Prénom" required>
-      </div>
-    </div>
-    <div class="input-group">
-      <div class="input-container">
-        <div class="icon"><i class="fas fa-envelope"></i></div>
-        <input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>" placeholder="Adresse e-mail" required>
-      </div>
-    </div>
-    <div class="input-group">
-      <div class="input-container">
-        <div class="icon"><i class="fas fa-phone"></i></div>
-        <input type="tel" name="telephone" value="<?php echo htmlspecialchars($phoneNumber); ?>" placeholder="Numéro de téléphone" required pattern="[0-9]{10}">
-      </div>
-    </div>
-    <input type="submit" name="save1" value="Save" class="submit-btn">
-  </form>
- </div>
- <div id="Wishlist" class="tabcontent">
-    <h2>Panier</h2>
-    <form id="wishlistForm">
-        <ul id="wishlistItems" class="wishlist-items">
-            <!-- Wishlist items will be dynamically inserted here -->
-        </ul>
-        <div id="wishlistTotal" class="wishlist-total">
-            <!-- Total price will be displayed here -->
-        </div>
-        <button id="confirmOrder" type="button" class="btn-confirm">Commander</button>
-    </form>
-</div>
 
-                <div id="Address" class="tabcontent">
-                    <h2>Adresse</h2>
-                    <form class="form" method="post" action="user_edit.php" id="addressForm">
-                        <div class="form-group">
-                            <label for="address1">Adresse Ligne :</label>
-                            <input type="text" id="address1" name="adresse"
-                                value="<?php echo htmlspecialchars($addressLine); ?>" required>
+                <form class="contact-form" method="post" action="user_edit.php">
+                    <div class="input-group">
+                        <div class="input-container">
+                            <div class="icon"><i class="fas fa-user"></i></div>
+                            <input type="text" name="nom" value="<?php echo htmlspecialchars($lastName); ?>"
+                                placeholder="Nom" required>
                         </div>
-                        <button type="submit" name="save2" class="save-btn">Save</button>
-                    </form>
-                </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-container">
+                            <div class="icon"><i class="fas fa-user"></i></div>
+                            <input type="text" name="prenom" value="<?php echo htmlspecialchars($firstName); ?>"
+                                placeholder="Prénom" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-container">
+                            <div class="icon"><i class="fas fa-envelope"></i></div>
+                            <input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>"
+                                placeholder="Adresse e-mail" required>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-container">
+                            <div class="icon"><i class="fas fa-phone"></i></div>
+                            <input type="tel" name="telephone" value="<?php echo htmlspecialchars($phoneNumber); ?>"
+                                placeholder="Numéro de téléphone" required pattern="[0-9]{10}">
+                        </div>
+                    </div>
+                    <input type="submit" name="save1" value="Save" class="submit-btn">
+                </form>
+            </div>
+            <div id="Wishlist" class="tabcontent">
+                <h2>Panier</h2>
+                <form id="wishlistForm">
+                    <ul id="wishlistItems" class="wishlist-items">
+                        <!-- Wishlist items will be dynamically inserted here -->
+                    </ul>
+                    <div id="wishlistTotal" class="wishlist-total">
+                        <!-- Total price will be displayed here -->
+                    </div>
+                    <button id="confirmOrder" type="button" class="btn-confirm">Commander</button>
+                </form>
+            </div>
+
+            <div id="Address" class="tabcontent">
+                <h2>Adresse</h2>
+                <form class="form" method="post" action="user_edit.php" id="addressForm">
+                    <div class="form-group">
+                        <label for="address1">Adresse Ligne :</label>
+                        <input type="text" id="address1" name="adresse"
+                            value="<?php echo htmlspecialchars($addressLine); ?>" required>
+                    </div>
+                    <button type="submit" name="save2" class="save-btn">Save</button>
+                </form>
+            </div>
         </div>
     </div>
     <!-- Scripts -->
@@ -190,21 +194,21 @@ $connection->close();
             document.getElementById("PersonalInfo").style.display = "block";
             document.querySelector(".tablink").classList.add("active");
         });
-// Function to render the wishlist items
-function renderWishlist() {
-    const wishlistItemsContainer = document.getElementById('wishlistItems');
-    const wishlistTotalContainer = document.getElementById('wishlistTotal');
-    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-    wishlistItemsContainer.innerHTML = ''; // Clear existing items
+        // Function to render the wishlist items
+        function renderWishlist() {
+            const wishlistItemsContainer = document.getElementById('wishlistItems');
+            const wishlistTotalContainer = document.getElementById('wishlistTotal');
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            wishlistItemsContainer.innerHTML = ''; // Clear existing items
 
-    let totalPrice = 0;
+            let totalPrice = 0;
 
-    wishlist.forEach(item => {
-        totalPrice += item.price * item.quantity; // Calculate total price
+            wishlist.forEach(item => {
+                totalPrice += item.price * item.quantity; // Calculate total price
 
-        const itemElement = document.createElement('li');
-        itemElement.className = 'wishlist-item';
-        itemElement.innerHTML = `
+                const itemElement = document.createElement('li');
+                itemElement.className = 'wishlist-item';
+                itemElement.innerHTML = `
             <img src="${item.image}" alt="${item.name}">
             <div class="item-details">
                 <h3>${item.name}</h3>
@@ -220,119 +224,119 @@ function renderWishlist() {
                 <button type="button" onclick="removeItem(${item.id})">Supprimer</button>
             </div>
         `;
-        wishlistItemsContainer.appendChild(itemElement);
-    });
+                wishlistItemsContainer.appendChild(itemElement);
+            });
 
-    // Display the total price
-    wishlistTotalContainer.innerHTML = `
+            // Display the total price
+            wishlistTotalContainer.innerHTML = `
         <h3>Total: <span class="total-price">${totalPrice.toFixed(2)} DA</span></h3>
     `;
 
-    // Attach event listeners to quantity buttons
-    document.querySelectorAll('.quantity-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const itemId = parseInt(this.getAttribute('data-id'));
-            const action = this.classList.contains('plus') ? 'increase' : 'decrease';
-            updateQuantity(itemId, action);
-        });
-    });
+            // Attach event listeners to quantity buttons
+            document.querySelectorAll('.quantity-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const itemId = parseInt(this.getAttribute('data-id'));
+                    const action = this.classList.contains('plus') ? 'increase' : 'decrease';
+                    updateQuantity(itemId, action);
+                });
+            });
 
-    // Attach event listeners to quantity inputs
-    document.querySelectorAll('.item-quantity').forEach(input => {
-        input.addEventListener('change', function() {
-            const itemId = parseInt(this.getAttribute('data-id'));
-            const newQuantity = parseInt(this.value);
-            updateQuantity(itemId, newQuantity);
-        });
-    });
+            // Attach event listeners to quantity inputs
+            document.querySelectorAll('.item-quantity').forEach(input => {
+                input.addEventListener('change', function () {
+                    const itemId = parseInt(this.getAttribute('data-id'));
+                    const newQuantity = parseInt(this.value);
+                    updateQuantity(itemId, newQuantity);
+                });
+            });
 
-    // Attach event listener to the "Commander" button
-    document.getElementById('confirmOrder').addEventListener('click', function() {
-        confirmOrder();
-    });
-}
+            // Attach event listener to the "Commander" button
+            document.getElementById('confirmOrder').addEventListener('click', function () {
+                confirmOrder();
+            });
+        }
 
-// Function to update the quantity and price of an item
-function updateQuantity(itemId, actionOrNewQuantity) {
-    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-    wishlist = wishlist.map(item => {
-        if (item.id === itemId) {
-            if (typeof actionOrNewQuantity === 'string') {
-                item.quantity = actionOrNewQuantity === 'increase' ? item.quantity + 1 : Math.max(item.quantity - 1, 1);
-            } else {
-                item.quantity = actionOrNewQuantity;
+        // Function to update the quantity and price of an item
+        function updateQuantity(itemId, actionOrNewQuantity) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            wishlist = wishlist.map(item => {
+                if (item.id === itemId) {
+                    if (typeof actionOrNewQuantity === 'string') {
+                        item.quantity = actionOrNewQuantity === 'increase' ? item.quantity + 1 : Math.max(item.quantity - 1, 1);
+                    } else {
+                        item.quantity = actionOrNewQuantity;
+                    }
+                    // Ensure price is correctly updated, if needed
+                    item.price = item.price;
+                }
+                return item;
+            });
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            renderWishlist();
+        }
+
+        // Function to remove an item from the wishlist
+        function removeItem(itemId) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            wishlist = wishlist.filter(item => item.id !== itemId);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            renderWishlist();
+        }
+
+        // Function to handle order confirmation
+        function confirmOrder() {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+            if (wishlist.length === 0) {
+                alert('Votre panier est vide.');
+                return;
             }
-            // Ensure price is correctly updated, if needed
-            item.price = item.price; 
-        }
-        return item;
-    });
-    localStorage.setItem('wishlist', JSON.stringify(wishlist));
-    renderWishlist();
-}
 
-// Function to remove an item from the wishlist
-function removeItem(itemId) {
-    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-    wishlist = wishlist.filter(item => item.id !== itemId);
-    localStorage.setItem('wishlist', JSON.stringify(wishlist));
-    renderWishlist();
-}
+            // Collect items for the order
+            const items = wishlist.map(item => ({
+                id_com: null, // This will be set on the server
+                id_outil: item.id,
+                Qte_com: item.quantity
+            }));
 
-// Function to handle order confirmation
-function confirmOrder() {
-    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-
-    if (wishlist.length === 0) {
-        alert('Votre panier est vide.');
-        return;
-    }
-
-    // Collect items for the order
-    const items = wishlist.map(item => ({
-        id_com: null, // This will be set on the server
-        id_outil: item.id,
-        Qte_com: item.quantity
-    }));
-
-    // Send order data to the server
-    fetch('createOrder.php', {
-        method: 'POST',
-        body: JSON.stringify({ userId: <?= $user_id ?> })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.orderId) {
-            items.forEach(item => {
-                item.id_com = data.orderId;
-            });
-
-            return fetch('addItemsToOrder.php', {
+            // Send order data to the server
+            fetch('createOrder.php', {
                 method: 'POST',
-                body: JSON.stringify({ items })
-            });
-        } else {
-            throw new Error('Failed to create order.');
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            localStorage.removeItem('wishlist');
-            alert('Votre commande a été confirmée avec succès.');
-            renderWishlist(); // Clear the wishlist display
-        } else {
-            throw new Error('Failed to add items to order.');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Une erreur s\'est produite lors de la confirmation de votre commande.');
-    });
-}
+                body: JSON.stringify({ userId: <?= $user_id ?> })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.orderId) {
+                        items.forEach(item => {
+                            item.id_com = data.orderId;
+                        });
 
-// Initial render
-renderWishlist();
+                        return fetch('addItemsToOrder.php', {
+                            method: 'POST',
+                            body: JSON.stringify({ items })
+                        });
+                    } else {
+                        throw new Error('Failed to create order.');
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        localStorage.removeItem('wishlist');
+                        alert('Votre commande a été confirmée avec succès.');
+                        renderWishlist(); // Clear the wishlist display
+                    } else {
+                        throw new Error('Failed to add items to order.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Une erreur s\'est produite lors de la confirmation de votre commande.');
+                });
+        }
+
+        // Initial render
+        renderWishlist();
 
 
     </script>
