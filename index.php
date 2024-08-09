@@ -110,11 +110,7 @@
                 <div class="bottom-header container">
                     <ul class="main-menu">
                         <li><a href="index.php">ACCUEIL</a></li>
-                        <!-- mega menu -->
-                        <li class="mega-dropdown">
-                            <a href="./products.html">OUTILS</a>
-                        </li>
-                        <!-- end mega menu -->
+                        <li ><a href="products.php">OUTILS</a></li>
                         <li><a href="#about">à propos</a></li>
                         <li><a href="#contact">contact</a></li>
                     </ul>

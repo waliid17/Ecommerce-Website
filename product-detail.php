@@ -12,6 +12,7 @@
     <link href="https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css" rel="stylesheet">
     <!-- App CSS -->
     <link rel="stylesheet" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <?php
@@ -149,8 +150,38 @@
                     </div>
                     <br>
                     <div>
-                        <button class="btn-flat btn-hover" id="add-to-cart">AJOUTER AU PANIER</button>
-                    </div>
+        <button class="btn-flat btn-hover" id="add-to-cart">AJOUTER AU PANIER</button>
+    </div>
+
+    <script>
+        function showSuccessAlert() {
+            Swal.fire({
+                text: "Le produit a été ajouté à votre panier.",
+                icon: "success",
+                iconColor: "orange", // Icon color
+                confirmButtonText: "OK",
+                confirmButtonColor: "orange", // Button color
+                customClass: {
+                    title: "swal2-title",
+                    content: "swal2-content",
+                    confirmButton: "swal2-confirm",
+                    icon: "swal2-icon"
+                },
+                didClose: () => {
+                    window.location.href = "products.php";
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const addToCartButton = document.getElementById("add-to-cart");
+            if (addToCartButton) {
+                addToCartButton.addEventListener("click", function() {
+                    showSuccessAlert();
+                });
+            }
+        });
+    </script>
                 </div>
             </div>
         </div>
