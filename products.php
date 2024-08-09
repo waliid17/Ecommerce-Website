@@ -67,9 +67,8 @@
               <a href="./products.html">OUTILS</a>
             </li>
             <!-- end mega menu -->
-            <li><a href="#">à propos</a></li>
-            <li><a href="#">SERVICES</a></li>
-            <li><a href="#">contact</a></li>
+            <li><a href="#about">à propos</a></li>
+            <li><a href="#contact">contact</a></li>
           </ul>
         </div>
       </div>
@@ -100,10 +99,14 @@
             <div class="box">
               <span class="filter-header"> Catégories </span>
               <ul class="filter-list">
-                <li><a href="#">MAÇON</a></li>
-                <li><a href="#">ELECTRICIEN</a></li>
-                <li><a href="#">PLOMBIER</a></li>
-                <li><a href="#">JARDINIER</a></li>
+                <li><a href="#">Electroportatif</a></li>
+                <li><a href="#">Outillage à main</a></li>
+                <li><a href="#">Atelier</a></li>
+                <li><a href="#">Chantier</a></li>
+                <li><a href="#">Sécurité</a></li>
+                <li><a href="#">Jardin</a></li>
+                <li><a href="#">Mécanique</a></li>
+                <li><a href="#">Lavage et transport</a></li>
               </ul>
             </div>
             <div class="price-box">

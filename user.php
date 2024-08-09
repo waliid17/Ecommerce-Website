@@ -88,7 +88,6 @@ $connection->close();
                                 </li>
                                 <!-- end mega menu -->
                                 <li><a href="#">à propos</a></li>
-                                <li><a href="#">SERVICES</a></li>
                                 <li><a href="#">contact</a></li>
                             </ul>
                         </div>
@@ -338,6 +337,17 @@ $connection->close();
         // Initial render
         renderWishlist();
 
+        document.addEventListener("DOMContentLoaded", function () {
+    const hash = window.location.hash;
+    if (hash) {
+        // Remove hash from URL
+        history.replaceState(null, null, 'user.php');
+        
+        // Open the specific tab
+        const tabName = hash.substring(1); // Get the tab name without '#'
+        openTab({ currentTarget: document.querySelector(`.tablink[onclick*='${tabName}']`) }, tabName);
+    }
+});
 
     </script>
 </body>

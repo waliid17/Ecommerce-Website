@@ -48,8 +48,8 @@
         </div>
         <ul class="user-menu">
             <li><a href="#"><i class='bx bx-bell'></i></a></li>
-            <li><a href="#"><i class='bx bx-user-circle'></i></a></li>
-            <li><a href="#"><i class='bx bx-cart'></i></a></li>
+            <li><a href="user.php"><i class='bx bx-user-circle'></i></a></li>
+            <li><a href="user.php#Wishlist"><i class='bx bx-cart'></i></a></li>
         </ul>
         <?php
         session_start();
@@ -115,9 +115,8 @@
                             <a href="./products.html">OUTILS</a>
                         </li>
                         <!-- end mega menu -->
-                        <li><a href="#">à propos</a></li>
-                        <li><a href="#">SERVICES</a></li>
-                        <li><a href="#">contact</a></li>
+                        <li><a href="#about">à propos</a></li>
+                        <li><a href="#contact">contact</a></li>
                     </ul>
                 </div>
             </div>
@@ -161,7 +160,7 @@
                                 DES PRODUITS DE MARQUE
                             </h2>
                             <div class="top-down trans-delay-0-6">
-                                <button class="btn-flat btn-hover">
+                                <button class="btn-flat btn-hover" onclick="scrollToBrands()">
                                     <span>NOS MARQUES</span>
                                 </button>
                             </div>
@@ -186,7 +185,7 @@
     <!-- end hero section -->
 
     <!-- brands section -->
-    <div class="brands-carousel">
+    <div id="brands" class="brands-carousel">
         <div class="section-header">
             <h2>NOS MARQUES</h2>
         </div>
@@ -297,7 +296,7 @@
     </div>
     <!-- end product list -->
     <!-- blogs -->
-    <div class="section">
+    <div id="about" class="section">
         <div class="container">
             <div class="section-header">
                 <h2>À PROPOS</h2>
@@ -335,7 +334,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </di>
     <!-- end blogs -->
     <div class="container">
         <div class="section-header">
@@ -470,7 +469,27 @@
             setInterval(() => {
                 console.log("This message is logged every second");
             }, 1000);
-        });</script>
+        });
+        document.querySelector('a[href="#about"]').addEventListener('click', function(event) {
+    event.preventDefault();
+    document.querySelector('#about').scrollIntoView({
+        behavior: 'smooth'
+    });
+});
+document.querySelector('a[href="#contact"]').addEventListener('click', function(event) {
+    event.preventDefault();
+    document.querySelector('#contact').scrollIntoView({
+        behavior: 'smooth'
+    });
+});
+function scrollToBrands() {
+    document.getElementById('brands').scrollIntoView({
+        behavior: 'smooth'
+    });
+}
+
+
+        </script>
 </body>
 
 </html>

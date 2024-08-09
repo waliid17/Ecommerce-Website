@@ -85,7 +85,6 @@
                         <li><a href="index.php">ACCUEIL</a></li>
                         <li class="mega-dropdown"><a href="./products.php">OUTILS</a></li>
                         <li><a href="#">À PROPOS</a></li>
-                        <li><a href="#">SERVICES</a></li>
                         <li><a href="#">CONTACT</a></li>
                     </ul>
                 </div>
