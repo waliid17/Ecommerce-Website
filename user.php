@@ -111,40 +111,52 @@ $connection->close();
                 <button class="tablink" onclick="openTab(event, 'Address')">Adresse</button>
             </div>
             <div id="PersonalInfo" class="tabcontent active">
-                <h2>Informations Personnelles</h2>
+    <h2>Informations Personnelles :</h2>
 
-                <form class="contact-form" method="post" action="user_edit.php">
-                    <div class="input-group">
-                        <div class="input-container">
-                            <div class="icon"><i class="fas fa-user"></i></div>
-                            <input type="text" name="nom" value="<?php echo htmlspecialchars($lastName); ?>"
-                                placeholder="Nom" required>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <div class="input-container">
-                            <div class="icon"><i class="fas fa-user"></i></div>
-                            <input type="text" name="prenom" value="<?php echo htmlspecialchars($firstName); ?>"
-                                placeholder="Prénom" required>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <div class="input-container">
-                            <div class="icon"><i class="fas fa-envelope"></i></div>
-                            <input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>"
-                                placeholder="Adresse e-mail" required>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <div class="input-container">
-                            <div class="icon"><i class="fas fa-phone"></i></div>
-                            <input type="tel" name="telephone" value="<?php echo htmlspecialchars($phoneNumber); ?>"
-                                placeholder="Numéro de téléphone" required pattern="[0-9]{10}">
-                        </div>
-                    </div>
-                    <input type="submit" name="save1" value="Save" class="submit-btn">
-                </form>
+    <form class="contact-form" method="post" action="user_edit.php">
+        <!-- Nom -->
+        <div class="input-group">
+            <div class="input-container">
+                <div class="icon"><i class="fas fa-user"></i></div>
+                <input type="text" name="nom" value="<?php echo htmlspecialchars($lastName); ?>"
+                    placeholder="Nom" required readonly>
+                <div class="edit-icon" onclick="toggleEdit('nom')"><i class="fa-solid fa-pen"></i></div>
             </div>
+        </div>
+
+        <!-- Prénom -->
+        <div class="input-group">
+            <div class="input-container">
+                <div class="icon"><i class="fas fa-user"></i></div>
+                <input type="text" name="prenom" value="<?php echo htmlspecialchars($firstName); ?>"
+                    placeholder="Prénom" required readonly>
+                <div class="edit-icon" onclick="toggleEdit('prenom')"><i class="fa-solid fa-pen"></i></div>
+            </div>
+        </div>
+
+        <!-- Email -->
+        <div class="input-group">
+            <div class="input-container">
+                <div class="icon"><i class="fas fa-envelope"></i></div>
+                <input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>"
+                    placeholder="Adresse e-mail" required readonly>
+                <div class="edit-icon" onclick="toggleEdit('email')"><i class="fa-solid fa-pen"></i></div>
+            </div>
+        </div>
+
+        <!-- Téléphone -->
+        <div class="input-group">
+            <div class="input-container">
+                <div class="icon"><i class="fas fa-phone"></i></div>
+                <input type="tel" name="telephone" value="<?php echo htmlspecialchars($phoneNumber); ?>"
+                    placeholder="Numéro de téléphone" required pattern="[0-9]{10}" readonly>
+                <div class="edit-icon" onclick="toggleEdit('telephone')"><i class="fa-solid fa-pen"></i></div>
+            </div>
+        </div>
+
+        <input type="submit" name="save1" value="Save" class="submit-btn">
+    </form>
+</div>
             <div id="Wishlist" class="tabcontent">
                 <h2>Panier</h2>
                 <form id="wishlistForm">
@@ -348,7 +360,31 @@ $connection->close();
         openTab({ currentTarget: document.querySelector(`.tablink[onclick*='${tabName}']`) }, tabName);
     }
 });
+let currentlyEditing = null;
 
+function toggleEdit(name) {
+    // Get the input field and its corresponding edit icon
+    const input = document.querySelector(`input[name="${name}"]`);
+    const inputContainer = input.closest('.input-container');
+
+    // If there is another field currently being edited, reset it
+    if (currentlyEditing && currentlyEditing !== input) {
+        currentlyEditing.setAttribute('readonly', true);
+        currentlyEditing.classList.remove('edit-mode');
+    }
+
+    // Toggle the readonly attribute and edit mode for the clicked field
+    if (input.hasAttribute('readonly')) {
+        input.removeAttribute('readonly');
+        input.focus();
+        input.classList.add('edit-mode');
+        currentlyEditing = input;
+    } else {
+        input.setAttribute('readonly', true);
+        input.classList.remove('edit-mode');
+        currentlyEditing = null;
+    }
+}
     </script>
 </body>
 

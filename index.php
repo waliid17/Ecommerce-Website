@@ -46,11 +46,43 @@
             <input type="text" placeholder="Search">
             <i class='bx bx-search-alt'></i>
         </div>
-        <ul class="user-menu">
-            <li><a href="#"><i class='bx bx-bell'></i></a></li>
-            <li><a href="user.php"><i class='bx bx-user-circle'></i></a></li>
-            <li><a href="user.php#Wishlist"><i class='bx bx-cart'></i></a></li>
-        </ul>
+        <?php
+session_start();
+$connection = new mysqli("localhost", "root", "", "base");
+
+if ($connection->connect_error) {
+    die("Connection failed: " . $connection->connect_error);
+}
+
+$showIcons = true; 
+
+if (isset($_SESSION['user-id'])) {
+    $id = $_SESSION['user-id'];
+    $query = "SELECT `role` FROM `client` WHERE id_client = $id";
+    $result = $connection->query($query);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $role = $row['role'];
+
+        if ($role == 'admin') {
+            $showIcons = false;
+        }
+    }
+}
+
+if ($showIcons) {
+    echo "<ul class='user-menu'>
+        <li><a href='#'><i class='bx bx-bell'></i></a></li>
+        <li><a href='user.php'><i class='bx bx-user-circle'></i></a></li>
+        <li><a href='user.php#Wishlist'><i class='bx bx-cart'></i></a></li>
+    </ul>";
+}
+
+$connection->close(); 
+session_write_close();
+?>
+
         <?php
         session_start();
         if (isset($_SESSION['user-id'])) {

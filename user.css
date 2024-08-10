@@ -584,21 +584,23 @@ body {
 .input-container textarea {
   width: calc(100% - 40px);
   font-size: 16px;
-  padding: 12px;
-  border: 1px solid #ddd;
+  padding: 12.5px;
+  border: 1px solid #ddd; 
   border-left: none;
   border-radius: 0 5px 5px 0;
+  transition: border-color 0.3s, box-shadow 0.3s; 
+  outline: none; 
 }
+
+.input-container textarea:hover,
+.input-container textarea:focus {
+  border-color: #ddd !important; 
+  box-shadow: none !important; 
+}
+
 
 .input-container textarea {
   height: 150px;
-}
-
-.input-container input:focus,
-.input-container textarea:focus {
-  border-color: #ff840a;
-  outline: none;
-  box-shadow: 0 0 5px rgba(255, 132, 10, 0.5);
 }
 
 .submit-btn {
@@ -832,4 +834,19 @@ body {
 
 .btn-confirm:hover {
   background-color: #e67503;
+}
+.edit-icon {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+}
+
+.edit-icon i {
+  color: #ff840a; /* Adjust color as needed */
+  font-size: 25px;
+}
+.edit-mode {
+  border-color: #ff840a;
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 132, 10, 0.5);
 }
