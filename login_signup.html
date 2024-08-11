@@ -22,6 +22,7 @@
     />
     <!-- app css -->
     <link rel="stylesheet" href="login.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
 
   <body style="display: flex; flex-direction: column; min-height: 100vh">
@@ -148,77 +149,142 @@
                   <a href="?slide=signup"> Inscrivez-vous</a>
                 </div>
               </form>
-              <form action="signup.php" method="post" class="signup">
+        </head>
+        <body>
+            <form id="signupForm" class="signup">
                 <div class="field">
-                  <input
-                    type="text"
-                    placeholder="Prénom"
-                    required
-                    name="prenom"
-                  />
+                    <input type="text" placeholder="Prénom" required name="prenom" />
                 </div>
                 <div class="field">
-                  <input type="text" placeholder="Nom" required name="nom" />
+                    <input type="text" placeholder="Nom" required name="nom" />
                 </div>
                 <div class="field">
-                  <input
-                    type="tel"
-                    placeholder="Numéro de téléphone"
-                    required
-                    name="telephone"
-                  />
+                    <input type="tel" placeholder="Numéro de téléphone" required name="telephone" />
                 </div>
                 <div class="field">
-                  <input
-                    type="text"
-                    placeholder="Entrez votre adresse"
-                    required
-                    name="adresse"
-                  />
+                    <input type="text" placeholder="Entrez votre adresse" required name="adresse" />
                 </div>
                 <div class="field">
-                  <input
-                    type="email"
-                    placeholder="Email Address"
-                    required
-                    name="email"
-                  />
+                    <input type="email" placeholder="Email Address" required name="email" />
                 </div>
                 <div class="field">
-                  <input
-                    type="password"
-                    id="password"
-                    placeholder="Password"
-                    required
-                    name="mot_de_passe"
-                  />
-                  <i
-                    class="far fa-eye toggle-password"
-                    id="toggle-password1"
-                  ></i>
+                    <input type="password" id="password" placeholder="Password" required name="mot_de_passe" />
+                    <i class="far fa-eye toggle-password" id="toggle-password1"></i>
                 </div>
                 <div class="field">
-                  <input
-                    type="password"
-                    id="confirm-password"
-                    placeholder="Confirm Password"
-                    required
-                    name="confirm_password"
-                  />
-                  <i
-                    class="far fa-eye toggle-password"
-                    id="toggle-password2"
-                  ></i>
+                    <input type="password" id="confirm-password" placeholder="Confirm Password" required name="confirm_password" />
+                    <i class="far fa-eye toggle-password" id="toggle-password2"></i>
                 </div>
                 <div id="mismatch-message">
-                  <i class="fas fa-exclamation-circle icon"></i> Les mots de
-                  passe ne correspondent pas.
+                    <i class="fas fa-exclamation-circle icon"></i> Les mots de passe ne correspondent pas.
                 </div>
                 <div class="field btn">
-                  <div class="btn-layer"></div>
-                  <input type="submit" value="S’inscrire" />
+                    <div class="btn-layer"></div>
+                    <input type="submit" value="S’inscrire" />
                 </div>
-              </form>
+            </form>
+        
+            <script>
+document.getElementById('signupForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+    console.log('Form submission event triggered');
+
+    const formData = new FormData(this);
+
+    fetch('signup.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Response Data:', data);
+
+        // Define modal behavior
+        const modal = document.getElementById('myModal');
+        const closeModal = () => {
+            modal.style.opacity = '0';
+            setTimeout(() => modal.style.display = 'none', 300);
+        };
+
+        if (data.status === 'success') {
+            Swal.fire({
+                title: 'Compte créé !',
+                text: data.message,
+                icon: 'success',
+                iconColor: '#ff840a',  // Orange color
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#ff840a',  // Orange color
+                customClass: {
+                    popup: 'custom-swal-popup',
+                    title: 'custom-swal-title',
+                    content: 'custom-swal-content',
+                    confirmButton: 'custom-swal-confirm',
+                    icon: 'custom-swal-icon'
+                },
+                didClose: () => {
+                    // Display the custom modal instead of redirect
+                    modal.style.display = 'block';
+                    setTimeout(() => modal.style.opacity = '1', 10);
+                }
+            });
+        } else {
+            Swal.fire({
+                title: 'Erreur',
+                text: data.message,
+                icon: 'error',
+                iconColor: '#dc3545',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#dc3545',
+                customClass: {
+                    popup: 'custom-swal-popup',
+                    title: 'custom-swal-title',
+                    content: 'custom-swal-content',
+                    confirmButton: 'custom-swal-confirm',
+                    icon: 'custom-swal-icon'
+                }
+            });
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+// Modal handling
+const modal = document.getElementById('myModal');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const okButton = document.querySelector('.btn-ok');
+
+// Open modal
+openModalBtn.onclick = function() {
+    modal.style.display = 'block';
+    setTimeout(() => modal.style.opacity = '1', 10);
+};
+
+// Close modal
+function closeModal() {
+    modal.style.opacity = '0';
+    setTimeout(() => modal.style.display = 'none', 300);
+}
+
+// Close modal when clicking the close button
+closeModalBtn.onclick = closeModal;
+
+// Close modal when clicking the OK button and redirect
+okButton.onclick = function() {
+    closeModal();
+    setTimeout(() => {
+        window.location.href = 'login_signup.html'; // Redirect to index.php
+    }, 300); // Match the timeout duration with modal fade-out time
+};
+
+// Close modal when clicking outside of modal content
+window.onclick = function(event) {
+    if (event.target === modal) {
+        closeModal();
+    }
+};
+
+              </script>
+              
             </div>
           </div>
         </div>
