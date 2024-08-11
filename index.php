@@ -384,7 +384,7 @@ session_write_close();
             </div>
             <div class="contact-form-container">
                 <h2 class="section-title">Envoyer un message</h2>
-                <form action="message.php" method="POST" class="contact-form">
+                <form id="contactForm" method="POST" class="contact-form">
                     <div class="input-group">
                         <div class="input-container">
                             <div class="icon"><i class="fas fa-user"></i></div>
@@ -428,7 +428,66 @@ session_write_close();
         </div>
     </section>
 
-    <!-- end section contact -->
+    <!-- Modal HTML -->
+<div id="successModal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <span class="close" id="modalClose">&times;</span>
+            <div class="modal-body">
+                <div class="modal-icon">
+                    <svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="orange" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12l5 5L20 7"></path>
+                    </svg>
+                </div>
+                <h2>Succès</h2>
+                <p>Votre message a été bien envoyé ! Merci pour votre message</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-ok" id="modalOk">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- AJAX script -->
+    <script>
+    $(document).ready(function () {
+        $('#contactForm').submit(function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            $.ajax({
+                url: 'message.php',
+                type: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function (response) {
+                    if (response.status === 'success') {
+                        $('#successModal').css({
+                            'display': 'flex',
+                            'opacity': '1'
+                        }).find('.btn-ok').focus(); // Focus on the OK button
+                    } else {
+                        alert('Erreur: ' + response.message);
+                    }
+                },
+                error: function () {
+                    alert('Erreur lors de l\'envoi du message.');
+                }
+            });
+        });
+
+        $('#modalOk, #modalClose').click(function () {
+            $('#successModal').css({
+                'display': 'none',
+                'opacity': '0'
+            });
+        });
+    });
+</script>
 
     <!-- footer -->
     <footer class="bg-second">
