@@ -17,7 +17,6 @@ if ($result->num_rows > 0) {
         $_SESSION['user-id'] = $row['id_client'];
         header("Location: /pro-outil/");
     } else {
-        echo "Mot de passe incorrect";
         header("Location: login_signup.html?error=mdp");
     }
 } else {
