@@ -183,107 +183,84 @@
                     <input type="submit" value="S’inscrire" />
                 </div>
             </form>
-        
-            <script>
-document.getElementById('signupForm').addEventListener('submit', function (event) {
-    event.preventDefault();
-    console.log('Form submission event triggered');
+ <!-- Modal Structure -->
+<div id="myModal" class="modal">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <span id="closeModalBtn" class="close">&times;</span>
+          <div class="modal-body">
+              <div class="modal-icon">
+                  <!-- Success Icon SVG -->
+                  <svg viewBox="0 0 24 24" class="success-icon" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="12" cy="12" r="10" fill="none" stroke="#ff840a" stroke-width="2"/>
+                      <path d="M7 12l3 3 7-7" fill="none" stroke="#ff840a" stroke-width="2"/>
+                  </svg>
+              </div>
+              <h2>Succès</h2> <!-- Changed to French -->
+              <p>Votre compte a été créé avec succès.</p> <!-- Changed to French -->
+          </div>
+          <div class="modal-footer">
+              <button class="btn btn-ok">OK</button>
+          </div>
+      </div>
+  </div>
+</div>
 
-    const formData = new FormData(this);
-
-    fetch('signup.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Response Data:', data);
-
-        // Define modal behavior
-        const modal = document.getElementById('myModal');
-        const closeModal = () => {
-            modal.style.opacity = '0';
-            setTimeout(() => modal.style.display = 'none', 300);
-        };
-
-        if (data.status === 'success') {
-            Swal.fire({
-                title: 'Compte créé !',
-                text: data.message,
-                icon: 'success',
-                iconColor: '#ff840a',  // Orange color
-                confirmButtonText: 'OK',
-                confirmButtonColor: '#ff840a',  // Orange color
-                customClass: {
-                    popup: 'custom-swal-popup',
-                    title: 'custom-swal-title',
-                    content: 'custom-swal-content',
-                    confirmButton: 'custom-swal-confirm',
-                    icon: 'custom-swal-icon'
-                },
-                didClose: () => {
-                    // Display the custom modal instead of redirect
-                    modal.style.display = 'block';
-                    setTimeout(() => modal.style.opacity = '1', 10);
-                }
-            });
-        } else {
-            Swal.fire({
-                title: 'Erreur',
-                text: data.message,
-                icon: 'error',
-                iconColor: '#dc3545',
-                confirmButtonText: 'OK',
-                confirmButtonColor: '#dc3545',
-                customClass: {
-                    popup: 'custom-swal-popup',
-                    title: 'custom-swal-title',
-                    content: 'custom-swal-content',
-                    confirmButton: 'custom-swal-confirm',
-                    icon: 'custom-swal-icon'
-                }
-            });
-        }
-    })
-    .catch(error => console.error('Error:', error));
-});
-
-// Modal handling
-const modal = document.getElementById('myModal');
-const closeModalBtn = document.getElementById('closeModalBtn');
-const okButton = document.querySelector('.btn-ok');
-
-// Open modal
-openModalBtn.onclick = function() {
-    modal.style.display = 'block';
-    setTimeout(() => modal.style.opacity = '1', 10);
-};
-
-// Close modal
-function closeModal() {
-    modal.style.opacity = '0';
-    setTimeout(() => modal.style.display = 'none', 300);
-}
-
-// Close modal when clicking the close button
-closeModalBtn.onclick = closeModal;
-
-// Close modal when clicking the OK button and redirect
-okButton.onclick = function() {
-    closeModal();
-    setTimeout(() => {
-        window.location.href = 'login_signup.html'; // Redirect to index.php
-    }, 300); // Match the timeout duration with modal fade-out time
-};
-
-// Close modal when clicking outside of modal content
-window.onclick = function(event) {
-    if (event.target === modal) {
-        closeModal();
-    }
-};
-
-              </script>
+<script>
+  // Get modal elements
+  const modal = document.getElementById('myModal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const okButton = document.querySelector('.btn-ok');
+  
+  // Handle form submission
+  document.getElementById('signupForm').onsubmit = function(event) {
+      event.preventDefault(); // Prevent the default form submission
+  
+      const formData = new FormData(this);
+  
+      fetch('signup.php', {
+          method: 'POST',
+          body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+          if (data.status === 'success') {
+              // Show the modal
+              modal.style.display = 'block';
+              setTimeout(() => modal.style.opacity = '1', 10);
+          } else {
+              // Handle errors (optional: show a different message or alert)
+              alert(data.message);
+          }
+      })
+      .catch(error => {
+          console.error('Error:', error);
+      });
+  };
+  
+  // Close modal function with redirect
+  function closeModal() {
+      modal.style.opacity = '0';
+      setTimeout(() => {
+          modal.style.display = 'none';
+          window.location.href = 'login_signup.html'; // Redirect to index.php
+      }, 300);
+  }
+  
+  // Close modal when clicking the close button
+  closeModalBtn.onclick = closeModal;
+  
+  // Close modal when clicking the OK button and redirect
+  okButton.onclick = closeModal;
+  
+  // Close modal when clicking outside of modal content
+  window.onclick = function(event) {
+      if (event.target === modal) {
+          closeModal();
+      }
+  };
+  </script>
+  
               
             </div>
           </div>

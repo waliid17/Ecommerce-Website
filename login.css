@@ -1250,3 +1250,134 @@ footer ul li {
 .imageright {
   justify-self: start;
 }
+/* Ensure the modal is hidden by default */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Slightly darker background */
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* Center the modal dialog */
+.modal-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+/* Style the modal content */
+.modal-content {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 90%;
+  animation: scaleIn 0.3s ease;
+  position: relative;
+  text-align: center;
+  padding: 20px;
+}
+
+@keyframes scaleIn {
+  from {
+      transform: scale(0.9);
+      opacity: 0;
+  }
+  to {
+      transform: scale(1);
+      opacity: 1;
+  }
+}
+
+/* Style for the success icon */
+.modal-icon {
+  margin-bottom: 20px;
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  stroke-width: 3;
+  animation: draw 1s ease-in-out, pulse 1.5s infinite;
+}
+
+@keyframes draw {
+  from {
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+  }
+  to {
+      stroke-dasharray: 100;
+      stroke-dashoffset: 0;
+  }
+}
+
+@keyframes pulse {
+  0% {
+      transform: scale(1);
+      opacity: 0.7;
+  }
+  50% {
+      transform: scale(1.1);
+      opacity: 1;
+  }
+  100% {
+      transform: scale(1);
+      opacity: 0.7;
+  }
+}
+
+/* Style the modal footer */
+.modal-footer {
+  padding: 15px;
+  border-top: 1px solid #ddd;
+}
+
+/* Style for the OK button */
+.btn-ok {
+  background-color: #ff840a; /* Orange color */
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  padding: 15px 70px; /* Slightly larger padding for a more substantial button */
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+.btn-ok:hover {
+  background-color: #e67503; /* Darker orange */
+  transform: translateY(-2px); /* Slight lift effect on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
+}
+
+.btn-ok:active {
+  background-color: #d96401; /* Even darker orange for active state */
+  transform: translateY(0); /* Remove lift effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Return to original shadow */
+}
+
+/* Style for the close button */
+.close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.close:hover {
+  color: #ff0000;
+}
