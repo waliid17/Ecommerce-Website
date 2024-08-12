@@ -18,6 +18,7 @@ if ($result->num_rows > 0) {
         header("Location: /pro-outil/");
     } else {
         echo "Mot de passe incorrect";
+        header("Location: login_signup.html?error=mdp");
     }
 } else {
     header("Location: login_signup.html");
