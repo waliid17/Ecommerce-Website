@@ -497,6 +497,171 @@ $messages = fetchMessages($connection);
                     </table>
                 </div>
       </div>
+      <!-- Modal Structure -->
+<div id="myModal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <span id="closeModalBtn" class="close">&times;</span>
+            <div class="modal-body">
+                <div class="modal-icon">
+                    <!-- Success Icon SVG -->
+                    <svg viewBox="0 0 24 24" class="success-icon" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" fill="none" stroke="#ff840a" stroke-width="2"/>
+                        <path d="M7 12l3 3 7-7" fill="none" stroke="#ff840a" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h2>Success</h2>
+                <p>Message successfully deleted.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ok">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to Control Modal -->
+<script>
+// Get modal elements
+const modal = document.getElementById('myModal');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const okButton = document.querySelector('.btn-ok');
+const deleteButtons = document.querySelectorAll('.delete-button');
+
+// Variable to store the current form to be submitted
+let formToSubmit = null;
+
+// Add click event listeners to all delete buttons
+deleteButtons.forEach(button => {
+    button.addEventListener('click', function(event) {
+        event.preventDefault();  // Prevent form submission
+
+        // Store the form associated with the clicked delete button
+        formToSubmit = button.closest('form');
+
+        // Show modal
+        modal.style.display = 'block';  
+    });
+});
+
+// Confirm and submit form using AJAX when clicking the OK button
+okButton.onclick = function() {
+    if (formToSubmit) {
+        // Create a FormData object from the form
+        const formData = new FormData(formToSubmit);
+
+        // Send the form data using AJAX
+        fetch(formToSubmit.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data); // Handle success or error messages here
+            // Refresh the page content or remove the row from the table
+            formToSubmit.closest('tr').remove();
+            closeModal();  // Close the modal
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            closeModal();  // Close the modal even if there's an error
+        });
+    }
+};
+
+// Close modal when clicking the close button
+closeModalBtn.onclick = function() {
+    closeModal();  // Close the modal
+};
+
+// Close modal when clicking outside the modal content
+window.onclick = function(event) {
+    if (event.target === modal) {
+        closeModal();
+    }
+};
+
+function closeModal() {
+    modal.style.display = 'none';
+    formToSubmit = null;  // Clear the stored form
+}
+</script>
+
+
+
+<!-- CSS for Modal -->
+<style>
+/* Modal Styling */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* Black background with opacity */
+}
+
+.modal-dialog {
+    position: relative;
+    margin: 15% auto;
+    padding: 0;
+    width: 80%;
+    max-width: 400px;
+    animation: fadeIn 0.5s ease;
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-body {
+    margin-top: 20px;
+}
+
+.modal-icon {
+    margin-bottom: 15px;
+}
+
+.success-icon {
+    width: 60px;
+    height: 60px;
+}
+
+.modal-footer {
+    margin-top: 20px;
+}
+
+.btn {
+    background-color: #ff840a;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #e67503;
+}
+</style>
       <div class="content" id="commandes-content" style="display: none;">
         <h2>Commandes Content</h2>
         <p>This is the content for Les Commandes.</p>
