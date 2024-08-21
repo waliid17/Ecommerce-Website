@@ -38,4 +38,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id'])) {
 
 // Close connection
 $conn->close();
+header("location: ./admin/admin.php?targetId=messages-content");
 ?>

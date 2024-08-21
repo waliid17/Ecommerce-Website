@@ -201,58 +201,137 @@ $messages = fetchMessages($connection);
 </div>
       </div>
       </div>
-      <div class="content" id="users-content" style="display: none;">
-      <h2>Client List</h2>
-<table class="client-table">
-    <thead>
-        <tr>
-            <th>Prénom</th>
-            <th>Nom</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Téléphone</th>
-            <th>Adresse</th>
-            <th>Modifier le rôle</th> <!-- Column for Edit Icon -->
-        </tr>
-    </thead>
-    <tbody>
-        <?php
-        if (!empty($clients)) {
-            foreach ($clients as $client) {
-                echo "<tr data-client-id='{$client['id_client']}'>
-                        <td>{$client['prenom']}</td>
-                        <td>{$client['nom']}</td>
-                        <td>{$client['email']}</td>
-                        <td>
-                            <span class='role-display {$client['role']}'>".ucfirst($client['role'])."</span>
-                            <div class='edit-role-form'>
-                                <form action='edit_role.php' method='POST'>
-                                    <input type='hidden' name='id_client' value='{$client['id_client']}'>
-                                    <label for='role-{$client['id_client']}' style='display: none;'>Select New Role:</label>
-                                    <select id='role-{$client['id_client']}' name='role' required>
-                                        <option value='admin' ".($client['role'] == 'admin' ? 'selected' : '').">Admin</option>
-                                        <option value='user' ".($client['role'] == 'user' ? 'selected' : '').">User</option>
-                                    </select>
-                                    <button type='submit'>Modifier le rôle</button>
-                                </form>
-                            </div>
-                        </td>
-                        <td>{$client['telephone']}</td>
-                        <td>{$client['adresse']}</td>
-                        <td>
-                            <a href='#' class='edit-role' data-client-id='{$client['id_client']}' title='Edit Role'>
-                                <i class='fas fa-edit'></i>
-                            </a>
-                        </td>
-                      </tr>";
+      <div class="content" id="users-content">
+    <h2>Client List</h2>
+    <table class="client-table">
+        <thead>
+            <tr>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Téléphone</th>
+                <th>Adresse</th>
+                <th>Modifier le rôle</th> <!-- Column for Edit Icon -->
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            if (!empty($clients)) {
+                foreach ($clients as $client) {
+                    echo "<tr data-client-id='{$client['id_client']}'>
+                            <td>{$client['prenom']}</td>
+                            <td>{$client['nom']}</td>
+                            <td>{$client['email']}</td>
+                            <td>
+                                <span class='role-display {$client['role']}'>".ucfirst($client['role'])."</span>
+                                <div class='edit-role-form'>
+                                    <form action='edit_role.php' method='POST'>
+                                        <input type='hidden' name='id_client' value='{$client['id_client']}'>
+                                        <label for='role-{$client['id_client']}' style='display: none;'>Select New Role:</label>
+                                        <select id='role-{$client['id_client']}' name='role' required>
+                                            <option value='admin' ".($client['role'] == 'admin' ? 'selected' : '').">Admin</option>
+                                            <option value='user' ".($client['role'] == 'user' ? 'selected' : '').">User</option>
+                                        </select>
+                                        <button type='button' class='edit-role-button'>Modifier le rôle</button>
+                                    </form>
+                                </div>
+                            </td>
+                            <td>{$client['telephone']}</td>
+                            <td>{$client['adresse']}</td>
+                            <td>
+                                <a href='#' class='edit-role' data-client-id='{$client['id_client']}' title='Edit Role'>
+                                    <i class='fas fa-edit'></i>
+                                </a>
+                            </td>
+                          </tr>";
+                }
+            } else {
+                echo "<tr><td colspan='7'>No clients found</td></tr>";
             }
-        } else {
-            echo "<tr><td colspan='7'>No clients found</td></tr>";
-        }
-        ?>
-    </tbody>
-</table>
-      </div>
+            ?>
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal Structure -->
+<div id="userModal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <span id="closeUserModalBtn" class="close">&times;</span>
+            <div class="modal-body">
+                <div class="modal-icon">
+                    <svg viewBox="0 0 24 24" class="success-icon" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" fill="none" stroke="#ff840a" stroke-width="2"/>
+                        <path d="M7 12l3 3 7-7" fill="none" stroke="#ff840a" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h2>Succès</h2>
+                <p>Rôle mis à jour avec succès.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ok">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+  // Get modal elements
+const userModal = document.getElementById('userModal');
+const closeUserModalBtn = document.getElementById('closeUserModalBtn');
+const okButtonUser = document.querySelector('.btn-ok');
+const editRoleButtons = document.querySelectorAll('.edit-role-button');
+
+// Variable to store the current form to be submitted
+let formToSubmitUser = null;
+
+// Function to close the modal and refresh the page
+function closeModalAndRefresh() {
+    userModal.style.display = 'none';
+    location.reload();  // Refresh the page to show updated role
+}
+
+// Add click event listeners to all "Modifier le rôle" buttons
+editRoleButtons.forEach(button => {
+    button.addEventListener('click', function(event) {
+        event.preventDefault();  // Prevent default form submission
+
+        // Store the form associated with the clicked button
+        formToSubmitUser = button.closest('form');
+
+        // Create a FormData object from the form
+        const formData = new FormData(formToSubmitUser);
+
+        // Send the form data using AJAX
+        fetch(formToSubmitUser.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            // Assuming successful update, show the modal
+            userModal.style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});
+
+// Close modal when clicking the close button
+closeUserModalBtn.addEventListener('click', closeModalAndRefresh);
+
+// Close modal when clicking outside the modal content
+window.addEventListener('click', function(event) {
+    if (event.target === userModal) {
+        closeModalAndRefresh();
+    }
+});
+
+// Close modal and refresh the page when clicking "OK"
+okButtonUser.addEventListener('click', closeModalAndRefresh);
+
+</script>
       <div class="content" id="outil-content" style="display: none;">
         <div id="ShowProducts" class="tabcontent">
           <h2>LES OUTILS :</h2>
@@ -460,7 +539,7 @@ $messages = fetchMessages($connection);
                                         <form action="../delete_message.php" method="post" class="action-buttons"
                                             style="display: inline;">
                                             <input type="hidden" name="id" value="<?php echo $message['id']; ?>">
-                                            <button class="delete-button">
+                                            <button class="delete-button" type="submit">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 14"
                                                     class="svgIcon bin-top">
                                                     <g clip-path="url(#clip0_35_24)">
@@ -510,11 +589,11 @@ $messages = fetchMessages($connection);
                         <path d="M7 12l3 3 7-7" fill="none" stroke="#ff840a" stroke-width="2"/>
                     </svg>
                 </div>
-                <h2>Success</h2>
-                <p>Message successfully deleted.</p>
+                <h2>Succès</h2>
+                <p>Message supprimé avec succès.</p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-ok">OK</button>
+                <button class="btn btn-ok" onclick="delete_message()">OK</button>
             </div>
         </div>
     </div>
@@ -545,7 +624,7 @@ deleteButtons.forEach(button => {
 });
 
 // Confirm and submit form using AJAX when clicking the OK button
-okButton.onclick = function() {
+function delete_message() {
     if (formToSubmit) {
         // Create a FormData object from the form
         const formData = new FormData(formToSubmit);
@@ -557,7 +636,6 @@ okButton.onclick = function() {
         })
         .then(response => response.text())
         .then(data => {
-            console.log(data); // Handle success or error messages here
             // Refresh the page content or remove the row from the table
             formToSubmit.closest('tr').remove();
             closeModal();  // Close the modal
