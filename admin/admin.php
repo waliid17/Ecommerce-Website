@@ -133,12 +133,6 @@ $messages = fetchMessages($connection);
               <span class="text nav-text">LES COMMANDES</span>
             </a>
           </li>
-          <li class="nav-link">
-            <a href="#" class="nav-item" data-target="wallets-content">
-              <i class="bx bx-wallet icon"></i>
-              <span class="text nav-text">Wallets</span>
-            </a>
-          </li>
         </ul>
       </div>
 
@@ -740,19 +734,93 @@ function closeModal() {
     background-color: #e67503;
 }
 </style>
-      <div class="content" id="commandes-content" style="display: none;">
-        <h2>Commandes Content</h2>
-        <p>This is the content for Les Commandes.</p>
-      </div>
-      <div class="content" id="wallets-content" style="display: none;">
-        <h2>Wallets Content</h2>
-        <p>This is the content for Wallets.</p>
-      </div>
+<?php
+// Database connection
+$host = 'localhost'; // or your host
+$dbname = 'base'; // your database name
+$username = 'root'; // your username
+$password = ''; // your password
+
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Query to get client orders
+    $query = "
+        SELECT c.prenom AS client_prenom, c.nom AS client_nom, com.date_com, com.statut, co.id_outil, co.Qte_com
+        FROM commande com
+        JOIN effectuer_com ec ON com.id_com = ec.id_com
+        JOIN client c ON ec.id_client = c.id_client
+        LEFT JOIN conteniroutil co ON com.id_com = co.id_com
+        WHERE c.role = 'user'
+    ";
+
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+    $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Fetch product details
+    $product_query = "
+        SELECT id_outil, nom, image
+        FROM outil
+    ";
+    $product_stmt = $pdo->prepare($product_query);
+    $product_stmt->execute();
+    $products = $product_stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Map product ID to details
+    $product_details = [];
+    foreach ($products as $product) {
+        $product_details[$product['id_outil']] = $product;
+    }
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+}
+?>
+
+<div class="content" id="commandes-content" style="display: block;">
+    <h2>Les commandes :</h2>
+    <?php if (!empty($orders)): ?>
+        <table class="order-table">
+            <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Date Commande</th>
+                    <th>Statut</th>
+                    <th>Produit</th>
+                    <th>Image</th>
+                    <th>Quantité</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($orders as $order): ?>
+                    <?php
+                        $product = $product_details[$order['id_outil']] ?? null;
+                        $status_class = 'status-' . strtolower($order['statut']);
+                    ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($order['client_prenom']) . ' ' . htmlspecialchars($order['client_nom']); ?></td>
+                        <td><?php echo htmlspecialchars($order['date_com']); ?></td>
+                        <td class="<?php echo $status_class; ?>"><?php echo htmlspecialchars($order['statut']); ?></td>
+                        <td><?php echo $product ? htmlspecialchars($product['nom']) : 'N/A'; ?></td>
+                        <td>
+                            <?php if ($product && $product['image']): ?>
+                                <img src="images/<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['nom']); ?>">
+                            <?php else: ?>
+                                No Image
+                            <?php endif; ?>
+                        </td>
+                        <td><?php echo htmlspecialchars($order['Qte_com']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>Aucune commande trouvée.</p>
+    <?php endif; ?>
+</div>
   </section>
 
-  <div class="switch">
-    <span class="mode-text">Dark Mode</span>
-  </div>
   <!-- Scripts -->
   <script>
         function toggleEditForm(productId) {

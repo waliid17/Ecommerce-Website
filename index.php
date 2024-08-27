@@ -255,6 +255,7 @@ session_write_close();
 
             setInterval(slideCarousel, intervalTime);
         });
+        let products = {};
     </script>
 
 
@@ -293,7 +294,7 @@ session_write_close();
                         <div class='product-btn'>
                         <a href='product-detail.php?id=$id' class='btn-flat btn-hover btn-shop-now'>Acheter</a>
 
-                            <button class='btn-flat btn-hover btn-cart-add'>
+                            <button class='btn-flat btn-hover btn-cart-add' data-id=". $id .">
                                 <i class='bx bxs-cart-add'></i>
                             </button>
                         </div>
@@ -307,14 +308,40 @@ session_write_close();
                     </div>
                 </div>
             </div>";
+           echo'<script>  products["' . $id . '"] = {
+                                id: ' . $id . ',
+                                name: "' . $name . '",
+                                image: "' . $image . '",
+                                price: ' . $curr_price . ',
+                                quantity: 1
+                            };</script>';
                     }
                 } else {
                     echo "Aucun produit trouvé.";
                 }
-
+                echo '
+                <script>
+                    document.querySelectorAll(".btn-cart-add").forEach(function(button) {
+                        button.addEventListener("click", function() {
+                        let dataId = this.getAttribute("data-id");
+                            const product = products[dataId];
+                
+                            addToWishlist(product);
+                        });
+                    });
+                
+                    function addToWishlist(product) {
+                        let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+                        wishlist.push(product);
+                        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+                        alert("ajouter");
+                    }
+                </script>';
                 $connection->close();
                 ?>
-
+<script>
+    Document.getElementBy
+</script>
             </div>
 
             <div class="section-footer">

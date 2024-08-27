@@ -725,6 +725,69 @@ table tr td:last-child {
 .edit-role-form button:hover {
   background-color: #218838;
 }
+ 
+/* Order Table Styles */
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+}
+
+.order-table thead {
+  background-color: #ffb183;
+  color: #ffffff;
+}
+
+.order-table th, .order-table td {
+  padding: 14px 20px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.order-table th {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.order-table tbody tr {
+  transition: background-color 0.3s ease;
+}
+
+.order-table tbody tr:hover {
+  background-color: #e9ecef;
+}
+
+.order-table td {
+  color: #495057;
+}
+
+.order-table img {
+  max-width: 100px;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Additional Styles */
+.order-table .status-pending {
+  color: #ffc107; /* Yellow for pending */
+  font-weight: bold;
+}
+
+.order-table .status-completed {
+  color: #28a745; /* Green for completed */
+  font-weight: bold;
+}
+
+.order-table .status-cancelled {
+  color: #dc3545; /* Red for cancelled */
+  font-weight: bold;
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {
