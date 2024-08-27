@@ -213,18 +213,41 @@ session_write_close();
     <!-- end hero section -->
 
     <!-- brands section -->
-    <div id="brands" class="brands-carousel">
+    <?php
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "base";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// SQL query to fetch image URLs
+$sql = "SELECT url_img FROM image";
+$result = $conn->query($sql);
+
+$images = [];
+if ($result->num_rows > 0) {
+    // Fetch all image URLs
+    while ($row = $result->fetch_assoc()) {
+        $images[] = $row['url_img'];
+    }
+}
+
+$conn->close();
+?>
+     <div id="brands" class="brands-carousel">
         <div class="section-header">
             <h2>NOS MARQUES</h2>
         </div>
-        <div class="carousel-inner">
-            <img src="./images/logo1.png" alt="Brand Logo 1">
-            <img src="./images/logo2.png" alt="Brand Logo 2">
-            <img src="./images/logo3.png" alt="Brand Logo 3">
-            <img src="./images/logo4.png" alt="Brand Logo 4">
-            <img src="./images/logo5.png" alt="Brand Logo 5">
-            <img src="./images/logo6.png" alt="Brand Logo 6">
-            <img src="./images/logo7.png" alt="Brand Logo 7">
+        <div class="carousel-inner" id="carousel-images">
+            <!-- Images will be loaded here by JavaScript -->
         </div>
     </div>
     <!-- end brands section -->
@@ -232,9 +255,20 @@ session_write_close();
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const carouselInner = document.querySelector('.carousel-inner');
-            const logos = document.querySelectorAll('.carousel-inner img');
+            
+            // Get images from PHP
+            const images = <?php echo json_encode($images); ?>;
+            
+            // Create image elements and add them to the carousel
+            images.forEach(imageUrl => {
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = "Brand Logo";
+                carouselInner.appendChild(img);
+            });
 
             // Clone the logos for seamless looping
+            const logos = document.querySelectorAll('.carousel-inner img');
             logos.forEach(logo => {
                 const clone = logo.cloneNode(true);
                 carouselInner.appendChild(clone);
@@ -255,7 +289,6 @@ session_write_close();
 
             setInterval(slideCarousel, intervalTime);
         });
-        let products = {};
     </script>
 
 

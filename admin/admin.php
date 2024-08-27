@@ -805,7 +805,7 @@ try {
                         <td><?php echo $product ? htmlspecialchars($product['nom']) : 'N/A'; ?></td>
                         <td>
                             <?php if ($product && $product['image']): ?>
-                                <img src="images/<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['nom']); ?>">
+                                <img src="../images/<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['nom']); ?>">
                             <?php else: ?>
                                 No Image
                             <?php endif; ?>
