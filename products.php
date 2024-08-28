@@ -224,7 +224,7 @@
                   <div class='product-card-info'>
                       <div class='product-btn'>
                       <a href='product-detail.php?id=$id' class='btn-flat btn-hover btn-shop-now'>Acheter</a>
-                          <button class='btn-flat btn-hover btn-cart-add'>
+                          <button class='btn-flat btn-hover btn-cart-add' data-id='$id'>
                               <i class='bx bxs-cart-add'></i>
                           </button>
                       </div>
@@ -238,6 +238,18 @@
                   </div>
               </div>
           </div>";
+                      echo '<script>
+          if (typeof products === "undefined") {
+              var products = {};
+          }
+          products["' . $id . '"] = {
+              id: ' . $id . ',
+              name: "' . $name . '",
+              image: "' . $image . '",
+              price: ' . $curr_price . ',
+              quantity: 1
+          };
+      </script>';
                     }
                   } else {
                     echo "Aucun produit trouvé.";
@@ -254,6 +266,36 @@
                 </div>
               </div>
             </div>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll(".btn-cart-add").forEach(function (button) {
+                button.addEventListener("click", function () {
+                    let dataId = this.getAttribute("data-id");
+                    let product = products[dataId];
+
+                    if (!product) {
+                        alert("Error: Product not found!");
+                    } else {
+                        addToWishlist(product);
+                    }
+                });
+            });
+
+            function addToWishlist(product) {
+                let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+                wishlist.push(product);
+                localStorage.setItem("wishlist", JSON.stringify(wishlist));
+
+                Swal.fire({
+                    title: 'Added!',
+                    text: `${product.name} has been added to your wishlist.`,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    </script>
             <!-- end product list -->
 
             <!-- pagination -->
