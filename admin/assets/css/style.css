@@ -788,6 +788,66 @@ table tr td:last-child {
   color: #dc3545; /* Red for cancelled */
   font-weight: bold;
 }
+/* Brand Table Styles */
+.brand-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.brand-table thead {
+  background-color: #ffb183;
+  color: #ffffff;
+}
+
+.brand-table th, .brand-table td {
+  padding: 14px 20px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.brand-table th {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.brand-table tbody tr {
+  transition: background-color 0.3s ease;
+}
+
+.brand-table tbody tr:hover {
+  background-color: #e9ecef;
+}
+
+.brand-table td {
+  color: #495057;
+}
+
+.brand-table img {
+  border-radius: 4px;
+  max-width: 100px;
+  height: auto;
+}
+
+.brand-table button {
+  background-color: #ff840a;
+  color: #ffffff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.brand-table button:hover {
+  background-color: #e67503;
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {

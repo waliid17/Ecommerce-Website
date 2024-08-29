@@ -133,6 +133,12 @@ $messages = fetchMessages($connection);
               <span class="text nav-text">LES COMMANDES</span>
             </a>
           </li>
+          <li class="nav-link">
+            <a href="#" class="nav-item" data-target="marques-content">
+              <i class="bx bx-package icon"></i>
+              <span class="text nav-text">LES MARQUES</span>
+            </a>
+          </li>
         </ul>
       </div>
 
@@ -747,13 +753,14 @@ try {
 
     // Query to get client orders
     $query = "
-        SELECT c.prenom AS client_prenom, c.nom AS client_nom, com.date_com, com.statut, co.id_outil, co.Qte_com
-        FROM commande com
-        JOIN effectuer_com ec ON com.id_com = ec.id_com
-        JOIN client c ON ec.id_client = c.id_client
-        LEFT JOIN conteniroutil co ON com.id_com = co.id_com
-        WHERE c.role = 'user'
-    ";
+    SELECT c.prenom AS client_prenom, c.nom AS client_nom, c.telephone AS client_phone, com.date_com, com.statut, co.id_outil, co.Qte_com
+    FROM commande com
+    JOIN effectuer_com ec ON com.id_com = ec.id_com
+    JOIN client c ON ec.id_client = c.id_client
+    LEFT JOIN conteniroutil co ON com.id_com = co.id_com
+    WHERE c.role = 'user'
+";
+
 
     $stmt = $pdo->prepare($query);
     $stmt->execute();
@@ -779,12 +786,13 @@ try {
 ?>
 
 <div class="content" id="commandes-content" style="display: block;">
-    <h2>Les commandes :</h2>
+    <h2>LES COMMANDES :</h2><br>
     <?php if (!empty($orders)): ?>
         <table class="order-table">
             <thead>
                 <tr>
                     <th>Client</th>
+                    <th>Numéro de téléphone</th> <!-- New column for phone number -->
                     <th>Date Commande</th>
                     <th>Statut</th>
                     <th>Produit</th>
@@ -800,6 +808,7 @@ try {
                     ?>
                     <tr>
                         <td><?php echo htmlspecialchars($order['client_prenom']) . ' ' . htmlspecialchars($order['client_nom']); ?></td>
+                        <td><?php echo htmlspecialchars($order['client_phone']); ?></td> <!-- Display the phone number -->
                         <td><?php echo htmlspecialchars($order['date_com']); ?></td>
                         <td class="<?php echo $status_class; ?>"><?php echo htmlspecialchars($order['statut']); ?></td>
                         <td><?php echo $product ? htmlspecialchars($product['nom']) : 'N/A'; ?></td>
@@ -819,6 +828,80 @@ try {
         <p>Aucune commande trouvée.</p>
     <?php endif; ?>
 </div>
+<?php
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "base";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+// Handle image deletion
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_image_id'])) {
+    $delete_id = intval($_POST['delete_image_id']);
+    $delete_sql = "DELETE FROM image WHERE id_img = ?";
+    $stmt = $conn->prepare($delete_sql);
+    $stmt->bind_param("i", $delete_id);
+    if ($stmt->execute()) {
+        echo "Image deleted successfully.";
+    } else {
+        echo "Error deleting image: " . $conn->error;
+    }
+    $stmt->close();
+}
+// Fetch all images from the database
+$sql = "SELECT id_img, url_img FROM image";
+$result = $conn->query($sql);
+
+$images = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $images[] = $row;
+    }
+}
+
+
+
+$conn->close();
+?>
+
+<div class="content" id="marques-content" style="display: block;">
+    <h2>LES MARQUES :</h2><br>
+
+    <!-- Brand Images Table -->
+    <?php if (!empty($images)): ?>
+        <table class="brand-table">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($images as $image): ?>
+                    <tr>
+                        <td><img src="<?php echo htmlspecialchars($image['url_img']); ?>" alt="Brand Image" width="100"></td>
+                        <td>
+                            <form method="post" style="display:inline;">
+                                <input type="hidden" name="delete_image_id" value="<?php echo $image['id_img']; ?>">
+                                <button type="submit">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>Aucune image de marque trouvée.</p>
+    <?php endif; ?>
+</div>
+
   </section>
 
   <!-- Scripts -->
