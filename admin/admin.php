@@ -849,7 +849,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_image_id'])) {
     $stmt = $conn->prepare($delete_sql);
     $stmt->bind_param("i", $delete_id);
     if ($stmt->execute()) {
-        echo "Image deleted successfully.";
+        echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script><script>
+        Swal.fire({
+            title: 'Success!',
+            text: 'Your operation was successful.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    </script>";
     } else {
         echo "Error deleting image: " . $conn->error;
     }
