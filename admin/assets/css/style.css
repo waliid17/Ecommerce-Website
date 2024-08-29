@@ -806,7 +806,7 @@ table tr td:last-child {
 
 .brand-table th, .brand-table td {
   padding: 14px 20px;
-  text-align: left;
+  text-align: center;
   border-bottom: 1px solid #dee2e6;
 }
 

@@ -893,7 +893,7 @@ $conn->close();
             <tbody>
                 <?php foreach ($images as $image): ?>
                     <tr>
-                        <td><img src="<?php echo htmlspecialchars($image['url_img']); ?>" alt="Brand Image" width="100"></td>
+                        <td><img src="../<?php echo htmlspecialchars($image['url_img']); ?>" alt="Brand Image" width="100"></td>
                         <td>
                             <form method="post" style="display:inline;">
                                 <input type="hidden" name="delete_image_id" value="<?php echo $image['id_img']; ?>">

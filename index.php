@@ -262,43 +262,53 @@
     <!-- end brands section -->
 
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const carouselInner = document.querySelector('.carousel-inner');
+    document.addEventListener("DOMContentLoaded", () => {
+        const carouselInner = document.querySelector('.carousel-inner');
 
-            // Get images from PHP
-            const images = <?php echo json_encode($images); ?>;
+        // Get images from PHP
+        const images = <?php echo json_encode($images); ?>;
+        const minCards = 7; // Minimum number of cards required for the animation
+        let displayedImages = [];
 
-            // Create image elements and add them to the carousel
-            images.forEach(imageUrl => {
-                const img = document.createElement('img');
-                img.src = imageUrl;
-                img.alt = "Brand Logo";
-                carouselInner.appendChild(img);
-            });
+        // If the number of images is less than the minimum required, repeat the images
+        while (displayedImages.length < minCards) {
+            displayedImages = displayedImages.concat(images);
+        }
 
-            // Clone the logos for seamless looping
-            const logos = document.querySelectorAll('.carousel-inner img');
-            logos.forEach(logo => {
-                const clone = logo.cloneNode(true);
-                carouselInner.appendChild(clone);
-            });
+        // Limit to the minimum required if the array exceeds the needed number
+        displayedImages = displayedImages.slice(0, minCards);
 
-            let offset = 0;
-            const logoWidth = logos[0].clientWidth;
-            const speed = 0.5; // Speed of the transition
-            const intervalTime = 20; // Time between each pixel movement
-
-            function slideCarousel() {
-                offset += speed;
-                if (offset >= logoWidth * logos.length) {
-                    offset = 0;
-                }
-                carouselInner.style.transform = `translateX(-${offset}px)`;
-            }
-
-            setInterval(slideCarousel, intervalTime);
+        // Create image elements and add them to the carousel
+        displayedImages.forEach(imageUrl => {
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.alt = "Brand Logo";
+            carouselInner.appendChild(img);
         });
-    </script>
+
+        // Clone the logos for seamless looping
+        const logos = document.querySelectorAll('.carousel-inner img');
+        logos.forEach(logo => {
+            const clone = logo.cloneNode(true);
+            carouselInner.appendChild(clone);
+        });
+
+        let offset = 0;
+        const logoWidth = logos[0].clientWidth;
+        const speed = 0.5; // Speed of the transition
+        const intervalTime = 20; // Time between each pixel movement
+
+        function slideCarousel() {
+            offset += speed;
+            if (offset >= logoWidth * logos.length) {
+                offset = 0;
+            }
+            carouselInner.style.transform = `translateX(-${offset}px)`;
+        }
+
+        setInterval(slideCarousel, intervalTime);
+    });
+</script>
 
     <!-- product list -->
     <div class="section">
