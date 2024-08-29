@@ -267,7 +267,7 @@
 
         // Get images from PHP
         const images = <?php echo json_encode($images); ?>;
-        const minCards = 7; // Minimum number of cards required for the animation
+        const minCards = Math.max(images.length, 7); // Minimum number of cards required for the animation
         let displayedImages = [];
 
         // If the number of images is less than the minimum required, repeat the images

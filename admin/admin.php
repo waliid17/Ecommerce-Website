@@ -842,6 +842,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
 // Handle image deletion
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_image_id'])) {
     $delete_id = intval($_POST['delete_image_id']);
@@ -862,6 +863,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_image_id'])) {
     }
     $stmt->close();
 }
+
+// Handle image upload
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
+    $upload_dir = '../uploads/';
+    $image_name = basename($_FILES['image']['name']);
+    $target_file = $upload_dir . $image_name;
+    $image_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+    // Check if the file is an actual image
+    $check = getimagesize($_FILES['image']['tmp_name']);
+    if ($check === false) {
+        echo "File is not an image.";
+        exit;
+    }
+
+    // Check file size (optional, e.g., limit to 2MB)
+    if ($_FILES['image']['size'] > 10000000) {
+        echo "Sorry, your file is too large.";
+        exit;
+    }
+
+    // Allow certain file formats
+    if ($image_type != "jpg" && $image_type != "png" && $image_type != "jpeg" && $image_type != "gif") {
+        echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+        exit;
+    }
+
+    // Move the uploaded file to the upload directory
+    if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
+        $image_url = "uploads/" . $image_name;
+
+        // Insert image path into the database
+        $insert_sql = "INSERT INTO image (url_img) VALUES (?)";
+        $stmt = $conn->prepare($insert_sql);
+        $stmt->bind_param("s", $image_url);
+        if ($stmt->execute()) {
+            echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script><script>
+            Swal.fire({
+                title: 'Success!',
+                text: 'Image uploaded successfully.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        </script>";
+        } else {
+            echo "Error saving image to database: " . $conn->error;
+        }
+        $stmt->close();
+    } else {
+        echo "Sorry, there was an error uploading your file.";
+    }
+}
+
 // Fetch all images from the database
 $sql = "SELECT id_img, url_img FROM image";
 $result = $conn->query($sql);
@@ -873,11 +927,8 @@ if ($result->num_rows > 0) {
     }
 }
 
-
-
 $conn->close();
 ?>
-
 <div class="content" id="marques-content" style="display: block;">
     <h2>LES MARQUES :</h2><br>
     <!-- Brand Images Table -->
@@ -906,8 +957,17 @@ $conn->close();
     <?php else: ?>
         <p>Aucune image de marque trouvée.</p>
     <?php endif; ?>
+    <div class="add-image-section">
+    <h3>Ajouter une nouvelle image de marque</h3>
+    <form method="post" enctype="multipart/form-data" class="add-image-form">
+         <input type="file" name="image" class="custom-file-inputt" id="image" required>
+        <div id="image-preview" style="margin-top: 20px;">
+            <!-- Image preview will be displayed here -->
+        </div>
+        <button type="submit" class="add-image-button">Ajouter</button>
+    </form>
 </div>
-
+</div>
   </section>
 
   <!-- Scripts -->
