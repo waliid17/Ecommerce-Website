@@ -135,7 +135,7 @@ $messages = fetchMessages($connection);
           </li>
           <li class="nav-link">
             <a href="#" class="nav-item" data-target="marques-content">
-              <i class="bx bx-package icon"></i>
+            <i class="bx bx-image icon"></i>
               <span class="text nav-text">LES MARQUES</span>
             </a>
           </li>
@@ -202,7 +202,7 @@ $messages = fetchMessages($connection);
       </div>
       </div>
       <div class="content" id="users-content">
-    <h2>Client List</h2>
+    <h2>LISTE DES CLIENTS :</h2>
     <table class="client-table">
         <thead>
             <tr>
@@ -880,7 +880,6 @@ $conn->close();
 
 <div class="content" id="marques-content" style="display: block;">
     <h2>LES MARQUES :</h2><br>
-
     <!-- Brand Images Table -->
     <?php if (!empty($images)): ?>
         <table class="brand-table">
