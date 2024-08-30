@@ -1,0 +1,64 @@
+/* Basic reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    max-width: 500px;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.icon-container {
+    margin-bottom: 20px;
+}
+
+.success-icon {
+    font-size: 80px;
+    color: #ff840a; /* Orange color for the icon */
+}
+
+h1 {
+    font-size: 28px;
+    color: #ff840a; /* Orange color to match the icon */
+    margin-bottom: 20px;
+}
+
+.message {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #6c757d;
+    margin-bottom: 30px;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #ff840a; /* Orange color for the button */
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #e67300; /* Darker orange on hover */
+}
