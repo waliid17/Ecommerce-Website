@@ -157,20 +157,92 @@ $connection->close();
         <input type="submit" name="save1" value="Save" class="submit-btn">
     </form>
 </div>
-            <div id="Wishlist" class="tabcontent">
-                <h2>Panier</h2>
-                <form id="wishlistForm">
-                    <ul id="wishlistItems" class="wishlist-items">
-                        <!-- Wishlist items will be dynamically inserted here -->
-                    </ul>
-                    <div id="wishlistTotal" class="wishlist-total">
-                        <!-- Total price will be displayed here -->
-                    </div>
-                    <button id="confirmOrder" type="button" class="btn-confirm">Commander</button>
-                </form>
-            </div>
+<div id="Wishlist" class="tabcontent">
+    <h2>Panier</h2>
+    <form id="wishlistForm">
+        <ul id="wishlistItems" class="wishlist-items">
+            <!-- Wishlist items will be dynamically inserted here -->
+        </ul>
+        <div id="wishlistTotal" class="wishlist-total">
+            <!-- Total price will be displayed here -->
+        </div>
+        <!-- New button to show the delivery form -->
+        <button id="showDeliveryForm" type="button" class="btn-confirm">Passer à la commande</button>
+    </form>
+</div>
 
-            <div id="Address" class="tabcontent">
+<!-- Delivery Form Section -->
+<div id="deliveryFormContainer" class="tabcontent" style="display:none;">
+    <!-- Back to Panier button -->
+    <button id="backToWishlist" type="button" class="btn-back">
+        <i class="fas fa-arrow-left"></i> Retour au panier
+    </button>
+    <h2>Livraison</h2>
+    <form id="deliveryForm">
+        <div class="form-group">
+            <label for="wilaya">Wilaya de livraison:</label>
+            <select id="wilaya" name="wilaya" class="form-control" required>
+                <option value="">Sélectionnez votre wilaya</option>
+                <option value="algiers">Algiers</option>
+                <option value="oran">Oran</option>
+                <option value="constantine">Constantine</option>
+                <!-- Add more wilayas as needed -->
+            </select>
+        </div>
+        <div id="deliveryPrice" class="delivery-price">
+            <!-- Delivery price based on the selected Wilaya will be displayed here -->
+        </div>
+        <div class="form-group">
+            <label for="address">Adresse de livraison:</label>
+            <input type="text" id="address" name="address" class="form-control" placeholder="Entrez votre adresse" required>
+        </div>
+        <!-- Total price including delivery will be displayed here -->
+        <div id="deliveryTotal" class="delivery-total"></div>
+        <!-- Confirm order button -->
+        <button id="confirmOrder" type="button" class="btn-confirm">Commander</button>
+    </form>
+</div>
+
+
+<script>
+    // Function to update total price including delivery
+    function updateTotalPrice() {
+        const selectedWilaya = document.getElementById('wilaya').value;
+        const deliveryPrices = {
+            algiers: 500,    // Price for Algiers
+            oran: 700,       // Price for Oran
+            constantine: 600 // Price for Constantine
+            // Add more Wilaya prices as needed
+        };
+        const deliveryPrice = deliveryPrices[selectedWilaya] || 0;
+        document.getElementById('deliveryPrice').innerText = `Prix de livraison: ${deliveryPrice} DA`;
+
+        // Calculate the total price of wishlist items
+        const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        let totalPrice = wishlist.reduce((total, item) => total + (item.price * item.quantity), 0);
+
+        // Add delivery price to the total price
+        const totalWithDelivery = totalPrice + deliveryPrice;
+
+        // Update the total price display on the delivery form
+        const deliveryFormTotalContainer = document.getElementById('deliveryTotal');
+        deliveryFormTotalContainer.innerHTML = `
+            <h3>Total avec livraison: <span class="total-price">${totalWithDelivery.toFixed(2)} DA</span></h3>
+        `;
+    }
+    // Event listener for "Retour au panier" button
+document.getElementById('backToWishlist').addEventListener('click', function() {
+    // Show the wishlist and hide the delivery form
+    document.getElementById('Wishlist').style.display = 'block';
+    document.getElementById('deliveryFormContainer').style.display = 'none';
+
+    // Change the active tab to 'Panier'
+    openTab({ currentTarget: document.querySelector(".tablink[onclick*='Wishlist']") }, 'Wishlist');
+});
+
+</script>
+
+     <div id="Address" class="tabcontent">
                 <h2>Adresse</h2>
                 <form class="form" method="post" action="user_edit.php" id="addressForm">
                     <div class="form-group">
@@ -206,20 +278,20 @@ $connection->close();
             document.querySelector(".tablink").classList.add("active");
         });
         // Function to render the wishlist items
-        function renderWishlist() {
-            const wishlistItemsContainer = document.getElementById('wishlistItems');
-            const wishlistTotalContainer = document.getElementById('wishlistTotal');
-            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-            wishlistItemsContainer.innerHTML = ''; // Clear existing items
+function renderWishlist() {
+    const wishlistItemsContainer = document.getElementById('wishlistItems');
+    const wishlistTotalContainer = document.getElementById('wishlistTotal');
+    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    wishlistItemsContainer.innerHTML = ''; // Clear existing items
 
-            let totalPrice = 0;
+    let totalPrice = 0;
 
-            wishlist.forEach(item => {
-                totalPrice += item.price * item.quantity; // Calculate total price
+    wishlist.forEach(item => {
+        totalPrice += item.price * item.quantity; // Calculate total price
 
-                const itemElement = document.createElement('li');
-                itemElement.className = 'wishlist-item';
-                itemElement.innerHTML = `
+        const itemElement = document.createElement('li');
+        itemElement.className = 'wishlist-item';
+        itemElement.innerHTML = `
             <img src="${item.image}" alt="${item.name}">
             <div class="item-details">
                 <h3>${item.name}</h3>
@@ -235,121 +307,147 @@ $connection->close();
                 <button type="button" onclick="removeItem(${item.id})">Supprimer</button>
             </div>
         `;
-                wishlistItemsContainer.appendChild(itemElement);
-            });
+        wishlistItemsContainer.appendChild(itemElement);
+    });
 
-            // Display the total price
-            wishlistTotalContainer.innerHTML = `
+    // Display the total price
+    wishlistTotalContainer.innerHTML = `
         <h3>Total: <span class="total-price">${totalPrice.toFixed(2)} DA</span></h3>
     `;
 
-            // Attach event listeners to quantity buttons
-            document.querySelectorAll('.quantity-btn').forEach(button => {
-                button.addEventListener('click', function () {
-                    const itemId = parseInt(this.getAttribute('data-id'));
-                    const action = this.classList.contains('plus') ? 'increase' : 'decrease';
-                    updateQuantity(itemId, action);
-                });
-            });
+    // Attach event listeners to quantity buttons
+    document.querySelectorAll('.quantity-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const itemId = parseInt(this.getAttribute('data-id'));
+            const action = this.classList.contains('plus') ? 'increase' : 'decrease';
+            updateQuantity(itemId, action);
+        });
+    });
 
-            // Attach event listeners to quantity inputs
-            document.querySelectorAll('.item-quantity').forEach(input => {
-                input.addEventListener('change', function () {
-                    const itemId = parseInt(this.getAttribute('data-id'));
-                    const newQuantity = parseInt(this.value);
-                    updateQuantity(itemId, newQuantity);
-                });
-            });
+    // Attach event listeners to quantity inputs
+    document.querySelectorAll('.item-quantity').forEach(input => {
+        input.addEventListener('change', function () {
+            const itemId = parseInt(this.getAttribute('data-id'));
+            const newQuantity = parseInt(this.value);
+            updateQuantity(itemId, newQuantity);
+        });
+    });
 
-            // Attach event listener to the "Commander" button
-            document.getElementById('confirmOrder').addEventListener('click', function () {
-                confirmOrder();
-            });
-        }
+    // Attach event listener to the "Commander" button
+    document.getElementById('confirmOrder').addEventListener('click', function () {
+        confirmOrder();
+    });
+}
 
-        // Function to update the quantity and price of an item
-        function updateQuantity(itemId, actionOrNewQuantity) {
-            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-            wishlist = wishlist.map(item => {
-                if (item.id === itemId) {
-                    if (typeof actionOrNewQuantity === 'string') {
-                        item.quantity = actionOrNewQuantity === 'increase' ? item.quantity + 1 : Math.max(item.quantity - 1, 1);
-                    } else {
-                        item.quantity = actionOrNewQuantity;
-                    }
-                    // Ensure price is correctly updated, if needed
-                    item.price = item.price;
-                }
-                return item;
-            });
-            localStorage.setItem('wishlist', JSON.stringify(wishlist));
-            renderWishlist();
-        }
-
-        // Function to remove an item from the wishlist
-        function removeItem(itemId) {
-            let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-            wishlist = wishlist.filter(item => item.id !== itemId);
-            localStorage.setItem('wishlist', JSON.stringify(wishlist));
-            renderWishlist();
-        }
-
-        // Function to handle order confirmation
-        function confirmOrder() {
-            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-
-            if (wishlist.length === 0) {
-                alert('Votre panier est vide.');
-                return;
+// Function to update the quantity and price of an item
+function updateQuantity(itemId, actionOrNewQuantity) {
+    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    wishlist = wishlist.map(item => {
+        if (item.id === itemId) {
+            if (typeof actionOrNewQuantity === 'string') {
+                item.quantity = actionOrNewQuantity === 'increase' ? item.quantity + 1 : Math.max(item.quantity - 1, 1);
+            } else {
+                item.quantity = actionOrNewQuantity;
             }
-
-            // Collect items for the order
-            const items = wishlist.map(item => ({
-                id_com: null, // This will be set on the server
-                id_outil: item.id,
-                Qte_com: item.quantity
-            }));
-
-            // Send order data to the server
-            fetch('createOrder.php', {
-                method: 'POST',
-                body: JSON.stringify({ userId: <?= $user_id ?> })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.orderId) {
-                        items.forEach(item => {
-                            item.id_com = data.orderId;
-                        });
-
-                        return fetch('addItemsToOrder.php', {
-                            method: 'POST',
-                            body: JSON.stringify({ items })
-                        });
-                    } else {
-                        throw new Error('Failed to create order.');
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        localStorage.removeItem('wishlist');
-                        alert('Votre commande a été confirmée avec succès.');
-                        renderWishlist(); // Clear the wishlist display
-                    } else {
-                        throw new Error('Failed to add items to order.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Une erreur s\'est produite lors de la confirmation de votre commande.');
-                });
+            item.price = item.price;
         }
+        return item;
+    });
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    renderWishlist();
+}
 
-        // Initial render
-        renderWishlist();
+// Function to remove an item from the wishlist
+function removeItem(itemId) {
+    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    wishlist = wishlist.filter(item => item.id !== itemId);
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    renderWishlist();
+}
 
-        document.addEventListener("DOMContentLoaded", function () {
+// Function to handle order confirmation
+function confirmOrder() {
+    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+    if (wishlist.length === 0) {
+        alert('Votre panier est vide.');
+        return; // Prevent showing the delivery form and stay on the wishlist page
+    }
+    const wilayaSelect = document.getElementById('wilaya');
+    const selectedWilaya = wilayaSelect.value;
+
+    if (selectedWilaya === '') {
+        alert('Veuillez sélectionner votre wilaya.');
+        return; 
+    }
+    // Collect items for the order
+    const items = wishlist.map(item => ({
+        id_com: null, // This will be set on the server
+        id_outil: item.id,
+        Qte_com: item.quantity
+    }));
+
+    // Send order data to the server
+    fetch('createOrder.php', {
+        method: 'POST',
+        body: JSON.stringify({ userId: <?= $user_id ?> }) // Ensure this is properly included in PHP
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.orderId) {
+                items.forEach(item => {
+                    item.id_com = data.orderId;
+                });
+
+                return fetch('addItemsToOrder.php', {
+                    method: 'POST',
+                    body: JSON.stringify({ items })
+                });
+            } else {
+                throw new Error('Failed to create order.');
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                localStorage.removeItem('wishlist');
+                alert('Votre commande a été confirmée avec succès.');
+                window.location.href = "index.php";
+                renderWishlist(); // Clear the wishlist display
+            } else {
+                throw new Error('Failed to add items to order.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Une erreur s\'est produite lors de la confirmation de votre commande.');
+        });
+}
+
+// Event listener for "Passer à la commande" button
+document.getElementById('showDeliveryForm').addEventListener('click', function() {
+    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    if (wishlist.length === 0) {
+        alert('Votre panier est vide.');
+        // Stay on the wishlist page, do not show the delivery form
+        return;
+    }
+
+    // Proceed with showing the delivery form
+    document.getElementById('Wishlist').style.display = 'none';
+    document.getElementById('deliveryFormContainer').style.display = 'block';
+    updateTotalPrice(); // Ensure total price is updated when showing the delivery form
+});
+
+// Event listener for wilaya change
+document.getElementById('wilaya').addEventListener('change', function() {
+    updateTotalPrice(); // Update total price when wilaya is changed
+});
+
+// Initial render
+document.addEventListener("DOMContentLoaded", function () {
+    renderWishlist();
+
     const hash = window.location.hash;
     if (hash) {
         // Remove hash from URL
@@ -360,6 +458,25 @@ $connection->close();
         openTab({ currentTarget: document.querySelector(`.tablink[onclick*='${tabName}']`) }, tabName);
     }
 });
+
+// Function to open tabs
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+        tabcontent[i].classList.remove("active");
+    }
+    tablinks = document.getElementsByClassName("tablink");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+    }
+    document.getElementById(tabName).style.display = "block";
+    document.getElementById(tabName).classList.add("active");
+    evt.currentTarget.classList.add("active");
+}
+
+// Handle input field editing
 let currentlyEditing = null;
 
 function toggleEdit(name) {
@@ -385,6 +502,7 @@ function toggleEdit(name) {
         currentlyEditing = null;
     }
 }
+
     </script>
 </body>
 
