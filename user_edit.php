@@ -22,20 +22,9 @@ if (isset($_POST['save1'])) {
     $lastname = $_POST['nom'];
     $email = $_POST['email'];
     $phonenumber = $_POST['telephone'];
+    $addressLine= $_POST['adresse'];
     $id = $_SESSION['user-id'];
-    $query = "UPDATE `client` SET `prenom` = '$firstname',`nom` = '$lastname', `email` = '$email', `telephone` = '$phonenumber' WHERE `client`.`id_client` = $id";
-    if ($connection->query($query)) {
-        header("Location: user.php");
-        exit();
-    } else {
-        echo "404";
-    }
-
-} elseif (isset($_POST['save2'])) {
-
-    $address = $_POST['adresse'];
-    $id = $_SESSION['user-id'];
-    $query = "UPDATE `client` SET `adresse` = '$address' WHERE `client`.`id_client` = $id";
+    $query = "UPDATE `client` SET `prenom` = '$firstname',`nom` = '$lastname', `email` = '$email', `telephone` = '$phonenumber', `adresse` = '$addressLine' WHERE `client`.`id_client` = $id";
     if ($connection->query($query)) {
         header("Location: user.php");
         exit();

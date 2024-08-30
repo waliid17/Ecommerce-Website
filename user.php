@@ -108,7 +108,7 @@ $connection->close();
                 <button class="tablink active" onclick="openTab(event, 'PersonalInfo')">Informations
                     Personnelles</button>
                 <button class="tablink" onclick="openTab(event, 'Wishlist')">Panier</button>
-                <button class="tablink" onclick="openTab(event, 'Address')">Adresse</button>
+                <button class="tablink" onclick="openTab(event, 'statuts')">statuts</button>
             </div>
             <div id="PersonalInfo" class="tabcontent active">
     <h2>Informations Personnelles :</h2>
@@ -154,6 +154,15 @@ $connection->close();
             </div>
         </div>
 
+         <!-- adresse -->
+         <div class="input-group">
+            <div class="input-container">
+                <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
+                <input type="text" name="adresse" value="<?php echo htmlspecialchars($addressLine); ?>"
+                    placeholder="adresse" required readonly>
+                <div class="edit-icon" onclick="toggleEdit('adresse')"><i class="fa-solid fa-pen"></i></div>
+            </div>
+        </div>
         <input type="submit" name="save1" value="Save" class="submit-btn">
     </form>
 </div>
@@ -242,18 +251,10 @@ document.getElementById('backToWishlist').addEventListener('click', function() {
 
 </script>
 
-     <div id="Address" class="tabcontent">
-                <h2>Adresse</h2>
-                <form class="form" method="post" action="user_edit.php" id="addressForm">
-                    <div class="form-group">
-                        <label for="address1">Adresse Ligne :</label>
-                        <input type="text" id="address1" name="adresse"
-                            value="<?php echo htmlspecialchars($addressLine); ?>" required>
-                    </div>
-                    <button type="submit" name="save2" class="save-btn">Save</button>
-                </form>
-            </div>
-        </div>
+     <div id="statuts" class="tabcontent">
+                <h2>status</h2>
+               
+        
     </div>
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
