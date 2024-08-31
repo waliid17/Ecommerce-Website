@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 02 août 2024 à 22:24
+-- Généré le : sam. 31 août 2024 à 23:28
 -- Version du serveur : 8.3.0
 -- Version de PHP : 8.2.18
 
@@ -20,23 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `base`
 --
-
--- --------------------------------------------------------
-
---
--- Structure de la table `admin`
---
-
-DROP TABLE IF EXISTS `admin`;
-CREATE TABLE IF NOT EXISTS `admin` (
-  `id_admin` int NOT NULL,
-  `nom_ad` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `email_ad` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `mdp_ad` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `prenom_ad` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  PRIMARY KEY (`id_admin`),
-  UNIQUE KEY `email` (`email_ad`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -68,16 +51,15 @@ CREATE TABLE IF NOT EXISTS `client` (
   `telephone` varchar(13) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `adresse` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id_client`)
-) ENGINE=MyISAM AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=187 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `client`
 --
 
 INSERT INTO `client` (`id_client`, `prenom`, `nom`, `email`, `mot_de_passe`, `role`, `telephone`, `adresse`) VALUES
-(11, 'walid', 'kheloufi', 'walidkheloufi00@gmail.com', 'walid123', 'admin', '0540363847', 'ouled fayet plato win ybi3o ldjadj'),
-(57, 'dsds', 'gfgfgf', 'walidkheloufi000@gmail.com', 'wawawa', 'user', '0540363847', 'wawawawawa'),
-(50, 'chaouki', 'beddiar', 'chaouki@gmail.com', 'walid123', 'user', '0540363847', 'cheraga');
+(186, 'chaouki', 'beddiar', 'chaouki@gmail.com', 'walid123', 'user', '0540363847', 'cheraga'),
+(185, 'walid', 'kheloufi', 'walidkheloufi00@gmail.com', 'walid123', 'admin', '0540363847', 'cheraga');
 
 -- --------------------------------------------------------
 
@@ -90,15 +72,18 @@ CREATE TABLE IF NOT EXISTS `commande` (
   `id_com` int NOT NULL AUTO_INCREMENT,
   `date_com` date DEFAULT NULL,
   `statut` varchar(30) NOT NULL,
+  `frais_livraison` decimal(7,2) DEFAULT '0.00',
   PRIMARY KEY (`id_com`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=165 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `commande`
 --
 
-INSERT INTO `commande` (`id_com`, `date_com`, `statut`) VALUES
-(1, NULL, 'panier');
+INSERT INTO `commande` (`id_com`, `date_com`, `statut`, `frais_livraison`) VALUES
+(164, '2024-09-01', 'Pending', NULL),
+(163, '2024-09-01', 'pending', 0.00),
+(162, '2024-09-01', 'pending', 0.00);
 
 -- --------------------------------------------------------
 
@@ -120,21 +105,22 @@ CREATE TABLE IF NOT EXISTS `conteniroutil` (
 --
 
 INSERT INTO `conteniroutil` (`id_com`, `id_outil`, `Qte_com`) VALUES
-(1, 50, 2),
-(1, 52, 1);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `devis`
---
-
-DROP TABLE IF EXISTS `devis`;
-CREATE TABLE IF NOT EXISTS `devis` (
-  `id_devis` int NOT NULL AUTO_INCREMENT,
-  `date_devis` datetime NOT NULL,
-  PRIMARY KEY (`id_devis`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+(163, 48, 1),
+(162, 48, 1),
+(161, 48, 1),
+(160, 48, 1),
+(159, 48, 1),
+(158, 48, 1),
+(157, 52, 1),
+(156, 50, 9),
+(156, 49, 1),
+(156, 48, 3),
+(154, 52, 1),
+(154, 50, 1),
+(154, 48, 1),
+(155, 50, 1),
+(155, 49, 1),
+(155, 48, 1);
 
 -- --------------------------------------------------------
 
@@ -155,7 +141,15 @@ CREATE TABLE IF NOT EXISTS `effectuer_com` (
 --
 
 INSERT INTO `effectuer_com` (`id_com`, `id_client`) VALUES
-(1, 50);
+(155, 186),
+(156, 186),
+(157, 186),
+(158, 186),
+(159, 186),
+(160, 186),
+(161, 186),
+(162, 186),
+(163, 186);
 
 -- --------------------------------------------------------
 
@@ -165,10 +159,23 @@ INSERT INTO `effectuer_com` (`id_com`, `id_client`) VALUES
 
 DROP TABLE IF EXISTS `image`;
 CREATE TABLE IF NOT EXISTS `image` (
-  `id_img` int NOT NULL,
+  `id_img` int NOT NULL AUTO_INCREMENT,
   `url_img` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id_img`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `image`
+--
+
+INSERT INTO `image` (`id_img`, `url_img`) VALUES
+(33, 'images/logo7.png'),
+(32, 'images/logo6.png'),
+(31, 'images/logo5.png'),
+(30, 'images/logo4.png'),
+(29, 'images/logo3.png'),
+(28, 'images/logo2.png'),
+(43, 'uploads/logo1.png');
 
 -- --------------------------------------------------------
 
@@ -187,15 +194,28 @@ CREATE TABLE IF NOT EXISTS `message` (
   `contenu` text,
   `date` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `message`
 --
 
 INSERT INTO `message` (`id`, `prenom`, `nom`, `phone`, `email`, `sujet`, `contenu`, `date`) VALUES
-(3, 'walid', 'kheloufi', '0540363847', 'walidkheloufi00@gmail.com', 'cle', 'kjfdskjhfdhfgddhjkfdhgfdf', '2024-06-29 21:43:41'),
-(4, 'walid', 'khelouffi', '0540363847', 'walidkheloufi00@gmail.com', 'jfhjgshdgshdsdsds', 'dsdsdsdsdsds', '2024-07-26 20:42:08');
+(73, 'walid', 'khelouffi', '0540363847', 'chaouki@gmail.com', 'dddd', 'dddddddddd', '2024-08-24 21:59:16'),
+(71, 'walid', 'beddiar', '0540363847', 'chaouki@gmail.com', 'jfhjgshdgshdsdsds', 'ggggggggggggg', '2024-08-24 21:43:02'),
+(70, 'walid', 'beddiar', '0540363847', 'chaouki@gmail.com', 'jfhjgshdgshdsdsds', 'ggggggggggggg', '2024-08-24 21:42:59'),
+(69, 'walid', 'beddiar', '0540363847', 'chaoukii@gmail.com', 'jfhjgshdgshdsdsds', 'gggggggg', '2024-08-21 19:50:37'),
+(68, 'walid', 'beddiar', '0540363847', 'chaoukii@gmail.com', 'jfhjgshdgshdsdsds', 'gggggggg', '2024-08-21 19:50:36'),
+(67, 'walid', 'beddiar', '0540363847', 'chaoukii@gmail.com', 'jfhjgshdgshdsdsds', 'gggggggg', '2024-08-21 19:50:34'),
+(66, 'walid', 'khelouffi', '0540363847', 'chaoffffuki@gmail.com', 'dddd', 'wawawaa', '2024-08-21 19:49:54'),
+(65, 'walid', 'khelouffi', '0540363847', 'chaoffffuki@gmail.com', 'dddd', 'wawawaa', '2024-08-21 19:49:53'),
+(58, 'walid', 'khelouffi', '0540363847', 'walidkheloufi00@gmail.com', 'jfhjgshdgshdsdsds', 'hhh', '2024-08-21 11:22:03'),
+(59, 'walid', 'khelouffi', '0540363847', 'walidkheloufi00@gmail.com', 'jfhjgshdgshdsdsds', 'hhh', '2024-08-21 11:22:06'),
+(60, 'walid', 'khelouffi', '0540363847', 'walidkheloufi00@gmail.com', 'jfhjgshdgshdsdsds', 'hhh', '2024-08-21 11:22:07'),
+(61, 'ahmed', 'beddiar', '0540363847', 'chaouki@gmail.com', 'jfhjgshdgshdsdsds', 'ggg', '2024-08-21 11:22:46'),
+(62, 'ahmed', 'beddiar', '0540363847', 'chaouki@gmail.com', 'jfhjgshdgshdsdsds', 'ggg', '2024-08-21 11:22:48'),
+(63, 'ahmed', 'beddiar', '0540363847', 'chaouki@gmail.com', 'jfhjgshdgshdsdsds', 'ggg', '2024-08-21 11:22:49'),
+(64, 'walid', 'khelouffi', '0540363847', 'chaoffffuki@gmail.com', 'dddd', 'wawawaa', '2024-08-21 19:49:46');
 
 -- --------------------------------------------------------
 

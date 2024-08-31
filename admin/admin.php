@@ -751,13 +751,15 @@ try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Query to get client orders
+    // Query to get client orders including product prices
     $query = "
-    SELECT c.id_client, c.prenom AS client_prenom, c.nom AS client_nom, c.telephone AS client_phone, com.id_com, com.date_com, com.statut, co.id_outil, co.Qte_com
+    SELECT c.id_client, c.prenom AS client_prenom, c.nom AS client_nom, c.telephone AS client_phone, 
+           com.id_com, com.date_com, com.statut, co.id_outil, co.Qte_com, o.prix_actuel AS product_price
     FROM commande com
     JOIN effectuer_com ec ON com.id_com = ec.id_com
     JOIN client c ON ec.id_client = c.id_client
     LEFT JOIN conteniroutil co ON com.id_com = co.id_com
+    LEFT JOIN outil o ON co.id_outil = o.id_outil
     WHERE c.role = 'user'
     ";
 
@@ -767,7 +769,7 @@ try {
 
     // Fetch product details
     $product_query = "
-        SELECT id_outil, nom, image
+        SELECT id_outil, nom, image, prix_actuel
         FROM outil
     ";
     $product_stmt = $pdo->prepare($product_query);
@@ -792,20 +794,29 @@ try {
                 'client_phone' => $order['client_phone'],
                 'date_com' => $order['date_com'],
                 'statut' => $order['statut'],
-                'products' => []
+                'products' => [],
+                'total_price' => 0 // Initialize total price
             ];
         }
+        $product_price = $order['product_price'];
+        $quantity = $order['Qte_com'];
+        $total_product_price = $product_price * $quantity;
+
+        // Add product details and price to the order
         $order_details[$order_id]['products'][] = [
             'id_outil' => $order['id_outil'],
             'Qte_com' => $order['Qte_com'],
-            'product' => $product_details[$order['id_outil']] ?? null
+            'product' => $product_details[$order['id_outil']] ?? null,
+            'price' => $total_product_price
         ];
+
+        // Update the total price for the order
+        $order_details[$order_id]['total_price'] += $total_product_price;
     }
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
 ?>
-
 
 <div class="content" id="commandes-content">
     <h2>LES COMMANDES :</h2><br>
@@ -840,9 +851,16 @@ try {
                                         <p><strong>Produit:</strong> <?php echo $product['product'] ? htmlspecialchars($product['product']['nom']) : 'N/A'; ?></p>
                                         <p> <?php if ($product['product'] && $product['product']['image']): ?><img src="../images/<?php echo htmlspecialchars($product['product']['image']); ?>" alt="<?php echo htmlspecialchars($product['product']['nom']); ?>"><?php else: ?>No Image<?php endif; ?></p>
                                         <p><strong>Quantité:</strong> <?php echo htmlspecialchars($product['Qte_com']); ?></p>
+                                        <p><strong>Prix Unitaire:</strong> <?php echo htmlspecialchars($product['product']['prix_actuel']); ?> DA</p>
+                                        <p><strong>Prix Total:</strong> <?php echo htmlspecialchars($product['price']); ?> DA</p>
                                     </div>
                                     <hr>
                                 <?php endforeach; ?>
+                                <div class="order-summary">
+                                    <p><strong>Total Commande: </strong><?php echo htmlspecialchars($order_data['total_price']); ?> DA</p>
+                                    <p><strong>Frais de Livraison: </strong> 5.00 DA</p>
+                                    <p><strong>Total à Payer: </strong><?php echo htmlspecialchars($order_data['total_price'] + 5.00); ?> DA</p>
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -879,6 +897,7 @@ document.querySelectorAll('.toggle-details').forEach(button => {
     });
 });
 </script>
+
 
 
 <?php
