@@ -742,10 +742,10 @@ function closeModal() {
 </style>
 <?php
 // Database connection
-$host = 'localhost'; // or your host
-$dbname = 'base'; // your database name
-$username = 'root'; // your username
-$password = ''; // your password
+$host = 'localhost';
+$dbname = 'base';
+$username = 'root';
+$password = '';
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
@@ -753,14 +753,13 @@ try {
 
     // Query to get client orders
     $query = "
-    SELECT c.prenom AS client_prenom, c.nom AS client_nom, c.telephone AS client_phone, com.date_com, com.statut, co.id_outil, co.Qte_com
+    SELECT c.id_client, c.prenom AS client_prenom, c.nom AS client_nom, c.telephone AS client_phone, com.id_com, com.date_com, com.statut, co.id_outil, co.Qte_com
     FROM commande com
     JOIN effectuer_com ec ON com.id_com = ec.id_com
     JOIN client c ON ec.id_client = c.id_client
     LEFT JOIN conteniroutil co ON com.id_com = co.id_com
     WHERE c.role = 'user'
-";
-
+    ";
 
     $stmt = $pdo->prepare($query);
     $stmt->execute();
@@ -780,46 +779,72 @@ try {
     foreach ($products as $product) {
         $product_details[$product['id_outil']] = $product;
     }
+
+    // Organize orders by id_com
+    $order_details = [];
+    foreach ($orders as $order) {
+        $order_id = $order['id_com'];
+        if (!isset($order_details[$order_id])) {
+            $order_details[$order_id] = [
+                'client_id' => $order['id_client'],
+                'client_prenom' => $order['client_prenom'],
+                'client_nom' => $order['client_nom'],
+                'client_phone' => $order['client_phone'],
+                'date_com' => $order['date_com'],
+                'statut' => $order['statut'],
+                'products' => []
+            ];
+        }
+        $order_details[$order_id]['products'][] = [
+            'id_outil' => $order['id_outil'],
+            'Qte_com' => $order['Qte_com'],
+            'product' => $product_details[$order['id_outil']] ?? null
+        ];
+    }
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
 ?>
 
-<div class="content" id="commandes-content" style="display: block;">
+
+<div class="content" id="commandes-content">
     <h2>LES COMMANDES :</h2><br>
-    <?php if (!empty($orders)): ?>
+    <?php if (!empty($order_details)): ?>
         <table class="order-table">
             <thead>
                 <tr>
                     <th>Client</th>
-                    <th>Numéro de téléphone</th> <!-- New column for phone number -->
+                    <th>Numéro de téléphone</th>
                     <th>Date Commande</th>
                     <th>Statut</th>
-                    <th>Produit</th>
-                    <th>Image</th>
-                    <th>Quantité</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($orders as $order): ?>
-                    <?php
-                        $product = $product_details[$order['id_outil']] ?? null;
-                        $status_class = 'status-' . strtolower($order['statut']);
-                    ?>
-                    <tr>
-                        <td><?php echo htmlspecialchars($order['client_prenom']) . ' ' . htmlspecialchars($order['client_nom']); ?></td>
-                        <td><?php echo htmlspecialchars($order['client_phone']); ?></td> <!-- Display the phone number -->
-                        <td><?php echo htmlspecialchars($order['date_com']); ?></td>
-                        <td class="<?php echo $status_class; ?>"><?php echo htmlspecialchars($order['statut']); ?></td>
-                        <td><?php echo $product ? htmlspecialchars($product['nom']) : 'N/A'; ?></td>
-                        <td>
-                            <?php if ($product && $product['image']): ?>
-                                <img src="../images/<?php echo htmlspecialchars($product['image']); ?>" alt="<?php echo htmlspecialchars($product['nom']); ?>">
-                            <?php else: ?>
-                                No Image
-                            <?php endif; ?>
+                <?php foreach ($order_details as $order_id => $order_data): ?>
+                    <!-- Order Row -->
+                    <tr class="order-row" data-order-id="<?php echo htmlspecialchars($order_id); ?>">
+                        <td><?php echo htmlspecialchars($order_data['client_prenom']) . ' ' . htmlspecialchars($order_data['client_nom']); ?></td>
+                        <td><?php echo htmlspecialchars($order_data['client_phone']); ?></td>
+                        <td><?php echo htmlspecialchars($order_data['date_com']); ?></td>
+                        <td><?php echo htmlspecialchars($order_data['statut']); ?></td>
+                        <td><button class="toggle-details">Show Details</button></td>
+                    </tr>
+
+                    <!-- Details Row -->
+                    <tr class="details-row" id="details-<?php echo htmlspecialchars($order_id); ?>" style="display: none;">
+                        <td colspan="5">
+                            <div class="details-content">
+                                <?php foreach ($order_data['products'] as $product): ?>
+                                    <div class="order-detail">
+                                        <p><strong>Produit:</strong> <?php echo $product['product'] ? htmlspecialchars($product['product']['nom']) : 'N/A'; ?></p>
+                                        <p> <?php if ($product['product'] && $product['product']['image']): ?><img src="../images/<?php echo htmlspecialchars($product['product']['image']); ?>" alt="<?php echo htmlspecialchars($product['product']['nom']); ?>"><?php else: ?>No Image<?php endif; ?></p>
+                                        <p><strong>Quantité:</strong> <?php echo htmlspecialchars($product['Qte_com']); ?></p>
+                                    </div>
+                                    <hr>
+                                <?php endforeach; ?>
+                            </div>
                         </td>
-                        <td><?php echo htmlspecialchars($order['Qte_com']); ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -828,6 +853,34 @@ try {
         <p>Aucune commande trouvée.</p>
     <?php endif; ?>
 </div>
+
+<script>
+document.querySelectorAll('.toggle-details').forEach(button => {
+    button.addEventListener('click', function() {
+        const orderId = this.closest('.order-row').dataset.orderId;
+        const detailsRow = document.getElementById('details-' + orderId);
+
+        // Hide all details rows
+        document.querySelectorAll('.details-row').forEach(row => {
+            if (row !== detailsRow) {
+                row.style.display = 'none';
+                row.previousElementSibling.querySelector('.toggle-details').textContent = 'Show Details';
+            }
+        });
+
+        // Toggle the clicked row
+        if (detailsRow.style.display === 'none' || detailsRow.style.display === '') {
+            detailsRow.style.display = 'table-row';
+            this.textContent = 'Hide Details';
+        } else {
+            detailsRow.style.display = 'none';
+            this.textContent = 'Show Details';
+        }
+    });
+});
+</script>
+
+
 <?php
 // Database connection
 $servername = "localhost";
