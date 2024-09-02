@@ -17,16 +17,6 @@
     <!-- app css -->
     <link rel="stylesheet" href="index.css">
 </head>
-<script>
-    let products["test"] = {
-        id: -1,
-            name: "allo",
-                image: "logo1.png",
-                    price: 5000,
-                        quantity: 1
-    };
-</script>
-
 <body>
 
     <!-- header -->
@@ -260,55 +250,56 @@
         </div>
     </div>
     <!-- end brands section -->
-
+    <script src="./js/index.js"></script>
     <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const carouselInner = document.querySelector('.carousel-inner');
+        document.addEventListener("DOMContentLoaded", () => {
+            const carouselInner = document.querySelector('.carousel-inner');
 
-        // Get images from PHP
-        const images = <?php echo json_encode($images); ?>;
-        const minCards = Math.max(images.length, 7); // Minimum number of cards required for the animation
-        let displayedImages = [];
+            // Get images from PHP
+            const images = <?php echo json_encode($images); ?>;
+            const minCards = Math.max(images.length, 7); // Minimum number of cards required for the animation
+            let displayedImages = [];
 
-        // If the number of images is less than the minimum required, repeat the images
-        while (displayedImages.length < minCards) {
-            displayedImages = displayedImages.concat(images);
-        }
-
-        // Limit to the minimum required if the array exceeds the needed number
-        displayedImages = displayedImages.slice(0, minCards);
-
-        // Create image elements and add them to the carousel
-        displayedImages.forEach(imageUrl => {
-            const img = document.createElement('img');
-            img.src = imageUrl;
-            img.alt = "Brand Logo";
-            carouselInner.appendChild(img);
-        });
-
-        // Clone the logos for seamless looping
-        const logos = document.querySelectorAll('.carousel-inner img');
-        logos.forEach(logo => {
-            const clone = logo.cloneNode(true);
-            carouselInner.appendChild(clone);
-        });
-
-        let offset = 0;
-        const logoWidth = logos[0].clientWidth;
-        const speed = 0.5; // Speed of the transition
-        const intervalTime = 20; // Time between each pixel movement
-
-        function slideCarousel() {
-            offset += speed;
-            if (offset >= logoWidth * logos.length) {
-                offset = 0;
+            // If the number of images is less than the minimum required, repeat the images
+            while (displayedImages.length < minCards) {
+                displayedImages = displayedImages.concat(images);
             }
-            carouselInner.style.transform = `translateX(-${offset}px)`;
-        }
 
-        setInterval(slideCarousel, intervalTime);
-    });
-</script>
+            // Limit to the minimum required if the array exceeds the needed number
+            displayedImages = displayedImages.slice(0, minCards);
+
+            // Create image elements and add them to the carousel
+            displayedImages.forEach(imageUrl => {
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = "Brand Logo";
+                carouselInner.appendChild(img);
+            });
+
+            // Clone the logos for seamless looping
+            const logos = document.querySelectorAll('.carousel-inner img');
+            logos.forEach(logo => {
+                const clone = logo.cloneNode(true);
+                carouselInner.appendChild(clone);
+            });
+
+            let offset = 0;
+            const logoWidth = logos[0].clientWidth;
+            const speed = 0.5; // Speed of the transition
+            const intervalTime = 20; // Time between each pixel movement
+
+            function slideCarousel() {
+                offset += speed;
+                if (offset >= logoWidth * logos.length) {
+                    offset = 0;
+                }
+                carouselInner.style.transform = `translateX(-${offset}px)`;
+            }
+
+            setInterval(slideCarousel, intervalTime);
+        });
+        
+    </script>
 
     <!-- product list -->
     <div class="section">
@@ -316,7 +307,7 @@
             <div class="section-header">
                 <h2>NOS PRODUITS</h2>
             </div>
-            <div class="row" id="latest-products">
+            <div class="row">
                 <?php
                 $connection = new mysqli("localhost", "root", "", "base");
 
@@ -361,9 +352,7 @@
 
                         // Initialize the product data
                         echo '<script>
-                        if (typeof products === "undefined") {
-                            var products = {};
-                        }
+                        
                         products["' . $id . '"] = {
                             id: ' . $id . ',
                             name: "' . $name . '",
@@ -647,7 +636,6 @@
 
         <!-- app js -->
         <script src="./js/app.js"></script>
-        <script src="./js/index.js"></script>
         <script>
             document.querySelector('a[href="#about"]').addEventListener('click', function (event) {
                 event.preventDefault();

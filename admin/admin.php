@@ -752,10 +752,10 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Query to get client orders including product prices
-    $query = "
-    SELECT c.id_client, c.prenom AS client_prenom, c.nom AS client_nom, c.telephone AS client_phone, 
+    $query = "SELECT w.wilaya AS wilaya,w.delivery_price, c.id_client, c.prenom AS client_prenom, c.nom AS client_nom, c.telephone AS client_phone, 
            com.id_com, com.date_com, com.statut, co.id_outil, co.Qte_com, o.prix_actuel AS product_price
     FROM commande com
+    LEFT JOIN wilaya w ON com.id_wilaya = w.id_wilaya
     JOIN effectuer_com ec ON com.id_com = ec.id_com
     JOIN client c ON ec.id_client = c.id_client
     LEFT JOIN conteniroutil co ON com.id_com = co.id_com
@@ -794,6 +794,8 @@ try {
                 'client_phone' => $order['client_phone'],
                 'date_com' => $order['date_com'],
                 'statut' => $order['statut'],
+                'wilaya' => $order['wilaya'],
+                'delivery_price' => $order['delivery_price'],
                 'products' => [],
                 'total_price' => 0 // Initialize total price
             ];
@@ -828,6 +830,7 @@ try {
                     <th>Numéro de téléphone</th>
                     <th>Date Commande</th>
                     <th>Statut</th>
+                    <th>wilaya</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -839,12 +842,13 @@ try {
                         <td><?php echo htmlspecialchars($order_data['client_phone']); ?></td>
                         <td><?php echo htmlspecialchars($order_data['date_com']); ?></td>
                         <td><?php echo htmlspecialchars($order_data['statut']); ?></td>
+                        <td><?php echo htmlspecialchars($order_data['wilaya']); ?></td>
                         <td><button class="toggle-details">Show Details</button></td>
                     </tr>
 
                     <!-- Details Row -->
                     <tr class="details-row" id="details-<?php echo htmlspecialchars($order_id); ?>" style="display: none;">
-                        <td colspan="5">
+                        <td colspan="6">
                             <div class="details-content">
                                 <?php foreach ($order_data['products'] as $product): ?>
                                     <div class="order-detail">
@@ -854,14 +858,14 @@ try {
                                         <p><strong>Prix Unitaire:</strong> <?php echo htmlspecialchars($product['product']['prix_actuel']); ?> DA</p>
                                         <p><strong>Prix Total:</strong> <?php echo htmlspecialchars($product['price']); ?> DA</p>
                                     </div>
-                                    <hr>
+                                    
                                 <?php endforeach; ?>
-                                <div class="order-summary">
-                                    <p><strong>Total Commande: </strong><?php echo htmlspecialchars($order_data['total_price']); ?> DA</p>
-                                    <p><strong>Frais de Livraison: </strong> 5.00 DA</p>
-                                    <p><strong>Total à Payer: </strong><?php echo htmlspecialchars($order_data['total_price'] + 5.00); ?> DA</p>
-                                </div>
                             </div>
+                            <div class="order-summary">
+                                    <p><strong>Total Commande: </strong><?php echo htmlspecialchars($order_data['total_price']); ?> DA</p>
+                                    <p><strong>Frais de Livraison: </strong><?php echo htmlspecialchars($order_data['delivery_price']); ?> DA</p>
+                                    <p><strong>Total à Payer: </strong><?php echo htmlspecialchars($order_data['total_price']+$order_data['delivery_price'] ); ?> DA</p>
+                                </div>
                         </td>
                     </tr>
                 <?php endforeach; ?>

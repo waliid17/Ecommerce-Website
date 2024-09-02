@@ -16,9 +16,10 @@ if ($connection->connect_error) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents('php://input'), true);
     $userId = $data['userId'];
+    $wilayaId = $data['wilayaId'];
 
     // Create new order
-    $stmt = $connection->prepare("INSERT INTO commande (date_com, statut) VALUES (NOW(), 'pending')");
+    $stmt = $connection->prepare("INSERT INTO commande (date_com, statut, id_wilaya) VALUES (NOW(), 'pending', $wilayaId)");
     $stmt->execute();
     $orderId = $stmt->insert_id;
 
