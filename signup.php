@@ -50,7 +50,7 @@ function sendActivationEmail($email, $name, $id_client)
         // Content
         $mail->isHTML(true); //Set email format to HTML
         $mail->Subject = 'Activation de compte - prooutil';
-        $activationLink = getCurrentPath() . "/activation.php?id_client=" . $id_client;
+        $activationLink = getCurrentPath() . "/activation.php?id=" . $id_client;
         $mail->Body = "Bonjour $name,<br><br>Cliquez sur le lien suivant pour activer votre compte : <a href='$activationLink'>lien</a><br><br>Merci.";
 
         $mail->send();
@@ -99,13 +99,7 @@ $query->bind_param("ssssss", $firstname, $lastname, $email, $password, $phone_nu
 
 if ($query->execute()) {
     // Check if an account with the same email already exists
-$sql = "SELECT id_client FROM client WHERE email = ?";
-$stmt = $connection->prepare($sql);
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$stmt->store_result();
-
-$stmt->bind_result($id_client);
+$id_client = $connection->insert_id;
     sendActivationEmail($email, $firstname, $id_client);
     echo json_encode(['status' => 'success', 'message' => 'Votre compte a été créé avec succès.']);
 } else {
