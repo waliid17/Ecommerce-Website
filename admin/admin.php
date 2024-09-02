@@ -852,7 +852,7 @@ try {
                             <div class="details-content">
                                 <?php foreach ($order_data['products'] as $product): ?>
                                     <div class="order-detail">
-                                        <p><strong>Produit:</strong> <?php echo $product['product'] ? htmlspecialchars($product['product']['nom']) : 'N/A'; ?></p>
+                                        <p><strong></strong> <?php echo $product['product'] ? htmlspecialchars($product['product']['nom']) : 'N/A'; ?></p>
                                         <p> <?php if ($product['product'] && $product['product']['image']): ?><img src="../images/<?php echo htmlspecialchars($product['product']['image']); ?>" alt="<?php echo htmlspecialchars($product['product']['nom']); ?>"><?php else: ?>No Image<?php endif; ?></p>
                                         <p><strong>Quantité:</strong> <?php echo htmlspecialchars($product['Qte_com']); ?></p>
                                         <p><strong>Prix Unitaire:</strong> <?php echo htmlspecialchars($product['product']['prix_actuel']); ?> DA</p>
