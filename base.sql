@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : sam. 31 août 2024 à 23:28
+-- Généré le : mar. 03 sep. 2024 à 16:05
 -- Version du serveur : 8.3.0
 -- Version de PHP : 8.2.18
 
@@ -50,16 +50,17 @@ CREATE TABLE IF NOT EXISTS `client` (
   `role` enum('admin','user') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'user',
   `telephone` varchar(13) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `adresse` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `activation` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_client`)
-) ENGINE=MyISAM AUTO_INCREMENT=187 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=193 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `client`
 --
 
-INSERT INTO `client` (`id_client`, `prenom`, `nom`, `email`, `mot_de_passe`, `role`, `telephone`, `adresse`) VALUES
-(186, 'chaouki', 'beddiar', 'chaouki@gmail.com', 'walid123', 'user', '0540363847', 'cheraga'),
-(185, 'walid', 'kheloufi', 'walidkheloufi00@gmail.com', 'walid123', 'admin', '0540363847', 'cheraga');
+INSERT INTO `client` (`id_client`, `prenom`, `nom`, `email`, `mot_de_passe`, `role`, `telephone`, `adresse`, `activation`) VALUES
+(1, 'chaouki', 'beddiar', 'chaouki@gmail.com', 'walid123', 'user', '0540363847', 'cheraga', 1),
+(192, 'walid', 'khelouffi', 'walidkheloufi00@gmail.com', 'walid123', 'admin', '0540363847', 'cheraga', 1);
 
 -- --------------------------------------------------------
 
@@ -72,18 +73,26 @@ CREATE TABLE IF NOT EXISTS `commande` (
   `id_com` int NOT NULL AUTO_INCREMENT,
   `date_com` date DEFAULT NULL,
   `statut` varchar(30) NOT NULL,
-  `frais_livraison` decimal(7,2) DEFAULT '0.00',
-  PRIMARY KEY (`id_com`)
-) ENGINE=MyISAM AUTO_INCREMENT=165 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id_wilaya` int DEFAULT NULL,
+  PRIMARY KEY (`id_com`),
+  KEY `fk_id_wilaya` (`id_wilaya`)
+) ENGINE=MyISAM AUTO_INCREMENT=179 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `commande`
 --
 
-INSERT INTO `commande` (`id_com`, `date_com`, `statut`, `frais_livraison`) VALUES
-(164, '2024-09-01', 'Pending', NULL),
-(163, '2024-09-01', 'pending', 0.00),
-(162, '2024-09-01', 'pending', 0.00);
+INSERT INTO `commande` (`id_com`, `date_com`, `statut`, `id_wilaya`) VALUES
+(170, '2024-09-02', 'pending', 6),
+(169, '2024-09-02', 'pending', 13),
+(171, '2024-09-02', 'pending', 6),
+(172, '2024-09-02', 'pending', 6),
+(173, '2024-09-02', 'pending', 6),
+(174, '2024-09-02', 'pending', 6),
+(175, '2024-09-02', 'pending', 6),
+(176, '2024-09-02', 'pending', 6),
+(177, '2024-09-02', 'pending', 9),
+(178, '2024-09-02', 'pending', 3);
 
 -- --------------------------------------------------------
 
@@ -105,22 +114,28 @@ CREATE TABLE IF NOT EXISTS `conteniroutil` (
 --
 
 INSERT INTO `conteniroutil` (`id_com`, `id_outil`, `Qte_com`) VALUES
-(163, 48, 1),
-(162, 48, 1),
-(161, 48, 1),
-(160, 48, 1),
-(159, 48, 1),
-(158, 48, 1),
-(157, 52, 1),
-(156, 50, 9),
-(156, 49, 1),
-(156, 48, 3),
-(154, 52, 1),
-(154, 50, 1),
-(154, 48, 1),
-(155, 50, 1),
-(155, 49, 1),
-(155, 48, 1);
+(178, 49, 9),
+(178, 48, 1),
+(177, 48, 1),
+(177, 52, 1),
+(177, 50, 1),
+(177, 49, 1),
+(176, 52, 1),
+(176, 49, 1),
+(175, 52, 4),
+(175, 48, 3),
+(174, 52, 4),
+(174, 48, 3),
+(173, 52, 4),
+(173, 48, 3),
+(172, 52, 4),
+(172, 48, 3),
+(171, 52, 4),
+(171, 48, 3),
+(170, 52, 4),
+(170, 48, 3),
+(169, 49, 1),
+(169, 48, 1);
 
 -- --------------------------------------------------------
 
@@ -141,15 +156,16 @@ CREATE TABLE IF NOT EXISTS `effectuer_com` (
 --
 
 INSERT INTO `effectuer_com` (`id_com`, `id_client`) VALUES
-(155, 186),
-(156, 186),
-(157, 186),
-(158, 186),
-(159, 186),
-(160, 186),
-(161, 186),
-(162, 186),
-(163, 186);
+(169, 186),
+(170, 186),
+(171, 186),
+(172, 186),
+(173, 186),
+(174, 186),
+(175, 186),
+(176, 186),
+(177, 186),
+(178, 1);
 
 -- --------------------------------------------------------
 
@@ -194,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   `contenu` text,
   `date` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `message`
@@ -202,6 +218,7 @@ CREATE TABLE IF NOT EXISTS `message` (
 
 INSERT INTO `message` (`id`, `prenom`, `nom`, `phone`, `email`, `sujet`, `contenu`, `date`) VALUES
 (73, 'walid', 'khelouffi', '0540363847', 'chaouki@gmail.com', 'dddd', 'dddddddddd', '2024-08-24 21:59:16'),
+(74, 'walid', 'khelouffi', '0540363847', 'chaouki@gmail.com', 'dddd', 'dddd', '2024-09-02 20:23:27'),
 (71, 'walid', 'beddiar', '0540363847', 'chaouki@gmail.com', 'jfhjgshdgshdsdsds', 'ggggggggggggg', '2024-08-24 21:43:02'),
 (70, 'walid', 'beddiar', '0540363847', 'chaouki@gmail.com', 'jfhjgshdgshdsdsds', 'ggggggggggggg', '2024-08-24 21:42:59'),
 (69, 'walid', 'beddiar', '0540363847', 'chaoukii@gmail.com', 'jfhjgshdgshdsdsds', 'gggggggg', '2024-08-21 19:50:37'),
@@ -249,6 +266,84 @@ INSERT INTO `outil` (`id_outil`, `nom`, `description`, `ancien_prix`, `prix_actu
 (55, 'CLE A CHOC', '2IN1 PNEUMATIC TOLSEN', 15300.00, 13200.00, '15141.jpeg', 'TOLSEN'),
 (56, 'CLE A CHOC', '2IN1 PNEUMATIC TOLSEN', 15300.00, 13200.00, '15138.jpeg', 'TOLSEN'),
 (57, 'CLE A CHOC', '2IN1 PNEUMATIC TOLSEN', 15300.00, 13200.00, '32060.jpeg', 'TOLSEN');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `wilaya`
+--
+
+DROP TABLE IF EXISTS `wilaya`;
+CREATE TABLE IF NOT EXISTS `wilaya` (
+  `id_wilaya` int NOT NULL AUTO_INCREMENT,
+  `wilaya` varchar(30) NOT NULL,
+  `delivery_price` decimal(7,2) NOT NULL,
+  PRIMARY KEY (`id_wilaya`)
+) ENGINE=MyISAM AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `wilaya`
+--
+
+INSERT INTO `wilaya` (`id_wilaya`, `wilaya`, `delivery_price`) VALUES
+(1, 'Adrar', 800.00),
+(2, 'Chlef', 650.00),
+(3, 'Laghouat', 700.00),
+(4, 'Oum El Bouaghi', 650.00),
+(5, 'Batna', 650.00),
+(6, 'Béjaïa', 650.00),
+(7, 'Biskra', 700.00),
+(8, 'Béchar', 750.00),
+(9, 'Blida', 500.00),
+(10, 'Bouira', 600.00),
+(11, 'Tamanrasset', 900.00),
+(12, 'Tébessa', 650.00),
+(13, 'Tlemcen', 700.00),
+(14, 'Tiaret', 700.00),
+(15, 'Tizi Ouzou', 600.00),
+(16, 'Algiers', 500.00),
+(17, 'Djelfa', 700.00),
+(18, 'Jijel', 650.00),
+(19, 'Sétif', 650.00),
+(20, 'Saïda', 700.00),
+(21, 'Skikda', 650.00),
+(22, 'Sidi Bel Abbès', 700.00),
+(23, 'Annaba', 600.00),
+(24, 'Guelma', 600.00),
+(25, 'Constantine', 600.00),
+(26, 'Médéa', 600.00),
+(27, 'Mostaganem', 650.00),
+(28, 'M’Sila', 700.00),
+(29, 'Mascara', 700.00),
+(30, 'Ouargla', 800.00),
+(31, 'Oran', 700.00),
+(32, 'El Bayadh', 800.00),
+(33, 'Illizi', 900.00),
+(34, 'Bordj Bou Arréridj', 650.00),
+(35, 'Boumerdès', 600.00),
+(36, 'El Tarf', 600.00),
+(37, 'Tindouf', 900.00),
+(38, 'Tissemsilt', 700.00),
+(39, 'El Oued', 800.00),
+(40, 'Khenchela', 650.00),
+(41, 'Souk Ahras', 600.00),
+(42, 'Tipaza', 550.00),
+(43, 'Mila', 650.00),
+(44, 'Aïn Defla', 650.00),
+(45, 'Naâma', 800.00),
+(46, 'Aïn Témouchent', 700.00),
+(47, 'Ghardaïa', 800.00),
+(48, 'Relizane', 700.00),
+(49, 'Timimoun', 850.00),
+(50, 'Bordj Badji Mokhtar', 900.00),
+(51, 'Ouled Djellal', 700.00),
+(52, 'Béni Abbès', 850.00),
+(53, 'In Salah', 900.00),
+(54, 'In Guezzam', 900.00),
+(55, 'Touggourt', 800.00),
+(56, 'Djanet', 900.00),
+(57, 'El M’Ghair', 700.00),
+(58, 'El Meniaa', 800.00);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
