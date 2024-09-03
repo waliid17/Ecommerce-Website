@@ -112,7 +112,7 @@ $messages = fetchMessages($connection);
           <li class="nav-link">
             <a href="#" class="nav-item" data-target="users-content">
               <i class="bx bx-user icon"></i>
-              <span class="text nav-text">USERS</span>
+              <span class="text nav-text">LES UTILISATEURS</span>
             </a>
           </li>
           <li class="nav-link">
@@ -137,6 +137,12 @@ $messages = fetchMessages($connection);
             <a href="#" class="nav-item" data-target="marques-content">
             <i class="bx bx-image icon"></i>
               <span class="text nav-text">LES MARQUES</span>
+            </a>
+          </li>
+          <li class="nav-link">
+            <a href="#" class="nav-item" data-target="wilayas-content">
+            <i class="bx bx-map icon"></i>
+              <span class="text nav-text">LES WILAYAS</span>
             </a>
           </li>
         </ul>
@@ -164,7 +170,7 @@ $messages = fetchMessages($connection);
         <div class="Card">
             <div>
                 <div class="num"><?php echo $countUsers; ?></div>
-                <div class="name">USERS</div>
+                <div class="name">UTILISATEURS</div>
             </div>
             <div class="icons">
                 <i class="fa-solid fa-users"></i>
@@ -197,12 +203,21 @@ $messages = fetchMessages($connection);
                 <i class="fa-solid fa-boxes-packing"></i>
             </div>
         </div>
+        <div class="Card">
+            <div>
+                <div class="num"><?php echo $countOrders; ?></div>
+                <div class="name">WILAYAS</div>
+            </div>
+            <div class="icons">
+                <i class="fa-solid fa-boxes-packing"></i>
+            </div>
+        </div>
     </div>
 </div>
       </div>
       </div>
       <div class="content" id="users-content">
-    <h2>LISTE DES CLIENTS :</h2>
+    <h2>LES UTILISATEURS :</h2><br>
     <table class="client-table">
         <thead>
             <tr>
@@ -875,7 +890,6 @@ try {
         <p>Aucune commande trouvée.</p>
     <?php endif; ?>
 </div>
-
 <script>
 document.querySelectorAll('.toggle-details').forEach(button => {
     button.addEventListener('click', function() {
@@ -1006,7 +1020,7 @@ if ($result->num_rows > 0) {
 $conn->close();
 ?>
 <div class="content" id="marques-content" style="display: block;">
-    <h2>LES MARQUES :</h2><br>
+    <h2>LES MARQUES :</h2>
     <!-- Brand Images Table -->
     <?php if (!empty($images)): ?>
         <table class="brand-table">
@@ -1044,6 +1058,315 @@ $conn->close();
     </form>
 </div>
 </div>
+
+<?php
+// Database connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "base";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Handle delete operations
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+    $query = "DELETE FROM wilaya WHERE id_wilaya = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('i', $id);
+    if ($stmt->execute()) {
+        echo "<p>Wilaya deleted successfully.</p>";
+        echo "<meta http-equiv='refresh' content='0'>"; // Refresh the page to reflect changes
+    } else {
+        echo "Error deleting record: " . $conn->error;
+    }
+    $stmt->close();
+}
+
+// Handle price update
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id_wilaya']) && isset($_POST['delivery_price'])) {
+    $id = $_POST['id_wilaya'];
+    $price = $_POST['delivery_price'];
+    $updateQuery = "UPDATE wilaya SET delivery_price = ? WHERE id_wilaya = ?";
+    $stmt = $conn->prepare($updateQuery);
+    $stmt->bind_param('di', $price, $id);
+    if ($stmt->execute()) {
+        echo "<script>document.addEventListener('DOMContentLoaded', function() { showSuccessModal(); });</script>";
+    } else {
+        echo "Error updating price: " . $conn->error;
+    }
+    $stmt->close();
+}
+
+// Close the connection
+$conn->close();
+?>
+
+<div class="content" id="wilayas-content">
+    <h2>LISTE DES WILAYAS :</h2><br>
+    <table class="wilaya-table">
+        <thead>
+            <tr>
+                <th>Wilaya</th>
+                <th>Delivery Price (DZD)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            // Re-open the connection
+            $conn = new mysqli($servername, $username, $password, $dbname);
+
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+
+            $query = "SELECT * FROM wilaya";
+            $result = $conn->query($query);
+
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr data-wilaya-id='{$row['id_wilaya']}'>
+                            <td>{$row['wilaya']}</td>
+                           <td>
+    <span class='price-display' data-wilaya-id='{$row['id_wilaya']}'>{$row['delivery_price']}</span>
+    <input type='text' class='price-input' data-wilaya-id='{$row['id_wilaya']}' value='{$row['delivery_price']}' style='display: none;' />
+    <button class='save-price' data-wilaya-id='{$row['id_wilaya']}' style='display: none;' title='Save Price'>
+        <i class='fas fa-save'></i>
+    </button>
+</td>
+
+                            <td>
+                            <div class='action-buttons'>
+                              <button class='edit-button' data-wilaya-id='{$row['id_wilaya']}' title='Edit Price'>
+                                    Éditer
+                                </button>
+                              <button class='delete-wilaya' data-wilaya-id='{$row['id_wilaya']}' title='Delete'>
+  <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 69 14' class='svgIcon bin-top'>
+    <g clip-path='url(#clip0_35_24)'>
+      <path fill='black'
+        d='M20.8232 2.62734L19.9948 4.21304C19.8224 4.54309 19.4808 4.75 19.1085 4.75H4.92857C2.20246 4.75 0 6.87266 0 9.5C0 12.1273 2.20246 14.25 4.92857 14.25H64.0714C66.7975 14.25 69 12.1273 69 9.5C69 6.87266 66.7975 4.75 64.0714 4.75H49.8915C49.5192 4.75 49.1776 4.54309 49.0052 4.21305L48.1768 2.62734C47.3451 1.00938 45.6355 0 43.7719 0H25.2281C23.3645 0 21.6549 1.00938 20.8232 2.62734ZM64.0023 20.0648C64.0397 19.4882 63.5822 19 63.0044 19H5.99556C5.4178 19 4.96025 19.4882 4.99766 20.0648L8.19375 69.3203C8.44018 73.0758 11.6746 76 15.5712 76H53.4288C57.3254 76 60.5598 73.0758 60.8062 69.3203L64.0023 20.0648Z'>
+      </path>
+    </g>
+    <defs>
+      <clipPath id='clip0_35_24'>
+        <rect fill='white' height='14' width='69'></rect>
+      </clipPath>
+    </defs>
+  </svg>
+  <svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 69 57' class='svgIcon bin-bottom'>
+    <g clip-path='url(#clip0_35_22)'>
+      <path fill='black'
+        d='M20.8232 -16.3727L19.9948 -14.787C19.8224 -14.4569 19.4808 -14.25 19.1085 -14.25H4.92857C2.20246 -14.25 0 -12.1273 0 -9.5C0 -6.8727 2.20246 -4.75 4.92857 -4.75H64.0714C66.7975 -4.75 69 -6.8727 69 -9.5C69 -12.1273 66.7975 -14.25 64.0714 -14.25H49.8915C49.5192 -14.25 49.1776 -14.4569 49.0052 -14.787L48.1768 -16.3727C47.3451 -17.9906 45.6355 -19 43.7719 -19H25.2281C23.3645 -19 21.6549 -17.9906 20.8232 -16.3727ZM64.0023 1.0648C64.0397 0.4882 63.5822 0 63.0044 0H5.99556C5.4178 0 4.96025 0.4882 4.99766 1.0648L8.19375 50.3203C8.44018 54.0758 11.6746 57 15.5712 57H53.4288C57.3254 57 60.5598 54.0758 60.8062 50.3203L64.0023 1.0648Z'>
+      </path>
+    </g>
+    <defs>
+      <clipPath id='clip0_35_22'>
+        <rect fill='white' height='57' width='69'></rect>
+      </clipPath>
+    </defs>
+  </svg>
+</button>
+</div>
+
+                          </tr>";
+                }
+            } else {
+                echo "<tr><td colspan='4'>No wilayas found.</td></tr>";
+            }
+
+            // Close the connection
+            $conn->close();
+            ?>
+        </tbody>
+    </table>
+</div>
+
+<!-- Success Modal Structure -->
+<div id="successModal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <span id="closeSuccessModalBtn" class="close">&times;</span>
+            <div class="modal-body">
+                <div class="modal-icon">
+                    <svg viewBox="0 0 24 24" class="success-icon" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" fill="none" stroke="#ff840a" stroke-width="2"/>
+                        <path d="M7 12l3 3 7-7" fill="none" stroke="#ff840a" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h2>Succès</h2>
+                <p>Prix de livraison mis à jour avec succès.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-ok" id="btn-ok-wilaya">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Delete Confirmation Modal Structure -->
+<div id="deleteConfirmationModal" class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <span id="closeDeleteConfirmationModalBtn" class="close">&times;</span>
+            <div class="modal-body">
+                <h2>Confirmation</h2>
+                <p>Êtes-vous sûr de vouloir supprimer cette wilaya ?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="confirmDeleteBtn" class="btn btn-ok">Confirmer</button>
+                <button id="cancelDeleteBtn" class="btn">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const successModal = document.getElementById('successModal');
+    const deleteConfirmationModal = document.getElementById('deleteConfirmationModal');
+    const closeSuccessModalBtn = document.getElementById('closeSuccessModalBtn');
+    const okButtonSuccess = document.querySelector('.btn-ok');
+    const okButtonwilaya = document.getElementById('btn-ok-wilaya');
+    const closeDeleteConfirmationModalBtn = document.getElementById('closeDeleteConfirmationModalBtn');
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+    let currentDeleteId = null;
+    let currentEditingId = null; // Track the currently edited Wilaya ID
+
+    // Function to show the success modal for price updates
+    function showSuccessModal() {
+        successModal.style.display = 'block';
+    }
+
+    // Function to close the success modal and refresh the content
+    function closeSuccessModalAndRefresh() {
+        successModal.style.display = 'none';
+    }
+
+    // Function to close the delete confirmation modal
+    function closeDeleteConfirmationModal() {
+        deleteConfirmationModal.style.display = 'none';
+    }
+
+    // Function to show delete confirmation modal
+    function showDeleteConfirmationModal(id) {
+        currentDeleteId = id;
+        deleteConfirmationModal.style.display = 'block';
+    }
+
+    // Function to toggle edit mode
+    function toggleEditMode(wilayaId) {
+        // If there's another Wilaya being edited, cancel its edit mode
+        if (currentEditingId && currentEditingId !== wilayaId) {
+            const previousPriceDisplay = document.querySelector(`.price-display[data-wilaya-id='${currentEditingId}']`);
+            const previousPriceInput = document.querySelector(`.price-input[data-wilaya-id='${currentEditingId}']`);
+            previousPriceDisplay.style.display = 'block';
+            previousPriceInput.style.display = 'none';
+        }
+
+        // Now handle the current edit mode
+        const priceDisplay = document.querySelector(`.price-display[data-wilaya-id='${wilayaId}']`);
+        const priceInput = document.querySelector(`.price-input[data-wilaya-id='${wilayaId}']`);
+        const isEditing = priceInput.style.display === 'block';
+        
+        if (isEditing) {
+            // Save changes
+            const newPrice = priceInput.value;
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    priceDisplay.textContent = newPrice;
+                    showSuccessModal();
+                } else {
+                    alert('Error updating price');
+                }
+            };
+            xhr.send(`id_wilaya=${wilayaId}&delivery_price=${encodeURIComponent(newPrice)}`);
+        }
+        
+        priceDisplay.style.display = isEditing ? 'block' : 'none';
+        priceInput.style.display = isEditing ? 'none' : 'block';
+        if (!isEditing) priceInput.focus();
+        
+        // Update the currently edited Wilaya ID
+        currentEditingId = isEditing ? null : wilayaId;
+    }
+
+    // Add click event listeners to all "Edit Price" buttons
+    function bindEvents() {
+        document.querySelectorAll('.edit-button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const wilayaId = this.getAttribute('data-wilaya-id');
+                toggleEditMode(wilayaId);
+            });
+        });
+
+        // Add click event listeners to all "Delete" links
+        document.querySelectorAll('.delete-wilaya').forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const wilayaId = this.getAttribute('data-wilaya-id');
+                showDeleteConfirmationModal(wilayaId);
+            });
+        });
+    }
+
+    // Confirm delete action
+    confirmDeleteBtn.addEventListener('click', function() {
+        if (currentDeleteId) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', `?delete=${currentDeleteId}`, true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    closeDeleteConfirmationModal(); // Hide the confirmation modal
+                    location.reload(); // Reload the current page to reflect changes
+                }
+            };
+            xhr.send();
+        }
+    });
+
+    // Cancel delete action
+    cancelDeleteBtn.addEventListener('click', function() {
+        closeDeleteConfirmationModal();
+    });
+
+    // Close modals when clicking the close button
+    closeSuccessModalBtn.addEventListener('click', closeSuccessModalAndRefresh);
+    okButtonwilaya.addEventListener('click', closeSuccessModalAndRefresh);
+    closeDeleteConfirmationModalBtn.addEventListener('click', closeDeleteConfirmationModal);
+
+    // Close modals when clicking outside the modal content
+    window.addEventListener('click', function(event) {
+        if (event.target === successModal) {
+            closeSuccessModalAndRefresh();
+        }
+        if (event.target === deleteConfirmationModal) {
+            closeDeleteConfirmationModal();
+        }
+    });
+
+    // Close success modal and refresh the page when clicking "OK"
+    okButtonSuccess.addEventListener('click', closeSuccessModalAndRefresh);
+
+    // Initial binding of events
+    bindEvents();
+});
+
+</script>
+
   </section>
 
   <!-- Scripts -->
