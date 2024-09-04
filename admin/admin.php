@@ -205,11 +205,22 @@ $messages = fetchMessages($connection);
         </div>
         <div class="Card">
             <div>
-                <div class="num"><?php echo $countOrders; ?></div>
+                <div class="num"><?php echo $countMarques; ?></div>
+                <div class="name">MARQUES</div>
+            </div>
+            <div class="icons">
+                <i class="bx bxs-image-add icon"></i>
+            </div>
+        </div>
+        <div class="Card">
+            <div>
+                <div class="num"><?php echo $countWilayas; ?></div>
                 <div class="name">WILAYAS</div>
             </div>
             <div class="icons">
-                <i class="fa-solid fa-boxes-packing"></i>
+            <i class="bx bxs-map icon"></i>
+
+
             </div>
         </div>
     </div>
