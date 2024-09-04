@@ -51,7 +51,7 @@ function sendActivationEmail($email, $name, $id_client)
         $mail->isHTML(true); //Set email format to HTML
         $mail->Subject = 'Activation de compte - prooutil';
         $activationLink = getCurrentPath() . "/activation.php?id=" . $id_client;
-        $mail->Body = "Bonjour $name,<br><br>Cliquez sur le lien suivant pour activer votre compte : <a href='$activationLink'>lien</a><br><br>Merci.";
+        $mail->Body = "Bonjour $name,<br><br>Cliquez sur le lien suivant pour activer votre compte : <a href='$activationLink'>Le lien d'activation</a><br><br>Merci.";
 
         $mail->send();
     } catch (Exception $e) {
