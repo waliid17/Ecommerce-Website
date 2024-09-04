@@ -199,21 +199,23 @@ document.getElementById('add-to-cart').addEventListener('click', function() {
         quantity: parseInt(document.getElementById('quantity').textContent)
     };
     
-    addToCart(product);
     addToWishlist(product);
 });
 
-function addToCart(product) {
-    // Your existing code for adding to cart
-    // Example:
-    // let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    // cart.push(product);
-    // localStorage.setItem('cart', JSON.stringify(cart));
-}
-
 function addToWishlist(product) {
     let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-    wishlist.push(product);
+
+    // Check if the product already exists in the wishlist
+    const existingProductIndex = wishlist.findIndex(item => item.id === product.id);
+
+    if (existingProductIndex !== -1) {
+        // Product already exists, update the quantity
+        wishlist[existingProductIndex].quantity += product.quantity;
+    } else {
+        // Product does not exist, add it to the wishlist
+        wishlist.push(product);
+    }
+
     localStorage.setItem('wishlist', JSON.stringify(wishlist));
 }
 </script>
@@ -283,7 +285,6 @@ function addToWishlist(product) {
 
     <!-- App JS -->
     <script src="./js/app.js"></script>
-    <script src="./js/product-detail.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             const quantityElement = document.getElementById('quantity');

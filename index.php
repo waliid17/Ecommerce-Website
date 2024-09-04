@@ -393,7 +393,15 @@
 
             function addToWishlist(product) {
                 let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-                wishlist.push(product);
+                const existingProductIndex = wishlist.findIndex(item => item.id === product.id);
+
+                  if (existingProductIndex !== -1) {
+                    // Product already exists, update the quantity
+                    wishlist[existingProductIndex].quantity += product.quantity;
+                  } else {
+                    // Product does not exist, add it to the wishlist
+                    wishlist.push(product);
+                  }
                 localStorage.setItem("wishlist", JSON.stringify(wishlist));
 
                 Swal.fire({

@@ -232,7 +232,7 @@ if ($stmt) {
                     const wilaya = document.getElementById('wilaya');
                     var selectedOption = wilaya.options[wilaya.selectedIndex];
                     var wilayaPrice = selectedOption.getAttribute('wilaya-price');
-                    const deliveryPrice = wilayaPrice;
+                    const deliveryPrice = wilayaPrice ? wilayaPrice : 0;
                     document.getElementById('deliveryPrice').innerText = `Prix de livraison: ${deliveryPrice} DA`;
 
                     // Calculate the total price of wishlist items
@@ -240,7 +240,7 @@ if ($stmt) {
                     let totalPrice = wishlist.reduce((total, item) => total + (item.price * item.quantity), 0);
 
                     // Add delivery price to the total price
-                    const totalWithDelivery = totalPrice + deliveryPrice;
+                    const totalWithDelivery = parseFloat(totalPrice) + parseFloat(deliveryPrice);
 
                     // Update the total price display on the delivery form
                     const deliveryFormTotalContainer = document.getElementById('deliveryTotal');
@@ -366,6 +366,7 @@ if ($stmt) {
                     });
                     localStorage.setItem('wishlist', JSON.stringify(wishlist));
                     renderWishlist();
+                    window.location.href = 'go_to_wishlist.php';
                 }
 
                 // Function to remove an item from the wishlist
@@ -420,50 +421,68 @@ if ($stmt) {
                         wilayaId: wilayaId,
                         userId: <?= $user_id ?>
                     };
-                    
-                    // Send order data to the server
-                    fetch('createOrder.php', {
-                        method: 'POST',
-                        body: JSON.stringify(data) // Ensure this is properly included in PHP
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.orderId) {
+
+                    async function createOrderAndAddItems(data, items) {
+                        try {
+                            // Send order data to the server
+                            const orderResponse = await fetch('createOrder.php', {
+                                method: 'POST',
+                                body: JSON.stringify(data) // Ensure this is properly handled in PHP
+                            });
+
+                            const orderData = await orderResponse.json();
+
+                            if (orderData.orderId) {
+                                // Assign orderId to each item
+                                const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+                                 const items = wishlist.map(item => ({
+                        id_com: null, // This will be set on the server
+                        id_outil: item.id,
+                        Qte_com: item.quantity
+                    }));
                                 items.forEach(item => {
-                                    item.id_com = data.orderId;
+                                    item.id_com = orderData.orderId;
                                 });
 
-                                return fetch('addItemsToOrder.php', {
+                                // Send items data to the server
+                                const itemsResponse = await fetch('addItemsToOrder.php', {
                                     method: 'POST',
                                     body: JSON.stringify({ items })
                                 });
+
+                                const itemsData = await itemsResponse.json();
+
+                                if (itemsData.status === 'success') {
+                                    // Clear wishlist from localStorage
+                                    localStorage.removeItem('wishlist');
+
+                                    // Show success message
+                                    await Swal.fire({
+                                        title: 'Commande confirmée',
+                                        text: 'Votre commande a été confirmée avec succès.',
+                                        icon: 'success',
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#ff840a', // Your preferred button color
+                                        background: '#fff', // Background color
+                                        color: '#333' // Text color
+                                    });
+
+                                    // Redirect to the homepage
+                                    window.location.href = "index.php";
+                                } else {
+                                    throw new Error('Failed to add items to order.');
+                                }
+
+                                // Clear the wishlist display
+                                renderWishlist();
                             } else {
                                 throw new Error('Failed to create order.');
                             }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.status === 'success') {
-                                localStorage.removeItem('wishlist');
-                                Swal.fire({
-                                    title: 'Commande confirmée',
-                                    text: 'Votre commande a été confirmée avec succès.',
-                                    icon: 'success',
-                                    confirmButtonText: 'OK',
-                                    confirmButtonColor: '#ff840a', // Your preferred button color
-                                    background: '#fff', // Background color
-                                    color: '#333' // Text color
-                                }).then(() => {
-                                    window.location.href = "index.php";
-                                });
-                                renderWishlist(); // Clear the wishlist display
-                            } else {
-                                throw new Error('Failed to add items to order.');
-                            }
-                        })
-                        .catch(error => {
+                        } catch (error) {
                             console.error('Error:', error);
-                            Swal.fire({
+
+                            // Show error message
+                            await Swal.fire({
                                 title: 'Erreur',
                                 text: 'Une erreur s\'est produite lors de la confirmation de votre commande.',
                                 icon: 'error',
@@ -472,94 +491,98 @@ if ($stmt) {
                                 background: '#fff', // Background color
                                 color: '#333' // Text color
                             });
-                        });
+                        }
+                    }
+
+                    // Example usage
+                    createOrderAndAddItems(data, items);
                 }
 
-                // Event listener for "Passer à la commande" button
-                document.getElementById('showDeliveryForm').addEventListener('click', function () {
-                    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-                    if (wishlist.length === 0) {
-                        Swal.fire({
-                            title: 'Votre panier est vide',
-                            text: 'Veuillez ajouter des articles à votre panier avant de continuer.',
-                            icon: 'warning',
-                            confirmButtonText: 'D\'accord',
-                            confirmButtonColor: '#ff840a', // Your preferred button color
-                            background: '#fff', // Background color
-                            color: '#333' // Text color
-                        });
-                        return;
+                    // Event listener for "Passer à la commande" button
+                    document.getElementById('showDeliveryForm').addEventListener('click', function () {
+                        const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+                        if (wishlist.length === 0) {
+                            Swal.fire({
+                                title: 'Votre panier est vide',
+                                text: 'Veuillez ajouter des articles à votre panier avant de continuer.',
+                                icon: 'warning',
+                                confirmButtonText: 'D\'accord',
+                                confirmButtonColor: '#ff840a', // Your preferred button color
+                                background: '#fff', // Background color
+                                color: '#333' // Text color
+                            });
+                            return;
+                        }
+
+                        // Proceed with showing the delivery form
+                        document.getElementById('Wishlist').style.display = 'none';
+                        document.getElementById('deliveryFormContainer').style.display = 'block';
+                        updateTotalPrice(); // Ensure total price is updated when showing the delivery form
+                    });
+
+                    // Event listener for wilaya change
+                    document.getElementById('wilaya').addEventListener('change', function () {
+                        updateTotalPrice(); // Update total price when wilaya is changed
+                    });
+
+                    // Initial render
+                    document.addEventListener("DOMContentLoaded", function () {
+                        renderWishlist();
+
+                        const hash = window.location.hash;
+                        if (hash) {
+                            // Remove hash from URL
+                            history.replaceState(null, null, 'user.php');
+
+                            // Open the specific tab
+                            const tabName = hash.substring(1); // Get the tab name without '#'
+                            openTab({ currentTarget: document.querySelector(`.tablink[onclick*='${tabName}']`) }, tabName);
+                        }
+                    });
+
+                    // Function to open tabs
+                    function openTab(evt, tabName) {
+                        var i, tabcontent, tablinks;
+                        tabcontent = document.getElementsByClassName("tabcontent");
+                        for (i = 0; i < tabcontent.length; i++) {
+                            tabcontent[i].style.display = "none";
+                            tabcontent[i].classList.remove("active");
+                        }
+                        tablinks = document.getElementsByClassName("tablink");
+                        for (i = 0; i < tablinks.length; i++) {
+                            tablinks[i].classList.remove("active");
+                        }
+                        document.getElementById(tabName).style.display = "block";
+                        document.getElementById(tabName).classList.add("active");
+                        evt.currentTarget.classList.add("active");
                     }
 
-                    // Proceed with showing the delivery form
-                    document.getElementById('Wishlist').style.display = 'none';
-                    document.getElementById('deliveryFormContainer').style.display = 'block';
-                    updateTotalPrice(); // Ensure total price is updated when showing the delivery form
-                });
+                    // Handle input field editing
+                    let currentlyEditing = null;
 
-                // Event listener for wilaya change
-                document.getElementById('wilaya').addEventListener('change', function () {
-                    updateTotalPrice(); // Update total price when wilaya is changed
-                });
+                    function toggleEdit(name) {
+                        // Get the input field and its corresponding edit icon
+                        const input = document.querySelector(`input[name="${name}"]`);
+                        const inputContainer = input.closest('.input-container');
 
-                // Initial render
-                document.addEventListener("DOMContentLoaded", function () {
-                    renderWishlist();
+                        // If there is another field currently being edited, reset it
+                        if (currentlyEditing && currentlyEditing !== input) {
+                            currentlyEditing.setAttribute('readonly', true);
+                            currentlyEditing.classList.remove('edit-mode');
+                        }
 
-                    const hash = window.location.hash;
-                    if (hash) {
-                        // Remove hash from URL
-                        history.replaceState(null, null, 'user.php');
-
-                        // Open the specific tab
-                        const tabName = hash.substring(1); // Get the tab name without '#'
-                        openTab({ currentTarget: document.querySelector(`.tablink[onclick*='${tabName}']`) }, tabName);
+                        // Toggle the readonly attribute and edit mode for the clicked field
+                        if (input.hasAttribute('readonly')) {
+                            input.removeAttribute('readonly');
+                            input.focus();
+                            input.classList.add('edit-mode');
+                            currentlyEditing = input;
+                        } else {
+                            input.setAttribute('readonly', true);
+                            input.classList.remove('edit-mode');
+                            currentlyEditing = null;
+                        }
                     }
-                });
-
-                // Function to open tabs
-                function openTab(evt, tabName) {
-                    var i, tabcontent, tablinks;
-                    tabcontent = document.getElementsByClassName("tabcontent");
-                    for (i = 0; i < tabcontent.length; i++) {
-                        tabcontent[i].style.display = "none";
-                        tabcontent[i].classList.remove("active");
-                    }
-                    tablinks = document.getElementsByClassName("tablink");
-                    for (i = 0; i < tablinks.length; i++) {
-                        tablinks[i].classList.remove("active");
-                    }
-                    document.getElementById(tabName).style.display = "block";
-                    document.getElementById(tabName).classList.add("active");
-                    evt.currentTarget.classList.add("active");
-                }
-
-                // Handle input field editing
-                let currentlyEditing = null;
-
-                function toggleEdit(name) {
-                    // Get the input field and its corresponding edit icon
-                    const input = document.querySelector(`input[name="${name}"]`);
-                    const inputContainer = input.closest('.input-container');
-
-                    // If there is another field currently being edited, reset it
-                    if (currentlyEditing && currentlyEditing !== input) {
-                        currentlyEditing.setAttribute('readonly', true);
-                        currentlyEditing.classList.remove('edit-mode');
-                    }
-
-                    // Toggle the readonly attribute and edit mode for the clicked field
-                    if (input.hasAttribute('readonly')) {
-                        input.removeAttribute('readonly');
-                        input.focus();
-                        input.classList.add('edit-mode');
-                        currentlyEditing = input;
-                    } else {
-                        input.setAttribute('readonly', true);
-                        input.classList.remove('edit-mode');
-                        currentlyEditing = null;
-                    }
-                }
 
             </script>
 </body>

@@ -267,35 +267,43 @@
               </div>
             </div>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.querySelectorAll(".btn-cart-add").forEach(function (button) {
-                button.addEventListener("click", function () {
+            <script>
+              document.addEventListener("DOMContentLoaded", function () {
+                document.querySelectorAll(".btn-cart-add").forEach(function (button) {
+                  button.addEventListener("click", function () {
                     let dataId = this.getAttribute("data-id");
                     let product = products[dataId];
 
                     if (!product) {
-                        alert("Error: Product not found!");
+                      alert("Error: Product not found!");
                     } else {
-                        addToWishlist(product);
+                      addToWishlist(product);
                     }
+                  });
                 });
-            });
 
-            function addToWishlist(product) {
-                let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
-                wishlist.push(product);
-                localStorage.setItem("wishlist", JSON.stringify(wishlist));
+                function addToWishlist(product) {
+                  let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+                  const existingProductIndex = wishlist.findIndex(item => item.id === product.id);
 
-                Swal.fire({
+                  if (existingProductIndex !== -1) {
+                    // Product already exists, update the quantity
+                    wishlist[existingProductIndex].quantity += product.quantity;
+                  } else {
+                    // Product does not exist, add it to the wishlist
+                    wishlist.push(product);
+                  }
+                  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+
+                  Swal.fire({
                     title: 'Added!',
                     text: `${product.name} has been added to your wishlist.`,
                     icon: 'success',
                     confirmButtonText: 'OK'
-                });
-            }
-        });
-    </script>
+                  });
+                }
+              });
+            </script>
             <!-- end product list -->
 
             <!-- pagination -->
