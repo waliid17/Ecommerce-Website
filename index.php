@@ -17,6 +17,7 @@
     <!-- app css -->
     <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
 
     <!-- header -->
@@ -298,7 +299,7 @@
 
             setInterval(slideCarousel, intervalTime);
         });
-        
+
     </script>
 
     <!-- product list -->
@@ -395,13 +396,13 @@
                 let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
                 const existingProductIndex = wishlist.findIndex(item => item.id === product.id);
 
-                  if (existingProductIndex !== -1) {
+                if (existingProductIndex !== -1) {
                     // Product already exists, update the quantity
                     wishlist[existingProductIndex].quantity += product.quantity;
-                  } else {
+                } else {
                     // Product does not exist, add it to the wishlist
                     wishlist.push(product);
-                  }
+                }
                 localStorage.setItem("wishlist", JSON.stringify(wishlist));
 
                 Swal.fire({
@@ -607,8 +608,18 @@
                         <h3 class="footer-head">CONTACTEZ NOUS</h3>
                         <ul class="menu">
                             <li>Algérie, Alger, Route de bridja, Staoueli</li>
-                            <li>Tél : 055******** 7/7J 24/24H</li>
-                            <li>prooutil00@gmail.com</li>
+                            <li>
+                                <i class="bx bx-phone-call"></i>
+                                : 055******** 7/7J 24/24H
+                            </li>
+
+                            <ul>
+                                <li>
+                                    <i class="bx bx-envelope"></i>
+                                   : prooutil00@gmail.com
+                                </li>
+                            </ul>
+
                         </ul>
                     </div>
                     <div class="col-3 col-md-6 col-sm-12">
@@ -640,11 +651,11 @@
             </div>
         </footer>
         <!-- end footer -->
-<style>
-    .subscribe {
-    visibility: hidden;
-}
-</style>
+        <style>
+            .subscribe {
+                visibility: hidden;
+            }
+        </style>
         <!-- app js -->
         <script src="./js/app.js"></script>
         <script>
