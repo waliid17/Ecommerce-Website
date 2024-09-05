@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créer un Compte</title>
+    <title>Connexion Requise</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -61,10 +61,11 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Créer un Compte</h1>
-        <p>Vous devez créer un compte pour accéder à cette fonctionnalité.</p>
-        <a href="login_signup.html">Créer un compte</a>
-    </div>
+<div class="container">
+    <h1>Connexion Requise</h1>
+    <p>Vous devez vous connecter pour accéder à cette fonctionnalité.</p>
+    <a href="login_signup.html">Se connecter</a>
+</div>
+
 </body>
 </html>

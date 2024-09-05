@@ -1231,9 +1231,6 @@ footer ul li {
   grid-template-columns: 1fr 450px 1fr;
 }
 
-.imageleft {
-  justify-self: end;
-}
 
 .imageright {
   justify-self: start;

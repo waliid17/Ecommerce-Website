@@ -600,7 +600,6 @@
                         <ul class="menu">
                             <li><a href="#">Livraison Rapide</a></li>
                             <li><a href="#">Retours Gratuits</a></li>
-                            <li><a href="#">Installation et Réparation</a></li>
                             <li><a href="#">Conseils Personnalisés</a></li>
                         </ul>
                     </div>
@@ -609,7 +608,7 @@
                         <ul class="menu">
                             <li>Algérie, Alger, Route de bridja, Staoueli</li>
                             <li>Tél : 055******** 7/7J 24/24H</li>
-                            <li>contact@pro-outil.com</li>
+                            <li>prooutil00@gmail.com</li>
                         </ul>
                     </div>
                     <div class="col-3 col-md-6 col-sm-12">
@@ -641,7 +640,11 @@
             </div>
         </footer>
         <!-- end footer -->
-
+<style>
+    .subscribe {
+    visibility: hidden;
+}
+</style>
         <!-- app js -->
         <script src="./js/app.js"></script>
         <script>
