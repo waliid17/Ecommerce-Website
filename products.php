@@ -97,12 +97,9 @@
               <ul class="filter-list">
                 <li><a href="#">Electroportatif</a></li>
                 <li><a href="#">Outillage à main</a></li>
-                <li><a href="#">Atelier</a></li>
                 <li><a href="#">Chantier</a></li>
                 <li><a href="#">Sécurité</a></li>
                 <li><a href="#">Jardin</a></li>
-                <li><a href="#">Mécanique</a></li>
-                <li><a href="#">Lavage et transport</a></li>
               </ul>
             </div>
             <div class="price-box">
@@ -232,7 +229,7 @@
                           $name
                       </div>
                       <div class='product-card-price'>
-                          <span><del>$old_price DA</del></span>
+                          <span><del>$old_price DA</del></span><br>
                           <span class='curr-price'>$curr_price DA</span>
                       </div>
                   </div>

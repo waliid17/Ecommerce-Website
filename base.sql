@@ -257,15 +257,24 @@ CREATE TABLE IF NOT EXISTS `outil` (
 --
 
 INSERT INTO `outil` (`id_outil`, `nom`, `description`, `ancien_prix`, `prix_actuel`, `image`, `marque`) VALUES
-(48, 'CLE A CHOC', '2IN1 PNEUMATIC TOLSEN', 15300.00, 12700.00, 'T825010R.jpeg', 'BODA'),
-(49, 'CLE A CHOC', '2IN1 PNEUMATIC TOLSEN', 15300.00, 12700.00, '15118.jpeg', 'TOLSEN'),
-(50, 'CLE A CHOC', '2IN1 PNEUMATIC TOLSEN', 15300.00, 12700.00, 'YT8823.jpeg', 'HONESTPRO'),
-(52, 'CLE A CHOC', '2IN1 PNEUMATIC TOLSEN', 15300.00, 12700.00, 'YT2374.jpeg', 'BODA'),
-(53, 'CLE A CHOC', '2IN1 PNEUMATIC TOLSEN', 15300.00, 13200.00, 'YAE2375B (1).jpeg', 'BODA'),
-(54, 'CLE A CHOC', '2IN1 PNEUMATIC TOLSEN', 15300.00, 13200.00, '45244.jpeg', 'TOLSEN'),
-(55, 'CLE A CHOC', '2IN1 PNEUMATIC TOLSEN', 15300.00, 13200.00, '15141.jpeg', 'TOLSEN'),
-(56, 'CLE A CHOC', '2IN1 PNEUMATIC TOLSEN', 15300.00, 13200.00, '15138.jpeg', 'TOLSEN'),
-(57, 'CLE A CHOC', '2IN1 PNEUMATIC TOLSEN', 15300.00, 13200.00, '32060.jpeg', 'TOLSEN');
+(5, 'CLE A CLIQUET', '• CrV
+• Chromé, finition satinée
+• Emballage : cintre en plastique avec étiquette de couleur', 1800.00, 1200.00, 'T825010R.jpeg', 'TOLSEN'),
+(6, 'CLE A GRIFE', '• Mâchoire mobile forgée avec de l’acier au carbone de haute qualité
+• Emballage : étiquette volante avec boîte de dessin', 1650.00, 1150.00, '15118.jpeg', 'BODA'),
+(7, 'CLE CROIX', 'CLE CROIX 1/2″ 17*19*21 TOPTUL', 3900.00, 3600.00, 'YT8823.jpeg', 'HOTECHE'),
+(8, 'CLE MIXTE 6 TOPTUL', 'Toptul AAEB0606 Clé mixte standard 15° 6mm
+Caractéristiques :
+
+Matériau en acier au chrome vanadium
+Performances de couple élevées jusqu à plus de 1,6 fois comme ANSI & Norme DIN
+Qualité professionnelle pour une durabilité et une résistance à la corrosion maximales
+Spécifications :
+
+Finition : Satin Chrome
+Taille : 6 mm
+Longueur : 109 mm
+', 1500.00, 1200.00, 'YT2374.jpeg', 'YATO'),
 
 -- --------------------------------------------------------
 
