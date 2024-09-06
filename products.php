@@ -293,7 +293,7 @@
     </div>
   </div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('filter-button').addEventListener('click', function () {
@@ -327,6 +327,39 @@
       window.location.href = 'products.php' + queryString;
     });
   });
+  document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".btn-cart-add").forEach(function (button) {
+    button.addEventListener("click", function () {
+      let dataId = this.getAttribute("data-id");
+      let product = products[dataId];
+
+      if (!product) {
+        console.error("Error: Product not found!");
+      } else {
+        addToWishlist(product);
+      }
+    });
+  });
+
+  function addToWishlist(product) {
+    let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    const existingProductIndex = wishlist.findIndex(item => item.id === product.id);
+
+    if (existingProductIndex !== -1) {
+      wishlist[existingProductIndex].quantity += product.quantity;
+    } else {
+      wishlist.push(product);
+    }
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+
+    Swal.fire({
+      title: 'Added!',
+      text: `${product.name} has been added to your wishlist.`,
+      icon: 'success',
+      confirmButtonText: 'OK'
+    });
+  }
+});
 </script>
 
   <!-- footer -->
