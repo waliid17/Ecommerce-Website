@@ -53,6 +53,17 @@
         }
     }
 
+    // Fetch categories
+    $sqlCategories = "SELECT id_cat, nom_cat FROM categorie"; // Use 'nom_cat' based on your table structure
+    $resultCategories = $connection->query($sqlCategories);
+    $categories = [];
+
+    if ($resultCategories->num_rows > 0) {
+        while ($row = $resultCategories->fetch_assoc()) {
+            $categories[] = $row;
+        }
+    }
+
     // Fetch messages
     function fetchMessages($connection)
     {
@@ -69,7 +80,11 @@
     }
 
     $messages = fetchMessages($connection);
+
+    // Close the database connection
+    $connection->close();
     ?>
+
     <nav class="sidebar closed">
         <header>
             <div class="image-text">
@@ -443,6 +458,21 @@
                                         <input type="hidden" name="id_outil"
                                             value="<?php echo htmlspecialchars($product['id_outil']); ?>">
                                         <table class="form-table">
+                                            <tr>
+                                                <td><label for="category">Catégorie :</label></td>
+                                                <td>
+                                                    <select id="category" name="id_cat" required>
+                                                        <?php
+                                                        // Loop through categories and create options
+                                                        foreach ($categories as $category) {
+                                                            // Check if the current category should be selected
+                                                            $selected = isset($product['id_cat']) && $product['id_cat'] == $category['id_cat'] ? ' selected' : '';
+                                                            echo '<option value="' . htmlspecialchars($category['id_cat']) . '"' . $selected . '>' . htmlspecialchars($category['nom_cat']) . '</option>';
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </td>
+                                            </tr>
                                             <tr>
                                                 <td><label for="name">Nom du produit :</label></td>
                                                 <td><input type="text" id="name" name="nom"

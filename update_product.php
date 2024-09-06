@@ -7,9 +7,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ancien_prix = htmlspecialchars($_POST['ancien_prix']);
     $prix_actuel = htmlspecialchars($_POST['prix_actuel']);
     $marque = htmlspecialchars($_POST['marque']);
-    $image = $_FILES['image']['name'] ? $_FILES['image']['name'] : $_POST['current_image'];
+    $id_cat = $_POST['id_cat']; // Add category handling
 
     // Handle file upload if a new image is provided
+    $image = $_FILES['image']['name'] ? $_FILES['image']['name'] : $_POST['current_image'];
+
     if ($_FILES['image']['name']) {
         $target_dir = "images/";
         $target_file = $target_dir . basename($_FILES["image"]["name"]);
@@ -28,14 +30,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die("Connection failed: " . $connection->connect_error);
     }
 
-    $sql = "UPDATE outil SET nom=?, description=?, ancien_prix=?, prix_actuel=?, marque=?, image=? WHERE id_outil=?";
+    // Update query with category
+    $sql = "UPDATE outil SET nom=?, description=?, ancien_prix=?, prix_actuel=?, marque=?, image=?, id_cat=? WHERE id_outil=?";
     $stmt = $connection->prepare($sql);
-    $stmt->bind_param("ssddssi", $nom, $description, $ancien_prix, $prix_actuel, $marque, $image, $id_outil);
+    $stmt->bind_param("ssddssii", $nom, $description, $ancien_prix, $prix_actuel, $marque, $image, $id_cat, $id_outil);
 
     if ($stmt->execute()) {
         header('Location: admin/admin.php');
+        exit(); // Ensure the script stops executing after redirect
     } else {
-        echo "Error updating record: " . $connection->error;
+        echo "Error updating record: " . $stmt->error;
     }
 
     $stmt->close();

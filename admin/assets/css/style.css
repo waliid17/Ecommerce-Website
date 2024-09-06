@@ -609,6 +609,30 @@ header .image-text .header .image-text {
 .message-table tbody tr {
   background-color: white; /* Ensure all rows are white */
 }
+/* Styling for category select dropdown */
+select#category {
+  font-family: Arial, sans-serif; /* Sets the font */
+  font-size: 16px; /* Font size */
+  padding: 10px; /* Space inside the select */
+  border: 2px solid #ddd; /* Light gray border */
+  border-radius: 4px; /* Rounded corners */
+  background-color: #fff; /* White background */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z" fill="gray"/></svg>'); /* Custom arrow */
+  background-repeat: no-repeat; /* Do not repeat the background image */
+  background-position: right 10px center; /* Position the arrow */
+  background-size: 16px; /* Size of the arrow */
+  width: 100%; /* Full width */
+  box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for border color and shadow */
+}
+
+/* Focus state for the category select */
+select#category:focus {
+  border-color: #ff840a; /* Orange border color on focus */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* More pronounced shadow on focus */
+  outline: none; /* Remove default outline */
+}
+
 
 /* Responsive design */
 @media (max-width: 768px) {
