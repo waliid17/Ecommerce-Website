@@ -48,10 +48,10 @@
               <a href="#"><i class="bx bx-bell"></i></a>
             </li>
             <li>
-              <a href="#"><i class="bx bx-user-circle"></i></a>
+              <a href="user.php"><i class="bx bx-user-circle"></i></a>
             </li>
             <li>
-              <a href="#"><i class="bx bx-cart"></i></a>
+              <a href="user.php#Wishlist"><i class="bx bx-cart"></i></a>
             </li>
           </ul>
         </div>
@@ -79,9 +79,9 @@
     <div class="container">
       <div class="box">
         <div class="breadcumb">
-          <a href="./index.php">home</a>
+          <a href="./index.php">ACCUEIL</a>
           <span><i class="bx bxs-chevrons-right"></i></span>
-          <a href="./products.php">all products</a>
+          <a href="./products.php">TOUS LES PRODUITS</a>
         </div>
       </div>
       <div class="box">
@@ -172,7 +172,7 @@
                   <div class="group-checkbox">
                     <input type="checkbox" id="remember4" />
                     <label for="remember4">
-                      HOTECHE
+                    TOLSEN
                       <i class="bx bx-check"></i>
                     </label>
                   </div>
@@ -333,58 +333,79 @@
   </div>
   <!-- end products content -->
 
-  <!-- footer -->
-  <footer class="bg-second">
-    <div class="container">
-      <div class="row">
-        <div class="col-3 col-md-6">
-          <h3 class="footer-head">Products</h3>
-          <ul class="menu">
-            <li><a href="#">Prices drop</a></li>
-            <li><a href="#">New products</a></li>
-            <li><a href="#">Best sales</a></li>
-            <li><a href="#">Contact us</a></li>
-            <li><a href="#">Sitemap</a></li>
-          </ul>
-        </div>
-        <div class="col-3 col-md-6">
-          <h3 class="footer-head">Our company</h3>
-          <ul class="menu">
-            <li><a href="#">Delivery</a></li>
-            <li><a href="#">Legal Notice</a></li>
-            <li><a href="#">About us</a></li>
-            <li><a href="#">Secure payment</a></li>
-            <li><a href="#">Sitemap</a></li>
-          </ul>
-        </div>
-        <div class="col-3 col-md-6">
-          <h3 class="footer-head">Your account</h3>
-          <ul class="menu">
-            <li><a href="#">Addresses</a></li>
-            <li><a href="#">Credit slips</a></li>
-            <li><a href="#">Orders</a></li>
-            <li><a href="#">Personal info</a></li>
-          </ul>
-        </div>
-        <div class="col-3 col-md-6">
-          <h3 class="footer-head">Store information</h3>
-          <ul class="menu">
-            <li>
-              <a href="#"><i class="bx bx-location-plus"></i>Company name, store</a>
-            </li>
-            <li>
-              <a href="#"><i class="bx bx-phone-call"></i>0123456789</a>
-            </li>
-            <li>
-              <a href="#"><i class="bx bx-envelope"></i>support@company.com</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </footer>
-  <!-- end footer -->
+   <!-- footer -->
+   <footer class="bg-second">
+            <div class="container">
+                <div class="row">
+                    <div class="col-3 col-md-6">
+                        <h3 class="footer-head">PRODUITS</h3>
+                        <ul class="menu">
+                            <li><a href="#">Centre d'Aide</a></li>
+                            <li><a href="#">Contactez-nous</a></li>
+                            <li><a href="#">Aide Produit</a></li>
+                            <li><a href="#">Garantie</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-3 col-md-6">
+                        <h3 class="footer-head">SERVICES</h3>
+                        <ul class="menu">
+                            <li><a href="#">Livraison Rapide</a></li>
+                            <li><a href="#">Retours Gratuits</a></li>
+                            <li><a href="#">Conseils Personnalisés</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-3 col-md-6">
+                        <h3 class="footer-head">CONTACTEZ NOUS</h3>
+                        <ul class="menu">
+                            <li>Algérie, Alger, Route de bridja, Staoueli</li>
+                            <li>
+                                <i class="bx bx-phone-call"></i>
+                                : 055******** 7/7J 24/24H
+                            </li>
 
+                            <ul>
+                                <li>
+                                    <i class="bx bx-envelope"></i>
+                                   : prooutil00@gmail.com
+                                </li>
+                            </ul>
+
+                        </ul>
+                    </div>
+                    <div class="col-3 col-md-6 col-sm-12">
+                        <div class="contact">
+                            <h3 class="contact-header">
+                                <img src="images/prooutil1.png" alt="LOGO">
+                            </h3>
+                            <ul class="contact-socials">
+                                <li><a href="#">
+                                        <i class='bx bxl-facebook-circle'></i>
+                                    </a></li>
+                                <li><a href="#">
+                                        <i class='bx bxl-instagram-alt'></i>
+                                    </a></li>
+                                <li><a href="#">
+                                        <i class='bx bxl-youtube'></i>
+                                    </a></li>
+                                <li><a href="#">
+                                        <i class='bx bxl-twitter'></i>
+                                    </a></li>
+                            </ul>
+                        </div>
+                        <div class="subscribe">
+                            <input type="email" placeholder="ENTER YOUR EMAIL">
+                            <button>subscribe</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- end footer -->
+        <style>
+            .subscribe {
+                visibility: hidden;
+            }
+        </style>
   <!-- app js -->
   <script src="js/app.js"></script>
 </body>

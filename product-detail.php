@@ -72,8 +72,8 @@
                     </div>
                     <ul class="user-menu">
                         <li><a href="#"><i class='bx bx-bell'></i></a></li>
-                        <li><a href="#"><i class='bx bx-user-circle'></i></a></li>
-                        <li><a href="#"><i class='bx bx-cart'></i></a></li>
+                        <li><a href="user.php"><i class='bx bx-user-circle'></i></a></li>
+                        <li><a href="user.php#Wishlist"><i class='bx bx-cart'></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -84,9 +84,9 @@
                 <div class="bottom-header container">
                     <ul class="main-menu">
                         <li><a href="index.php">ACCUEIL</a></li>
-                        <li class="mega-dropdown"><a href="./products.php">OUTILS</a></li>
-                        <li><a href="#">À PROPOS</a></li>
-                        <li><a href="#">CONTACT</a></li>
+                        <li><a href="products.php">OUTILS</a></li>
+                        <li><a href="index.php#about">À PROPOS</a></li>
+                        <li><a href="index.php#contact">CONTACT</a></li>
                     </ul>
                 </div>
             </div>
@@ -101,7 +101,7 @@
     <div class="container">
         <div class="box">
             <div class="breadcumb">
-                <a href="index.php">home</a>
+                <a href="index.php">ACCUEIL</a>
                 <span><i class='bx bxs-chevrons-right'></i></span>
                 <a href="./product-detail.php?id=<?= $id ?>"><?= $name ?></a>
             </div>
@@ -227,62 +227,79 @@ function addToWishlist(product) {
     $conn->close();
     ?>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-3 col-md-6">
-                    <h3 class="footer-head">Products</h3>
-                    <ul class="menu">
-                        <li><a href="#">Help center</a></li>
-                        <li><a href="#">Contact us</a></li>
-                        <li><a href="#">Product help</a></li>
-                        <li><a href="#">Warranty</a></li>
-                        <li><a href="#">Order status</a></li>
-                    </ul>
-                </div>
-                <div class="col-3 col-md-6">
-                    <h3 class="footer-head">Services</h3>
-                    <ul class="menu">
-                        <li><a href="#">Help center</a></li>
-                        <li><a href="#">Contact us</a></li>
-                        <li><a href="#">Product help</a></li>
-                        <li><a href="#">Warranty</a></li>
-                        <li><a href="#">Order status</a></li>
-                    </ul>
-                </div>
-                <div class="col-3 col-md-6">
-                    <h3 class="footer-head">Support</h3>
-                    <ul class="menu">
-                        <li><a href="#">Help center</a></li>
-                        <li><a href="#">Contact us</a></li>
-                        <li><a href="#">Product help</a></li>
-                        <li><a href="#">Warranty</a></li>
-                        <li><a href="#">Order status</a></li>
-                    </ul>
-                </div>
-                <div class="col-3 col-md-6 col-sm-12">
-                    <div class="contact">
-                        <h3 class="contact-header">
-                            <img src="images/prooutil1.png" alt="LOGO">
-                        </h3>
-                        <ul class="contact-socials">
-                            <li><a href="#"><i class="bx bxl-facebook-circle"></i></a></li>
-                            <li><a href="#"><i class="bx bxl-instagram-alt"></i></a></li>
-                            <li><a href="#"><i class="bx bxl-youtube"></i></a></li>
-                            <li><a href="#"><i class="bx bxl-twitter"></i></a></li>
+     <!-- footer -->
+     <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-3 col-md-6">
+                        <h3 class="footer-head">PRODUITS</h3>
+                        <ul class="menu">
+                            <li><a href="#">Centre d'Aide</a></li>
+                            <li><a href="#">Contactez-nous</a></li>
+                            <li><a href="#">Aide Produit</a></li>
+                            <li><a href="#">Garantie</a></li>
                         </ul>
                     </div>
-                    <div class="subscribe">
-                        <input type="email" placeholder="ENTER YOUR EMAIL">
-                        <button>SUBSCRIBE</button>
+                    <div class="col-3 col-md-6">
+                        <h3 class="footer-head">SERVICES</h3>
+                        <ul class="menu">
+                            <li><a href="#">Livraison Rapide</a></li>
+                            <li><a href="#">Retours Gratuits</a></li>
+                            <li><a href="#">Conseils Personnalisés</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-3 col-md-6">
+                        <h3 class="footer-head">CONTACTEZ NOUS</h3>
+                        <ul class="menu">
+                            <li>Algérie, Alger, Route de bridja, Staoueli</li>
+                            <li>
+                                <i class="bx bx-phone-call"></i>
+                                : 055******** 7/7J 24/24H
+                            </li>
+
+                            <ul>
+                                <li>
+                                    <i class="bx bx-envelope"></i>
+                                   : prooutil00@gmail.com
+                                </li>
+                            </ul>
+
+                        </ul>
+                    </div>
+                    <div class="col-3 col-md-6 col-sm-12">
+                        <div class="contact">
+                            <h3 class="contact-header">
+                                <img src="images/prooutil1.png" alt="LOGO">
+                            </h3>
+                            <ul class="contact-socials">
+                                <li><a href="#">
+                                        <i class='bx bxl-facebook-circle'></i>
+                                    </a></li>
+                                <li><a href="#">
+                                        <i class='bx bxl-instagram-alt'></i>
+                                    </a></li>
+                                <li><a href="#">
+                                        <i class='bx bxl-youtube'></i>
+                                    </a></li>
+                                <li><a href="#">
+                                        <i class='bx bxl-twitter'></i>
+                                    </a></li>
+                            </ul>
+                        </div>
+                        <div class="subscribe">
+                            <input type="email" placeholder="ENTER YOUR EMAIL">
+                            <button>subscribe</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </footer>
-    <!-- End Footer -->
-
+        </footer>
+        <!-- end footer -->
+        <style>
+            .subscribe {
+                visibility: hidden;
+            }
+        </style>
     <!-- App JS -->
     <script src="./js/app.js"></script>
     <script>

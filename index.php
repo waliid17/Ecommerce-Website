@@ -102,7 +102,7 @@
                             if ($role == 'admin') {
                                 echo "<a href='admin/admin.php' class='btn'>
                             <div class='login'>
-  Welcome $user <i class='fa-solid fa-crown'></i>
+  BIENVENUE $user <i class='fa-solid fa-crown'></i>
 </div>
 
                           </a>
@@ -110,7 +110,7 @@
                             } else {
                                 echo "<a href='user.php' class='btn'>
                             <div class='login'>
-                                Welcome $user
+                                BIENVENUE $user
                             </div>
                           </a>
                           <a href='logout.php'><div class='logout'><i class='fas fa-sign-out-alt'></i></div></a>";
@@ -371,7 +371,7 @@
             </div>
 
             <div class="section-footer">
-                <a href="./products.php" class="btn-flat btn-hover">view all</a>
+                <a href="./products.php" class="btn-flat btn-hover">VOIR TOUT</a>
             </div>
         </div>
     </div>
