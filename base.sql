@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : sam. 07 sep. 2024 à 12:54
+-- Généré le : sam. 07 sep. 2024 à 14:44
 -- Version du serveur : 8.3.0
 -- Version de PHP : 8.2.18
 
@@ -34,7 +34,14 @@ CREATE TABLE IF NOT EXISTS `admin` (
   `email_ad` varchar(30) NOT NULL,
   `pwd_ad` varchar(30) NOT NULL,
   PRIMARY KEY (`id_ad`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `admin`
+--
+
+INSERT INTO `admin` (`id_ad`, `nom_ad`, `email_ad`, `pwd_ad`) VALUES
+(1, 'walid', 'walidkheloufi@gmail.com', 'walid123');
 
 -- --------------------------------------------------------
 
@@ -73,7 +80,6 @@ CREATE TABLE IF NOT EXISTS `client` (
   `nom` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `mot_de_passe` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `role` enum('admin','user') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'user',
   `telephone` varchar(13) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `adresse` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `activation` tinyint(1) NOT NULL,
@@ -84,11 +90,11 @@ CREATE TABLE IF NOT EXISTS `client` (
 -- Déchargement des données de la table `client`
 --
 
-INSERT INTO `client` (`id_client`, `prenom`, `nom`, `email`, `mot_de_passe`, `role`, `telephone`, `adresse`, `activation`) VALUES
-(193, 'pnono', 'ahmed', 'senouciahmed@gmail.com', 'pnono123', 'user', '0540363847', 'cheraga', 0),
-(1, 'chaouki', 'beddiar', 'chaouki@gmail.com', 'walid123', 'admin', '0540363847', 'cheraga', 1),
-(192, 'walid', 'khelouffi', 'walidkheloufi00@gmail.com', 'walid123', 'user', '0540363847', 'cheraga', 1),
-(194, 'yaya', 'abdulahhhh', 'abdellahyahianafa@gmail.com', 'yaya123456', 'user', '0540363847', 'cheraga', 0);
+INSERT INTO `client` (`id_client`, `prenom`, `nom`, `email`, `mot_de_passe`, `telephone`, `adresse`, `activation`) VALUES
+(193, 'pnono', 'ahmed', 'senouciahmed@gmail.com', 'pnono123', '0540363847', 'cheraga', 0),
+(1, 'chaouki', 'beddiar', 'chaouki@gmail.com', 'walid123', '0540363847', 'cheraga', 1),
+(192, 'walid', 'khelouffi', 'walidkheloufi00@gmail.com', 'walid123', '0540363847', 'cheraga', 1),
+(194, 'yaya', 'abdulahhhh', 'abdellahyahianafa@gmail.com', 'yaya123456', '0540363847', 'cheraga', 0);
 
 -- --------------------------------------------------------
 
