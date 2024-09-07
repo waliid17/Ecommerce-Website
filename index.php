@@ -54,20 +54,17 @@
                         die("Connection failed: " . $connection->connect_error);
                     }
 
+                    // Show the icons regardless of the role
                     $showIcons = true;
 
                     if (isset($_SESSION['user-id'])) {
                         $id = $_SESSION['user-id'];
-                        $query = "SELECT `role` FROM `client` WHERE id_client = $id";
+                        $query = "SELECT `prenom` FROM `client` WHERE id_client = $id";
                         $result = $connection->query($query);
 
                         if ($result->num_rows > 0) {
-                            $row = $result->fetch_assoc();
-                            $role = $row['role'];
-
-                            if ($role == 'admin') {
-                                $showIcons = false;
-                            }
+                            // Logged-in users, still display icons
+                            $showIcons = true;
                         }
                     }
 
@@ -92,29 +89,18 @@
                         }
 
                         $id = $_SESSION['user-id'];
-                        $query = "SELECT `prenom`, `role` FROM `client` WHERE id_client = $id";
+                        $query = "SELECT `prenom` FROM `client` WHERE id_client = $id";
                         $result = $connection->query($query);
                         if ($result->num_rows > 0) {
                             $row = mysqli_fetch_assoc($result);
                             $user = $row['prenom'];
-                            $role = $row['role'];
 
-                            if ($role == 'admin') {
-                                echo "<a href='admin/admin.php' class='btn'>
-                            <div class='login'>
-  BIENVENUE $user <i class='fa-solid fa-crown'></i>
-</div>
-
-                          </a>
-                          <a href='logout.php'><div class='logout'><i class='fas fa-sign-out-alt'></i></div></a>";
-                            } else {
-                                echo "<a href='user.php' class='btn'>
-                            <div class='login'>
-                                BIENVENUE $user
-                            </div>
-                          </a>
-                          <a href='logout.php'><div class='logout'><i class='fas fa-sign-out-alt'></i></div></a>";
-                            }
+                            echo "<a href='user.php' class='btn'>
+            <div class='login'>
+                BIENVENUE $user
+            </div>
+          </a>
+          <a href='logout.php'><div class='logout'><i class='fas fa-sign-out-alt'></i></div></a>";
                         } else {
                             unset($_SESSION['user-id']);
                         }
@@ -133,6 +119,7 @@
                         <?php
                     }
                     ?>
+
                 </div>
             </div>
             <!-- end mid header -->
@@ -616,7 +603,7 @@
                             <ul>
                                 <li>
                                     <i class="bx bx-envelope"></i>
-                                   : prooutil00@gmail.com
+                                    : prooutil00@gmail.com
                                 </li>
                             </ul>
 

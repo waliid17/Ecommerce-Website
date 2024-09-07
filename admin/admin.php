@@ -33,7 +33,7 @@
 
     // Fetch clients
     $clients = [];
-    $sql = "SELECT id_client, prenom, nom, email, role, telephone, adresse FROM client";
+    $sql = "SELECT id_client, prenom, nom, email, telephone, adresse FROM client";
     $result = $connection->query($sql);
 
     if ($result->num_rows > 0) {
@@ -102,15 +102,28 @@
                         }
 
                         $id = $_SESSION['user-id'];
-                        $query = "SELECT `prenom` FROM `client` WHERE id_client = $id";
+                        // Ensure that the ID is properly sanitized
+                        $id = $connection->real_escape_string($id);
+
+                        $query = "SELECT `nom_ad` FROM `admin` WHERE id_ad = $id";
                         $result = $connection->query($query);
+
+                        if (!$result) {
+                            die("Query failed: " . $connection->error);
+                        }
+
                         if ($result->num_rows > 0) {
                             $row = mysqli_fetch_assoc($result);
-                            $user = $row['prenom'];
+                            $user = $row['nom_ad'];
                             echo "<h3>SALUT $user</h3>";
+                        } else {
+                            echo "<h3>Bonjour, Admin</h3>"; 
                         }
+                    } else {
+                        echo "<h3>Bonjour, Invité</h3>";
                     }
                     ?>
+
                 </div>
             </div>
             <i class="bx bx-chevron-left toggle"></i>
@@ -165,7 +178,7 @@
 
             <div class="bottom-content">
                 <li>
-                    <a href="../logout.php">
+                    <a href="logout_admin.php">
                         <i class="bx bx-log-out icon"></i>
                         <span class="text nav-text">Déconnexion</span>
                     </a>
@@ -262,10 +275,8 @@
                         <th>Prénom</th>
                         <th>Nom</th>
                         <th>Email</th>
-                        <th>Role</th>
                         <th>Téléphone</th>
                         <th>Adresse</th>
-                        <th>Modifier le rôle</th> <!-- Column for Edit Icon -->
                     </tr>
                 </thead>
                 <tbody>
@@ -276,27 +287,8 @@
                             <td>{$client['prenom']}</td>
                             <td>{$client['nom']}</td>
                             <td>{$client['email']}</td>
-                            <td>
-                                <span class='role-display {$client['role']}'>" . ucfirst($client['role']) . "</span>
-                                <div class='edit-role-form'>
-                                    <form action='edit_role.php' method='POST'>
-                                        <input type='hidden' name='id_client' value='{$client['id_client']}'>
-                                        <label for='role-{$client['id_client']}' style='display: none;'>Select New Role:</label>
-                                        <select id='role-{$client['id_client']}' name='role' required>
-                                            <option value='admin' " . ($client['role'] == 'admin' ? 'selected' : '') . ">Admin</option>
-                                            <option value='user' " . ($client['role'] == 'user' ? 'selected' : '') . ">User</option>
-                                        </select>
-                                        <button type='button' class='edit-role-button'>Modifier le rôle</button>
-                                    </form>
-                                </div>
-                            </td>
                             <td>{$client['telephone']}</td>
                             <td>{$client['adresse']}</td>
-                            <td>
-                                <a href='#' class='edit-role' data-client-id='{$client['id_client']}' title='Edit Role'>
-                                    <i class='fas fa-edit'></i>
-                                </a>
-                            </td>
                           </tr>";
                         }
                     } else {
@@ -838,7 +830,6 @@
     JOIN client c ON ec.id_client = c.id_client
     LEFT JOIN conteniroutil co ON com.id_com = co.id_com
     LEFT JOIN outil o ON co.id_outil = o.id_outil
-    WHERE c.role = 'user'
     ";
 
             $stmt = $pdo->prepare($query);

@@ -20,13 +20,13 @@ if ($connection->connect_error) {
 }
 
 $user_id = $_SESSION['user-id'];
-$sql = "SELECT `prenom`, `nom`, `email`, `telephone`, `adresse`, `role` FROM client WHERE `id_client` = ?";
+$sql = "SELECT `prenom`, `nom`, `email`, `telephone`, `adresse` FROM client WHERE `id_client` = ?";
 $stmt = $connection->prepare($sql);
 
 if ($stmt) {
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
-    $stmt->bind_result($firstName, $lastName, $email, $phoneNumber, $addressLine, $rankFromDb);
+    $stmt->bind_result($firstName, $lastName, $email, $phoneNumber, $addressLine);
     $stmt->fetch();
     $stmt->close();
 } else {

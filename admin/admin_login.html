@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- App CSS -->
+    <link rel="stylesheet" href="../login.css" />
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background-color: #f5f5f5;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .login-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .login-box {
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 500px; /* Adjust the max-width here */
+        width: 100%;
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 24px;
+        font-weight: 600;
+      }
+
+      .field {
+        position: relative;
+        margin-bottom: 20px;
+      }
+
+      .field input {
+        width: 100%;
+        padding: 12px 40px 12px 40px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        font-size: 16px;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .field .icon {
+        position: absolute;
+        top: 50%;
+        left: 12px;
+        transform: translateY(-50%);
+        color: #888;
+      }
+
+      .field .toggle-password {
+        position: absolute;
+        top: 50%;
+        right: 12px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #888;
+      }
+
+      .field input:focus {
+        border-color: #ff840a;
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(255, 132, 10, 0.2);
+      }
+
+      .btn input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        background-color: #ff840a;
+        color: #fff;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background-color 0.3s ease;
+      }
+
+      .btn input:hover {
+        background-color: #e67503;
+      }
+
+      .pass-link {
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      .pass-link a {
+        color: #ff840a;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .pass-link a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="login-container">
+      <div class="login-box">
+        <h2>Connexion Admin</h2>
+        <form action="admin_login.php" method="POST">
+          <div class="field">
+            <div class="icon">
+              <i class="fa-solid fa-user"></i>
+            </div>
+            <input
+              type="email"
+              name="admin_email"
+              placeholder="Adresse e-mail"
+              required
+            />
+          </div>
+          <div class="field">
+            <div class="icon">
+              <i class="fa-solid fa-lock"></i>
+            </div>
+            <input
+              id="password"
+              type="password"
+              name="admin_password"
+              placeholder="Mot de passe"
+              required
+            />
+            <i class="far fa-eye toggle-password" id="toggle-password"></i>
+          </div>
+          <div class="field btn">
+            <input type="submit" value="Se connecter" />
+          </div>
+          <div class="pass-link">
+            <a href="#">Mot de passe oublié ?</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      // Toggle password visibility
+      const togglePassword = document.getElementById("toggle-password");
+      const passwordInput = document.getElementById("password");
+
+      togglePassword.addEventListener("click", function () {
+        const type =
+          passwordInput.getAttribute("type") === "password"
+            ? "text"
+            : "password";
+        passwordInput.setAttribute("type", type);
+        this.classList.toggle("fa-eye-slash");
+      });
+    </script>
+  </body>
+</html>
