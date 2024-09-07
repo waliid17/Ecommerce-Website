@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 06 sep. 2024 à 16:50
+-- Généré le : sam. 07 sep. 2024 à 12:54
 -- Version du serveur : 8.3.0
 -- Version de PHP : 8.2.18
 
@@ -20,6 +20,21 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `base`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `admin`
+--
+
+DROP TABLE IF EXISTS `admin`;
+CREATE TABLE IF NOT EXISTS `admin` (
+  `id_ad` int NOT NULL AUTO_INCREMENT,
+  `nom_ad` varchar(30) NOT NULL,
+  `email_ad` varchar(30) NOT NULL,
+  `pwd_ad` varchar(30) NOT NULL,
+  PRIMARY KEY (`id_ad`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -221,35 +236,37 @@ CREATE TABLE IF NOT EXISTS `outil` (
   `prix_actuel` decimal(7,2) NOT NULL,
   `image` varchar(255) NOT NULL,
   `marque` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  PRIMARY KEY (`id_outil`)
+  `id_cat` int NOT NULL,
+  PRIMARY KEY (`id_outil`),
+  KEY `fk_outil_categorie` (`id_cat`)
 ) ENGINE=MyISAM AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `outil`
 --
 
-INSERT INTO `outil` (`id_outil`, `nom`, `description`, `ancien_prix`, `prix_actuel`, `image`, `marque`) VALUES
-(7, 'CLE CROIX', 'CLE CROIX 1/2″ 17*19*21 TOPTUL', 3600.00, 3900.00, 'AEAL1616.jpeg', 'HONESTPRO'),
-(6, 'CLE A GRIFE', '• Mâchoire mobile forgée avec de l’acier au carbone de haute qualité• Emballage : étiquette volante avec boîte de dessin', 1150.00, 1650.00, 'YT2490.jpeg', 'YATO'),
-(2, 'Bouloneuse', 'Puissance : 550 W max. couple : 300N.m Vitesse à vide : 0-3200min', 13700.00, 12500.00, 'YAE2388.jpeg', 'BODA'),
-(3, 'CLE A CHOC ', 'CLE A CHOC PNEUMATIQUE 1/4 YATO', 17500.00, 16900.00, 'YT09511.jpeg', 'YATO'),
-(5, 'CLE A CLIQUET', '• CrV• Chromé, finition satinée• Emballage : cintre en plastique avec étiquette de couleur', 1200.00, 1800.00, '15243.jpeg', 'TOLSEN'),
-(4, 'PONCEUSE', 'PONCEUSE POLISSEUSE PNEUMATIQUE YATO', 12700.00, 11500.00, 'YAE2229.jpeg', 'TOLSEN'),
-(1, 'Batterie', 'Tension 20V Temps de charge 1h Capacité 2.0Ah', 5000.00, 4800.00, 'YAE2375B.jpeg', 'HONESTPRO'),
-(8, 'CLE MIXTE 6', 'Toptul AAEB0606 Clé mixte standard 15° 6mmCaractéristiques :Matériau en acier au chrome vanadiumPerformances de couple élevées jusqu à plus de 1,6 fois comme ANSI &amp; Norme DINQualité professionnelle pour une durabilité et une résistance à la corrosion maximalesSpécifications :Finition : Satin ChromeTaille : 6 mmLongueur : 109 mm', 1200.00, 1500.00, 'AAEB0606.jpeg', 'BODA'),
-(9, 'AIRLESS MBRN', 'AIRLESS MBRN 3000W 5L/MIN HONESTPRO', 65000.00, 68000.00, 'YAE4701.jpeg', 'TOLSEN'),
-(10, 'BLOC AIRLESS', 'BLOC AIRLESS4707 HONESTPRO', 8300.00, 8900.00, 'YAE4811.jpeg', 'HONESTPRO'),
-(11, 'BUSE', 'Modèle de buse de pulvérisation : 417 Modèles applicables : YAE4701/YAE4705/YAE4706', 1300.00, 1800.00, 'YAE4832.jpeg', 'BODA'),
-(12, 'CAROTTEUSE', 'Puissance : 3200W max. diamètre de perçage : 230 mm Vitesse à vide : 700 min', 70000.00, 73500.00, 'YAE2733.jpeg', 'YATO'),
-(13, 'BOUTE 45', '• Approbation CE • Matériau : PVC • Embout en acier et semelle intercalaire en acier • Haut niveau de résistance à l huile, aux acides et aux alcalis, 100 % imperméable • Semelle de chaussure Desliching • Emballage : poly-sac avec étiquette de couleur', 2100.00, 2700.00, '45120-600x600.jpeg', 'TOLSEN'),
-(14, 'CASQUE ANTIBRUIT', '• Approuvé CE et ANSI • Suspension à alignement automatique, ajuste facilement les manchons sur le bandeau pour un ajustement rapide • Le coussin rempli de mousse souple offre une bonne étanchéité pour une protection contre les bruits nocifs • SNR : 26 dB, NRR=21 dB • Emballage : cintre en papier', 900.00, 1000.00, '45083.jpeg', 'HONESTPRO'),
-(15, 'CEINTURE', '• Panneaux avant effilés pour plus de confort lors de la flexion • Larges bretelles élastiques réglables • Baleines internes pour un soutien supplémentaire • Emballage : double blister', 2000.00, 2800.00, '45244.jpeg', 'BODA'),
-(16, 'LUNETTE DE SOUDAGE', 'LUNETTE DE SOUDAGE AUTO HOTECHE', 3000.00, 3500.00, '439005.jpeg', 'YATO'),
-(17, 'FOURCHE DE JARDIN', '• Acier à outils spécial forgé • Revêtement en poudre noire • Longueur totale : 310 mm • Épaisseur : 2,5 mm • Poignée en plastique à deux composants • Emballage : étiquette volante', 600.00, 650.00, '57506.jpeg', 'TOLSEN'),
-(18, 'TONDEUSE A MOUTON', 'Puissance : 500W 13 dents vitesse : 2800min', 12500.00, 13550.00, 'YAE2398.jpeg', 'YATO'),
-(19, 'DEBROUSSAILLEUSE', 'Cylindrée : 43cc Ralenti : 6500min Puissance moteur : 1.25kW', 17000.00, 18500.00, 'YAE0972.jpeg', 'HONESTPRO'),
-(20, 'RATEAU DE JARDIN', '• Acier à outils spécial forgé • Revêtement en poudre noire • Longueur totale : 285 mm • Diamètre de la tige principale : 8 mm • Poignée en plastique à deux composants • Emballage : à suspendre balise', 500.00, 650.00, '57504.jpeg', 'BODA'),
-(21, 'AGRAFEUSE PNEUMATIQUE', '• Homologation CE • Convient aux agrafes : Agrafes à couronne 21Ga. 0.95*0.66mm : 6-16mm • Capacité du magasin : 120 pcs • Pression de fonctionnement : 60psi(0.4Mpa)-100psi(0.7Mpa) • Entrée d’air : 1/4″ • Filet poids : 0,8 kg • Idéal pour le rembourrage, l’assemblage d’armoires, la fabrication de meubles • Accessoires : 300 agrafes à couronne 2 clés hexagonales 1 pot d’huile 3 attaches rapides avec filetage mâle 1/4 ″ PT • Emballage : boîte de couleur', 6500.00, 7500.00, '73425.jpeg', 'TOLSEN');
+INSERT INTO `outil` (`id_outil`, `nom`, `description`, `ancien_prix`, `prix_actuel`, `image`, `marque`, `id_cat`) VALUES
+(7, 'CLE CROIX', 'CLE CROIX 1/2″ 17*19*21 TOPTUL', 3600.00, 3900.00, 'AEAL1616.jpeg', 'HONESTPRO', 2),
+(6, 'CLE A GRIFE', '• Mâchoire mobile forgée avec de l’acier au carbone de haute qualité• Emballage : étiquette volante avec boîte de dessin', 1150.00, 1650.00, 'YT2490.jpeg', 'YATO', 2),
+(2, 'Bouloneuse', 'Puissance : 550 W max. couple : 300N.m Vitesse à vide : 0-3200min', 13700.00, 12500.00, 'YAE2388.jpeg', 'BODA', 1),
+(3, 'CLE A CHOC ', 'CLE A CHOC PNEUMATIQUE 1/4 YATO', 17500.00, 16900.00, 'YT09511.jpeg', 'YATO', 1),
+(5, 'CLE A CLIQUET', '• CrV• Chromé, finition satinée• Emballage : cintre en plastique avec étiquette de couleur', 1200.00, 1800.00, '15243.jpeg', 'TOLSEN', 2),
+(4, 'PONCEUSE', 'PONCEUSE POLISSEUSE PNEUMATIQUE YATO', 12700.00, 11500.00, 'YAE2229.jpeg', 'TOLSEN', 1),
+(1, 'Batterie', 'Tension 20V Temps de charge 1h Capacité 2.0Ah', 5000.00, 4800.00, 'YAE2375B.jpeg', 'HONESTPRO', 1),
+(8, 'CLE MIXTE 6', 'Toptul AAEB0606 Clé mixte standard 15° 6mmCaractéristiques :Matériau en acier au chrome vanadiumPerformances de couple élevées jusqu à plus de 1,6 fois comme ANSI &amp; Norme DINQualité professionnelle pour une durabilité et une résistance à la corrosion maximalesSpécifications :Finition : Satin ChromeTaille : 6 mmLongueur : 109 mm', 1200.00, 1500.00, 'AAEB0606.jpeg', 'BODA', 2),
+(9, 'AIRLESS MBRN', 'AIRLESS MBRN 3000W 5L/MIN HONESTPRO', 65000.00, 68000.00, 'YAE4701.jpeg', 'TOLSEN', 3),
+(10, 'BLOC AIRLESS', 'BLOC AIRLESS4707 HONESTPRO', 8300.00, 8900.00, 'YAE4811.jpeg', 'HONESTPRO', 3),
+(11, 'BUSE', 'Modèle de buse de pulvérisation : 417 Modèles applicables : YAE4701/YAE4705/YAE4706', 1300.00, 1800.00, 'YAE4832.jpeg', 'BODA', 3),
+(12, 'CAROTTEUSE', 'Puissance : 3200W max. diamètre de perçage : 230 mm Vitesse à vide : 700 min', 70000.00, 73500.00, 'YAE2733.jpeg', 'YATO', 3),
+(13, 'BOUTE 45', '• Approbation CE • Matériau : PVC • Embout en acier et semelle intercalaire en acier • Haut niveau de résistance à l huile, aux acides et aux alcalis, 100 % imperméable • Semelle de chaussure Desliching • Emballage : poly-sac avec étiquette de couleur', 2100.00, 2700.00, '45120-600x600.jpeg', 'TOLSEN', 4),
+(14, 'CASQUE ANTIBRUIT', '• Approuvé CE et ANSI • Suspension à alignement automatique, ajuste facilement les manchons sur le bandeau pour un ajustement rapide • Le coussin rempli de mousse souple offre une bonne étanchéité pour une protection contre les bruits nocifs • SNR : 26 dB, NRR=21 dB • Emballage : cintre en papier', 900.00, 1000.00, '45083.jpeg', 'HONESTPRO', 4),
+(15, 'CEINTURE', '• Panneaux avant effilés pour plus de confort lors de la flexion • Larges bretelles élastiques réglables • Baleines internes pour un soutien supplémentaire • Emballage : double blister', 2000.00, 2800.00, '45244.jpeg', 'BODA', 4),
+(16, 'LUNETTE DE SOUDAGE', 'LUNETTE DE SOUDAGE AUTO HOTECHE', 3000.00, 3500.00, '439005.jpeg', 'YATO', 4),
+(17, 'FOURCHE DE JARDIN', '• Acier à outils spécial forgé • Revêtement en poudre noire • Longueur totale : 310 mm • Épaisseur : 2,5 mm • Poignée en plastique à deux composants • Emballage : étiquette volante', 600.00, 650.00, '57506.jpeg', 'TOLSEN', 5),
+(18, 'TONDEUSE A MOUTON', 'Puissance : 500W 13 dents vitesse : 2800min', 12500.00, 13550.00, 'YAE2398.jpeg', 'YATO', 5),
+(19, 'DEBROUSSAILLEUSE', 'Cylindrée : 43cc Ralenti : 6500min Puissance moteur : 1.25kW', 17000.00, 18500.00, 'YAE0972.jpeg', 'HONESTPRO', 5),
+(20, 'RATEAU DE JARDIN', '• Acier à outils spécial forgé • Revêtement en poudre noire • Longueur totale : 285 mm • Diamètre de la tige principale : 8 mm • Poignée en plastique à deux composants • Emballage : à suspendre balise', 500.00, 650.00, '57504.jpeg', 'BODA', 5),
+(21, 'AGRAFEUSE PNEUMATIQUE', '• Homologation CE • Convient aux agrafes : Agrafes à couronne 21Ga. 0.95*0.66mm : 6-16mm • Capacité du magasin : 120 pcs • Pression de fonctionnement : 60psi(0.4Mpa)-100psi(0.7Mpa) • Entrée d’air : 1/4″ • Filet poids : 0,8 kg • Idéal pour le rembourrage, l’assemblage d’armoires, la fabrication de meubles • Accessoires : 300 agrafes à couronne 2 clés hexagonales 1 pot d’huile 3 attaches rapides avec filetage mâle 1/4 ″ PT • Emballage : boîte de couleur', 6500.00, 7500.00, '73425.jpeg', 'TOLSEN', 2);
 
 -- --------------------------------------------------------
 
