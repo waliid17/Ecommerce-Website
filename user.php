@@ -88,8 +88,8 @@ if ($stmt) {
                                     <a href="./products.php">OUTILS</a>
                                 </li>
                                 <!-- end mega menu -->
-                                <li><a href="#">à propos</a></li>
-                                <li><a href="#">contact</a></li>
+                                <li><a href="index.php#about">à propos</a></li>
+                                <li><a href="index.php#contact">contact</a></li>
                             </ul>
                         </div>
                     </div>
