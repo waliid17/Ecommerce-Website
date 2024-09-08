@@ -1084,7 +1084,6 @@ body {
 }
 
 .modal-dialog {
-  background: #fff;
   padding: 20px;
   border-radius: 8px;
   width: 300px;
@@ -1455,6 +1454,126 @@ input#file-upload-button{
 
 .btn:hover {
     background-color: #e67503;
+}
+
+/* Modal Container */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000; /* High z-index to ensure it’s on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6); /* Slightly darker background overlay */
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #dee2e6;
+  margin: auto;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 900px;
+  position: relative;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.4s ease-out;
+}
+
+/* Close Button */
+.close-btn {
+  color: #888;
+  float: right;
+  font-size: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+  color: #333;
+}
+
+/* Header */
+.modal-content h2 {
+  margin: 0 0 25px;
+  color: #222;
+  font-size: 26px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Form Table */
+.form-table {
+  width: 100%;
+  border-collapse: separate; /* Maintain spacing between rows */
+  border-spacing: 0 15px; /* Space between rows */
+  margin: 0 auto; /* Center align the table if needed */
+}
+
+/* Table Cells */
+.form-table td {
+  padding: 12px 15px; /* Increased padding for more spacing */
+  vertical-align: middle;
+  background-color: #f4f4f4; /* Light grey background for cells */
+  border-radius: 8px; /* Rounded corners for cells */
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Table Labels */
+.form-table label {
+  display: block; /* Ensure labels take up full width */
+  font-weight: 600;
+  color: #333; /* Darker text color for better readability */
+  margin-bottom: 5px; /* Space below labels */
+}
+
+/* Table Inputs */
+.form-table input[type="text"],
+.form-table select,
+.form-table input[type="file"] {
+  width: calc(100% - 22px); /* Full width minus padding */
+  padding: 10px; /* Consistent padding */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px; /* Adjusted font size */
+}
+
+/* Table Input for File */
+.form-table input[type="file"] {
+  border: none; /* Remove border for file inputs */
+  padding: 8px 0; /* Adjusted padding for file inputs */
+}
+
+/* Submit Button */
+.form-table button {
+  background-color: #ff840a; /* Button color */
+  color: #fff;
+  border: none;
+  padding: 12px 20px; /* Consistent padding */
+  border-radius: 6px; /* Rounded corners */
+  cursor: pointer;
+  font-size: 16px; /* Adjusted font size */
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.form-table button:hover {
+  background-color: #e67503; /* Button hover color */
+}
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 /* Animation for modal fade-in effect */
