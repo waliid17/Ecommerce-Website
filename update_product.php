@@ -36,10 +36,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->bind_param("ssddssii", $nom, $description, $ancien_prix, $prix_actuel, $marque, $image, $id_cat, $id_outil);
 
     if ($stmt->execute()) {
-        header('Location: admin/admin.php');
-        exit(); // Ensure the script stops executing after redirect
+        echo json_encode(['status' => 'success', 'message' => 'Produit modifié avec succès']);
     } else {
-        echo "Error updating record: " . $stmt->error;
+        echo json_encode(['status' => 'error', 'message' => 'Erreur lors de la mise à jour du produit']);
     }
 
     $stmt->close();

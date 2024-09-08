@@ -332,107 +332,193 @@ header .image-text .header .image-text {
   width: 100%;
   border-collapse: collapse;
   margin: 20px 0;
-  font-size: 18px;
+  font-size: 16px;
   text-align: left;
-  background-color: #f8f9fa;
-  border-radius: 15px;
+  background-color: #ffffff;
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .product-table th,
 .product-table td {
-  padding: 12px 15px;
-  border: 1px solid #dee2e6;
+  padding: 10px 15px;
+  border: 1px solid #e0e0e0;
 }
 
 .product-table thead tr {
   background-color: #ffb183;
   color: #ffffff;
   text-align: left;
-  font-weight: bold;
+  font-weight: 600;
 }
 
-.product-table tbody tr:hover {
-  background-color: #e9ecef;
+.product-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
-
 .product-table img {
   display: block;
-  max-width: 100%;
+  max-width: 100px;
   height: auto;
 }
 
 /* Action Buttons */
 .action-buttons {
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 
 .edit-button,
 .delete-button {
-  padding: 5px 10px;
-  font-size: 16px;
+  padding: 6px 12px;
+  font-size: 14px;
   border: none;
   cursor: pointer;
-  color: #fff;
   border-radius: 5px;
-  transition: background-color 0.3s ease;
+  color: #fff;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .edit-button {
-  background-color: #218838;
+  background-color: #28a745;
 }
 
 .edit-button:hover {
-  background-color: #138496;
+  background-color: #218838;
+  transform: scale(1.05);
 }
 
-/* Form Styles */
+.delete-button {
+  background-color: #dc3545;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-button,
+.delete-button2 {
+  padding: 6px 12px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  color: #fff;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.edit-button {
+  background-color: #28a745;
+}
+
+.edit-button:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.delete-button2 {
+  background-color: #dc3545;
+}
+
+.delete-button2:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+.delete-button2 {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgb(20, 20, 20);
+  border: none;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+  cursor: pointer;
+  transition-duration: 0.3s;
+  overflow: hidden;
+  position: relative;
+  gap: 2px;
+}
+
+/* General Form Table Styles */
 .form-table {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
+  border-collapse: separate;
+  margin-top: 20px; /* Slightly increased margin for breathing space */
+  border-spacing: 0 8px; /* Reduced spacing for a more compact and professional look */
+  background-color: #f8f9fa; /* Light background for better contrast */
+  border-radius: 8px; /* Rounded corners for a modern touch */
+  padding: 15px; /* Added padding for a neater layout */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow for a subtle 3D effect */
 }
 
+
 .form-table td {
-  padding: 8px;
-  vertical-align: top;
+  padding: 12px;
 }
 
 .form-table label {
   display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
+  font-weight: 600; /* Softer bold for a cleaner look */
+  margin-bottom: 6px;
+  color: #333; /* Dark gray for a modern, professional feel */
 }
 
 .form-table input[type="text"],
 .form-table input[type="file"] {
   width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid #000000;
-  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc; /* Light gray border for a refined appearance */
+  border-radius: 6px;
   box-sizing: border-box;
+  background-color: #f8f9fa; /* Subtle light gray background for modern look */
+  font-size: 15px;
+  color: #555; /* Neutral text color */
+  transition: border-color 0.3s, background-color 0.3s;
 }
 
+.form-table input[type="text"]:focus,
+.form-table input[type="file"]:focus {
+  border-color: #ff9966; /* Green border on focus to match button color */
+  background-color: #fff; /* Crisp white background on focus */
+  outline: none;
+}
+
+/* Button Styles */
 .form-table button {
-  padding: 10px 20px;
+  padding: 12px 24px;
   background-color: #28a745;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s ease;
+  font-weight: 600; /* Bold buttons for emphasis */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow for a 3D effect */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Add hover effect for buttons */
 .form-table button:hover {
-  background-color: #218838;
+  background-color: #218838; /* Darker green on hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Slightly deeper shadow on hover */
 }
+
 .edit-form-row form {
   margin: 0;
 }
+
 .delete-button {
   width: 50px;
   height: 50px;
@@ -484,6 +570,12 @@ header .image-text .header .image-text {
   align-items: center;
   gap: 0;
 }
+.delete-button2:hover {
+  transition-duration: 0.3s;
+  background-color: rgb(255, 69, 69);
+  align-items: center;
+  gap: 0;
+}
 .delete-wilaya:hover {
   transition-duration: 0.3s;
   background-color: rgb(255, 69, 69);
@@ -495,6 +587,10 @@ header .image-text .header .image-text {
   transform-origin: bottom right;
 }
 .delete-button:hover .bin-top {
+  transition-duration: 0.5s;
+  transform: rotate(160deg);
+}
+.delete-button2:hover .bin-top {
   transition-duration: 0.5s;
   transform: rotate(160deg);
 }
@@ -703,76 +799,6 @@ select#category:focus {
 }
 .client-table td {
   color: #495057;
-}
-
-/* Role Styles */
-.client-table .role-display {
-  display: inline-block;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-weight: 600;
-  text-align: center;
-}
-
-.client-table .role-admin {
-  color: #ffffff;
-  background-color: #dc3545; /* Red color for admin */
-}
-
-.client-table .role-user {
-  color: #ffffff;
-  background-color: #17a2b8; /* Teal color for user */
-}
-
-/* Edit Role Icon */
-.edit-role {
-  color: #007bff;
-  text-decoration: none;
-  font-size: 1.6em;
-  transition: color 0.3s ease;
-  cursor: pointer;
-}
-
-.edit-role:hover {
-  color: #0056b3;
-}
-/* Inline Form Styles */
-.edit-role-form {
-  display: none; /* Initially hidden */
-  margin-top: 10px;
-}
-
-.edit-role-form form {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.edit-role-form label {
-  display: none; /* Hide the label */
-}
-
-.edit-role-form select {
-  padding: 5px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  font-size: 1rem;
-  color: #495057;
-}
-
-.edit-role-form button {
-  background-color: #28a745;
-  color: #fff;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  text-wrap: nowrap;
-}
-
-.edit-role-form button:hover {
-  background-color: #218838;
 }
  
 /* Order Table Styles */
@@ -1109,7 +1135,91 @@ body {
 .btn-ok:hover {
   background-color: #e67503;
 }
+.add-product-btn {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(145deg, #ff840a, #e67503);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2), inset 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
 
+.add-product-btn:hover {
+  background: linear-gradient(145deg, #e67503, #ff840a);
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.3), inset 2px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.btn-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  background: #fff;
+  color: #ff840a;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px;
+  margin-right: 8px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 600px;
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #ff840a;
+}
+
+.form-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.form-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.form-table input, .form-table select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
 
 /* Media Queries for Responsive Layout */
 @media (max-width: 1200px) {
@@ -1274,6 +1384,88 @@ input#file-upload-button{
 .add-image-button:active {
   transform: scale(1);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal Styling */
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black background with opacity */
+}
+
+.modal-dialog {
+    position: relative;
+    margin: 15% auto;
+    padding: 0;
+    width: 80%;
+    max-width: 400px;
+    animation: fadeIn 0.5s ease;
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-body {
+    margin-top: 20px;
+}
+
+.success-icon {
+    font-size: 60px;
+    /* Adjust size if needed */
+    color: #ff840a;
+    /* Adjust color if needed */
+}
+
+.modal-footer {
+    margin-top: 20px;
+}
+
+.btn {
+    background-color: #ff840a;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #e67503;
+}
+
+/* Animation for modal fade-in effect */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 /* Add Image Section Responsive Design */

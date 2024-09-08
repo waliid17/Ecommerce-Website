@@ -41,20 +41,8 @@
             $clients[] = $row;
         }
     }
-
-    // Fetch products
-    $products = [];
-    $sql = "SELECT id_outil, nom, description, ancien_prix, prix_actuel, image, marque FROM outil";
-    $result = $connection->query($sql);
-
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            $products[] = $row;
-        }
-    }
-
     // Fetch categories
-    $sqlCategories = "SELECT id_cat, nom_cat FROM categorie"; // Use 'nom_cat' based on your table structure
+    $sqlCategories = "SELECT id_cat, nom_cat FROM categorie";
     $resultCategories = $connection->query($sqlCategories);
     $categories = [];
 
@@ -63,6 +51,25 @@
             $categories[] = $row;
         }
     }
+
+    // Fetch products with category names
+    $products = [];
+    $sql = "
+    SELECT 
+        o.id_outil, o.nom, o.description, o.ancien_prix, o.prix_actuel, o.image, o.marque, c.nom_cat
+    FROM 
+        outil o
+    LEFT JOIN 
+        categorie c ON o.id_cat = c.id_cat
+";
+    $result = $connection->query($sql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $products[] = $row;
+        }
+    }
+
 
     // Fetch messages
     function fetchMessages($connection)
@@ -117,7 +124,7 @@
                             $user = $row['nom_ad'];
                             echo "<h3>SALUT $user</h3>";
                         } else {
-                            echo "<h3>Bonjour, Admin</h3>"; 
+                            echo "<h3>Bonjour, Admin</h3>";
                         }
                     } else {
                         echo "<h3>Bonjour, Invité</h3>";
@@ -298,85 +305,6 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- Modal Structure -->
-        <div id="userModal" class="modal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <span id="closeUserModalBtn" class="close">&times;</span>
-                    <div class="modal-body">
-                        <div class="modal-icon">
-                            <svg viewBox="0 0 24 24" class="success-icon" xmlns="http://www.w3.org/2000/svg">
-                                <circle cx="12" cy="12" r="10" fill="none" stroke="#ff840a" stroke-width="2" />
-                                <path d="M7 12l3 3 7-7" fill="none" stroke="#ff840a" stroke-width="2" />
-                            </svg>
-                        </div>
-                        <h2>Succès</h2>
-                        <p>Rôle mis à jour avec succès.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-ok">OK</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script>
-            // Get modal elements
-            const userModal = document.getElementById('userModal');
-            const closeUserModalBtn = document.getElementById('closeUserModalBtn');
-            const okButtonUser = document.querySelector('.btn-ok');
-            const editRoleButtons = document.querySelectorAll('.edit-role-button');
-
-            // Variable to store the current form to be submitted
-            let formToSubmitUser = null;
-
-            // Function to close the modal and refresh the page
-            function closeModalAndRefresh() {
-                userModal.style.display = 'none';
-                location.reload();  // Refresh the page to show updated role
-            }
-
-            // Add click event listeners to all "Modifier le rôle" buttons
-            editRoleButtons.forEach(button => {
-                button.addEventListener('click', function (event) {
-                    event.preventDefault();  // Prevent default form submission
-
-                    // Store the form associated with the clicked button
-                    formToSubmitUser = button.closest('form');
-
-                    // Create a FormData object from the form
-                    const formData = new FormData(formToSubmitUser);
-
-                    // Send the form data using AJAX
-                    fetch(formToSubmitUser.action, {
-                        method: 'POST',
-                        body: formData
-                    })
-                        .then(response => response.text())
-                        .then(data => {
-                            // Assuming successful update, show the modal
-                            userModal.style.display = 'block';
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-                });
-            });
-
-            // Close modal when clicking the close button
-            closeUserModalBtn.addEventListener('click', closeModalAndRefresh);
-
-            // Close modal when clicking outside the modal content
-            window.addEventListener('click', function (event) {
-                if (event.target === userModal) {
-                    closeModalAndRefresh();
-                }
-            });
-
-            // Close modal and refresh the page when clicking "OK"
-            okButtonUser.addEventListener('click', closeModalAndRefresh);
-
-        </script>
         <div class="content" id="outil-content" style="display: none;">
             <div id="ShowProducts" class="tabcontent">
                 <h2>LES OUTILS :</h2>
@@ -389,6 +317,7 @@
                             <th>Prix Actuel</th>
                             <th>Image</th>
                             <th>Marque</th>
+                            <th>Catégorie</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -402,6 +331,7 @@
                                 <td><img src="../images/<?php echo htmlspecialchars($product['image']); ?>"
                                         alt="<?php echo htmlspecialchars($product['nom']); ?>" width="100"></td>
                                 <td><?php echo htmlspecialchars($product['marque']); ?></td>
+                                <td><?php echo $product['nom_cat']; ?></td>
                                 <td>
                                     <div class="action-buttons">
                                         <button class="edit-button"
@@ -409,7 +339,7 @@
                                         <form action="../delete_product.php" method="post" style="display: inline;">
                                             <input type="hidden" name="id_outil"
                                                 value="<?php echo $product['id_outil']; ?>">
-                                            <button class="delete-button">
+                                            <button class="delete-button2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 14"
                                                     class="svgIcon bin-top">
                                                     <g clip-path="url(#clip0_35_24)">
@@ -575,8 +505,190 @@
                         <?php } ?>
                     </tbody>
                 </table>
+                <button id="addProductBtn" class="add-product-btn">
+                    <span class="btn-icon">+</span> Ajouter un produit
+                </button>
+                <!-- Modal Structure -->
+                <div id="productModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close-btn">&times;</span>
+                        <h2>Ajouter un produit</h2>
+                        <form action="add_product.php" method="post" enctype="multipart/form-data">
+                            <table class="form-table">
+                                <tr>
+                                    <td><label for="category">Catégorie :</label></td>
+                                    <td>
+                                        <select id="category" name="id_cat" required>
+                                            <?php
+                                            // Loop through categories and create options
+                                            foreach ($categories as $category) {
+                                                // Check if the current category should be selected
+                                                $selected = isset($product['id_cat']) && $product['id_cat'] == $category['id_cat'] ? ' selected' : '';
+                                                echo '<option value="' . htmlspecialchars($category['id_cat']) . '"' . $selected . '>' . htmlspecialchars($category['nom_cat']) . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label for="name">Nom du produit :</label></td>
+                                    <td><input type="text" id="name" name="nom" required></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="prod_desc">Description du produit :</label></td>
+                                    <td><input type="text" id="prod_desc" name="description" required></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="old_price">Ancien prix :</label></td>
+                                    <td><input type="text" id="old_price" name="ancien_prix"></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="curr_price">Prix actuel :</label></td>
+                                    <td><input type="text" id="curr_price" name="prix_actuel" required></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="brand">Marque :</label></td>
+                                    <td><input type="text" id="brand" name="marque" required></td>
+                                </tr>
+                                <tr>
+                                    <td><label for="image">Photo du produit :</label></td>
+                                    <td>
+                                        <input type="text" name="current_image" style="display: none;">
+                                        <img id="productImage" src="" alt="Product Image" width="100">
+                                        <input type="file" id="image" name="image">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <button type="submit">Save</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+                <script>
+                    // Show the modal when the button is clicked
+                    document.getElementById('addProductBtn').addEventListener('click', function () {
+                        document.getElementById('productModal').style.display = 'block';
+                    });
+
+                    // Hide the modal when the close button is clicked
+                    document.querySelector('.close-btn').addEventListener('click', function () {
+                        document.getElementById('productModal').style.display = 'none';
+                    });
+
+                    // Hide the modal when clicking outside of the modal content
+                    window.addEventListener('click', function (event) {
+                        if (event.target === document.getElementById('productModal')) {
+                            document.getElementById('productModal').style.display = 'none';
+                        }
+                    });
+
+                </script>
+            </div>
+        </div><br><br>
+        <!-- Edit Success Modal -->
+        <div id="editModal" class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <span id="closeEditModalBtn" class="close">&times;</span>
+                    <div class="modal-body">
+                        <i class="fas fa-check-circle success-icon"></i>
+                        <p>Produit mis à jour avec succès !</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-ok">OK</button>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <!-- Delete Success Modal -->
+        <div id="deleteModal2" class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <span id="closeDeleteModalBtn" class="close">&times;</span>
+                    <div class="modal-body">
+                        <i class="fas fa-check-circle success-icon"></i>
+                        <p>Produit supprimé avec succès !</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-ok-delete" onclick="delete_product()">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Font Awesome for Icons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const editForms = document.querySelectorAll('.edit-form-row form'); // Select all edit forms
+                const deleteButtons = document.querySelectorAll('.delete-btn'); // Select all delete buttons
+                const editModal = document.getElementById('editModal'); // Edit modal element
+                const deleteModal = document.getElementById('deleteModal'); // Delete modal element
+                const closeEditModalBtn = document.getElementById('closeEditModalBtn'); // Button to close edit modal
+                const closeDeleteModalBtn = document.getElementById('closeDeleteModalBtn'); // Button to close delete modal
+                const okEditButton = document.querySelector('.btn-ok'); // OK button in edit modal
+                const okDeleteButton = document.querySelector('.btn-ok-delete'); // OK button in delete modal
+
+                // Handle form submission for edit
+                editForms.forEach(form => {
+                    form.addEventListener('submit', function (event) {
+                        event.preventDefault(); // Prevent default form submission
+
+                        const formData = new FormData(form); // Create FormData object from the form
+
+                        // Submit form using Fetch API
+                        fetch(form.action, {
+                            method: 'POST',
+                            body: formData
+                        })
+                            .then(response => response.json()) // Expect JSON response
+                            .then(data => {
+                                if (data.status === 'success') {
+                                    showEditModal(); // Show edit modal if update is successful
+                                } else {
+                                    console.error('Update failed:', data.message); // Handle errors
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error); // Handle fetch errors
+                            });
+                    });
+                });
+
+                // Show the edit modal
+                function showEditModal() {
+                    editModal.style.display = 'block'; // Display the edit modal
+                }
+
+
+                // Close the edit modal when the close button is clicked
+                closeEditModalBtn.onclick = function () {
+                    editModal.style.display = 'none';
+                };
+
+                // Close the edit modal when clicking outside the modal
+                window.onclick = function (event) {
+                    if (event.target === editModal) {
+                        editModal.style.display = 'none';
+                    }
+                    if (event.target === deleteModal) {
+                        deleteModal.style.display = 'none';
+                    }
+                };
+
+                // Handle OK button click to close the edit modal and refresh the page
+                okEditButton.onclick = function () {
+                    editModal.style.display = 'none';
+                    location.reload(); // Refresh the page after closing the modal
+                };
+
+            });
+        </script>
         <div class="content" id="messages-content" style="display: none;">
             <div id="ShowMessages" class="tabcontent">
                 <h2>LES MESSAGES :</h2>
@@ -671,9 +783,11 @@
         <script>
             // Get modal elements
             const modal = document.getElementById('myModal');
+            const deleteModal2 = document.getElementById('deleteModal2');
             const closeModalBtn = document.getElementById('closeModalBtn');
             const okButton = document.querySelector('.btn-ok');
             const deleteButtons = document.querySelectorAll('.delete-button');
+            const deleteButtons2 = document.querySelectorAll('.delete-button2');
 
             // Variable to store the current form to be submitted
             let formToSubmit = null;
@@ -688,6 +802,17 @@
 
                     // Show modal
                     modal.style.display = 'block';
+                });
+            });
+            deleteButtons2.forEach(button => {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault();  // Prevent form submission
+
+                    // Store the form associated with the clicked delete button
+                    formToSubmit = button.closest('form');
+
+                    // Show modal
+                    deleteModal2.style.display = 'block';
                 });
             });
 
@@ -731,85 +856,46 @@
                 modal.style.display = 'none';
                 formToSubmit = null;  // Clear the stored form
             }
+            function delete_product() {
+                if (formToSubmit) {
+                    // Create a FormData object from the form
+                    const formData = new FormData(formToSubmit);
+
+                    // Send the form data using AJAX
+                    fetch(formToSubmit.action, {
+                        method: 'POST',
+                        body: formData
+                    })
+                        .then(response => response.text())
+                        .then(data => {
+                            // Refresh the page content or remove the row from the table
+                            formToSubmit.closest('tr').remove();
+                            closedeletModal();  // Close the modal
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            closedeletModal();  // Close the modal even if there's an error
+                        });
+                }
+            };
+
+            // Close modal when clicking the close button
+            closeModalBtn.onclick = function () {
+                closedeletModal();  // Close the modal
+            };
+
+            // Close modal when clicking outside the modal content
+            window.onclick = function (event) {
+                if (event.target === modal) {
+                    closedeletModal();
+                }
+            };
+
+            function closedeletModal() {
+                document.getElementById('deleteModal2').style.display = 'none';
+                formToSubmit = null;  // Clear the stored form
+            }
         </script>
-
-
-
-        <!-- CSS for Modal -->
-        <style>
-            /* Modal Styling */
-            .modal {
-                display: none;
-                /* Hidden by default */
-                position: fixed;
-                z-index: 1000;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                overflow: auto;
-                background-color: rgba(0, 0, 0, 0.4);
-                /* Black background with opacity */
-            }
-
-            .modal-dialog {
-                position: relative;
-                margin: 15% auto;
-                padding: 0;
-                width: 80%;
-                max-width: 400px;
-                animation: fadeIn 0.5s ease;
-            }
-
-            .modal-content {
-                background-color: #fff;
-                border-radius: 8px;
-                padding: 20px;
-                text-align: center;
-                position: relative;
-            }
-
-            .close {
-                position: absolute;
-                top: 10px;
-                right: 15px;
-                color: #333;
-                font-size: 24px;
-                font-weight: bold;
-                cursor: pointer;
-            }
-
-            .modal-body {
-                margin-top: 20px;
-            }
-
-            .modal-icon {
-                margin-bottom: 15px;
-            }
-
-            .success-icon {
-                width: 60px;
-                height: 60px;
-            }
-
-            .modal-footer {
-                margin-top: 20px;
-            }
-
-            .btn {
-                background-color: #ff840a;
-                color: #fff;
-                padding: 10px 20px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                transition: background-color 0.3s ease;
-            }
-
-            .btn:hover {
-                background-color: #e67503;
-            }
-        </style>
         <?php
         // Database connection
         $host = 'localhost';
