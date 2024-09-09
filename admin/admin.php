@@ -56,7 +56,7 @@
     $products = [];
     $sql = "
     SELECT 
-        o.id_outil, o.nom, o.description, o.ancien_prix, o.prix_actuel, o.image, o.marque, c.nom_cat
+        o.id_outil, o.nom, o.description, o.ancien_prix, o.prix_actuel, o.image, o.marque, c.nom_cat, o.id_cat
     FROM 
         outil o
     LEFT JOIN 
@@ -397,7 +397,7 @@
                                                         // Loop through categories and create options
                                                         foreach ($categories as $category) {
                                                             // Check if the current category should be selected
-                                                            $selected = isset($product['id_cat']) && $product['id_cat'] == $category['id_cat'] ? ' selected' : '';
+                                                            $selected =  $product['id_cat'] == $category['id_cat'] ? ' selected' : '';
                                                             echo '<option value="' . htmlspecialchars($category['id_cat']) . '"' . $selected . '>' . htmlspecialchars($category['nom_cat']) . '</option>';
                                                         }
                                                         ?>
@@ -441,63 +441,6 @@
                                                         value="<?php echo htmlspecialchars($product['image']); ?>"
                                                         name="current_image" style="display: none;">
                                                     <img src="../images/<?php echo htmlspecialchars($product['image']); ?>"
-                                                        alt="<?php echo htmlspecialchars($product['nom']); ?>" width="100">
-                                                    <input type="file" id="image" name="image">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <button type="submit">save</button>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </form>
-                                </td>
-                            </tr>
-                            <tr id="edit-form-<?php echo $product['id_outil']; ?>" class="edit-form-row"
-                                style="display: none;">
-                                <td colspan="8">
-                                    <form action="../update_product.php" method="post" enctype="multipart/form-data">
-                                        <input type="hidden" name="id_outil"
-                                            value="<?php echo htmlspecialchars($product['id_outil']); ?>">
-                                        <table class="form-table">
-                                            <tr>
-                                                <td><label for="name">Nom du produit :</label></td>
-                                                <td><input type="text" id="name" name="nom"
-                                                        value="<?php echo htmlspecialchars($product['nom']); ?>" required>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><label for="prod_desc">Description du produit :</label></td>
-                                                <td><input type="text" id="prod_desc" name="description"
-                                                        value="<?php echo htmlspecialchars($product['description']); ?>"
-                                                        required></td>
-                                            </tr>
-                                            <tr>
-                                                <td><label for="old_price">Ancien prix :</label></td>
-                                                <td><input type="text" id="old_price" name="ancien_prix"
-                                                        value="<?php echo htmlspecialchars($product['ancien_prix']); ?>">
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td><label for="curr_price">Prix actuel :</label></td>
-                                                <td><input type="text" id="curr_price" name="prix_actuel"
-                                                        value="<?php echo htmlspecialchars($product['prix_actuel']); ?>"
-                                                        required></td>
-                                            </tr>
-                                            <tr>
-                                                <td><label for="brand">Marque :</label></td>
-                                                <td><input type="text" id="brand" name="marque"
-                                                        value="<?php echo htmlspecialchars($product['marque']); ?>"
-                                                        required></td>
-                                            </tr>
-                                            <tr>
-                                                <td><label for="image">Photo du produit :</label></td>
-                                                <td>
-                                                    <input type="text"
-                                                        value="<?php echo htmlspecialchars($product['image']); ?>"
-                                                        name="current_image" style="display: none;">
-                                                    <img src="images/<?php echo htmlspecialchars($product['image']); ?>"
                                                         alt="<?php echo htmlspecialchars($product['nom']); ?>" width="100">
                                                     <input type="file" id="image" name="image">
                                                 </td>
@@ -1009,7 +952,7 @@
                                 <td>
                                     <select class="status-select" data-order-id="<?php echo htmlspecialchars($order_id); ?>">
                                         <?php foreach ($statuses as $status): ?>
-                                            <option value="<?php echo htmlspecialchars($status); ?>">
+                                            <option <?= ($status==$order_data['statut']) ?'selected':'' ?> value="<?php echo htmlspecialchars($status); ?>">
                                                 <?php echo htmlspecialchars($status); ?>
                                             </option>
                                         <?php endforeach; ?>
