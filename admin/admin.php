@@ -69,7 +69,16 @@
             $products[] = $row;
         }
     }
+    // Fetch unique statuses from the commande table
+    $sqlStatuses = "SELECT DISTINCT statut FROM commande";
+    $resultStatuses = $connection->query($sqlStatuses);
 
+    $statuses = [];
+    $statuses[] ='En attente' ;
+    $statuses[] ='Confirmée' ;
+    $statuses[] ='Expédiée' ;
+    $statuses[] ='Livrée' ;
+    $statuses[] ='Annulée' ;
 
     // Fetch messages
     function fetchMessages($connection)
@@ -997,7 +1006,16 @@
                                 </td>
                                 <td><?php echo htmlspecialchars($order_data['client_phone']); ?></td>
                                 <td><?php echo htmlspecialchars($order_data['date_com']); ?></td>
-                                <td><?php echo htmlspecialchars($order_data['statut']); ?></td>
+                                <td>
+                                    <select class="status-select" data-order-id="<?php echo htmlspecialchars($order_id); ?>">
+                                        <?php foreach ($statuses as $status): ?>
+                                            <option value="<?php echo htmlspecialchars($status); ?>">
+                                                <?php echo htmlspecialchars($status); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </td>
+
                                 <td><?php echo htmlspecialchars($order_data['wilaya']); ?></td>
                                 <td><button class="toggle-details">Show Details</button></td>
                             </tr>
@@ -1044,6 +1062,34 @@
                 <p>Aucune commande trouvée.</p>
             <?php endif; ?>
         </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                document.querySelectorAll('.status-select').forEach(select => {
+                    select.addEventListener('change', function () {
+                        const orderId = this.dataset.orderId;
+                        const status = this.value;
+
+                        fetch('update_status.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: new URLSearchParams({
+                                order_id: orderId,
+                                status: status
+                            })
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    alert('Status updated successfully.');
+                                } else {
+                                    alert('Failed to update status.');
+                                }
+                            });
+                    });
+                });
+            });
+        </script>
+
         <script>
             document.querySelectorAll('.toggle-details').forEach(button => {
                 button.addEventListener('click', function () {

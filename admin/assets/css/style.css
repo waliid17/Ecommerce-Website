@@ -1219,6 +1219,14 @@ body {
   border: 1px solid #ddd;
   border-radius: 4px;
 }
+/* Status colors */
+.status-select {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px;
+  font-size: 14px;
+  width: 100%;
+}
 
 /* Media Queries for Responsive Layout */
 @media (max-width: 1200px) {
