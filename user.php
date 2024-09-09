@@ -259,17 +259,65 @@ if ($stmt) {
                 });
 
             </script>
-<?php
-// Fetch order status from the database
-$orderId = 309; // Replace with the actual order ID
-// Database connection
-$pdo = new PDO('mysql:host=localhost;dbname=base;charset=utf8mb4', 'root', '');
-$query = $pdo->prepare('SELECT statut FROM commande WHERE id_com = :id_com');
-$query->execute(['id_com' => $orderId]);
-$status = $query->fetchColumn();
+         <?php
+
+if (!isset($_SESSION['user-id'])) {
+    die("User not logged in.");
+}
+
+$client_id = $_SESSION['user-id'];
+$connection = new mysqli("localhost", "root", "", "base");
+
+if ($connection->connect_error) {
+    die("Connection failed: " . $connection->connect_error);
+}
+
+// Fetch the client's commands
+$stmt = $connection->prepare("
+    SELECT c.id_com, c.date_com
+    FROM commande c
+    JOIN effectuer_com e ON c.id_com = e.id_com
+    WHERE e.id_client = ?
+");
+$stmt->bind_param("i", $client_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$orders = $result->fetch_all(MYSQLI_ASSOC);
+
+$stmt->close();
+$connection->close();
 ?>
+
+<!-- HTML to Display the Orders -->
 <div id="statuts" class="tabcontent">
-        <h2>Suivi de votre commande</h2><br>
+    <h2 class="order-status-title">Suivi de votre commande</h2>
+    <table class="order-status-table">
+        <thead>
+            <tr>
+                <th class="order-status-header">ID Commande</th>
+                <th class="order-status-header">Date</th>
+                <th class="order-status-header">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($orders as $order): ?>
+                <tr class="order-status-row">
+                    <td class="order-status-cell"><?php echo htmlspecialchars($order['id_com']); ?></td>
+                    <td class="order-status-cell"><?php echo htmlspecialchars($order['date_com']); ?></td>
+                    <td class="order-status-cell">
+                        <button class="order-status-button" onclick="showStatus(<?php echo htmlspecialchars($order['id_com']); ?>)">Voir le statut</button>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
+<!-- Order Status Modal -->
+<div id="orderStatusModal" class="status-modal">
+    <div class="status-modal-content">
+        <span class="status-close">&times;</span>
+        <h2>Suivi de votre commande</h2>
         <div class="status-progress">
             <div class="status-step" data-status="En attente">
                 <div class="status-icon">
@@ -303,42 +351,65 @@ $status = $query->fetchColumn();
             </div>
         </div>
     </div>
-    <script>
-       document.addEventListener('DOMContentLoaded', () => {
-    const orderStatus = '<?php echo $status; ?>'; // PHP variable for status
+</div>
 
-    const statusOrder = ['En attente', 'Confirmée', 'Expédiée', 'Livrée', 'Annulée'];
+<script>
+function showStatus(orderId) {
+    // Fetch the status via AJAX
+    fetch(`getOrderStatus.php?id=${orderId}`)
+        .then(response => response.json())
+        .then(data => {
+            const orderStatus = data.status;
+            const statusOrder = ['En attente', 'Confirmée', 'Expédiée', 'Livrée', 'Annulée'];
+            const steps = document.querySelectorAll('.status-step');
 
-    const steps = document.querySelectorAll('.status-step');
+            const updateStatusSteps = (steps, orderStatus) => {
+                steps.forEach(step => {
+                    const stepStatus = step.getAttribute('data-status');
+                    const stepIndex = statusOrder.indexOf(stepStatus);
+                    const orderIndex = statusOrder.indexOf(orderStatus);
 
-    const updateStatusSteps = (steps, orderStatus) => {
-        steps.forEach(step => {
-            const stepStatus = step.getAttribute('data-status');
-            const stepIndex = statusOrder.indexOf(stepStatus);
-            const orderIndex = statusOrder.indexOf(orderStatus);
+                    // Reset classes
+                    step.classList.remove('active', 'cancelled', 'pending');
 
-            // Reset classes
-            step.classList.remove('active', 'cancelled', 'pending');
+                    if (orderStatus === 'Annulée') {
+                        step.classList.add('cancelled');
+                        if (stepIndex < statusOrder.indexOf('Annulée')) {
+                            step.style.opacity = 0.5; // Dim all previous steps
+                        }
+                    } else if (stepIndex <= orderIndex) {
+                        step.classList.add('active');
+                    }
 
-            if (orderStatus === 'Annulée') {
-                step.classList.add('cancelled');
-                if (stepIndex < statusOrder.indexOf('Annulée')) {
-                    step.style.opacity = 0.5; // Dim all previous steps
-                }
-            } else if (stepIndex <= orderIndex) {
-                step.classList.add('active');
-            }
+                    if (stepStatus === 'En attente') {
+                        step.classList.add('pending');
+                    }
+                });
+            };
 
-            if (stepStatus === 'En attente') {
-                step.classList.add('pending');
-            }
-        });
-    };
+            updateStatusSteps(steps, orderStatus);
 
-    updateStatusSteps(steps, orderStatus);
+            // Display the modal
+            document.getElementById('orderStatusModal').style.display = 'block';
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+// Close the modal
+document.querySelector('.status-close').addEventListener('click', () => {
+    document.getElementById('orderStatusModal').style.display = 'none';
 });
 
-    </script>
+// Close the modal when clicking outside
+window.addEventListener('click', (event) => {
+    if (event.target === document.getElementById('orderStatusModal')) {
+        document.getElementById('orderStatusModal').style.display = 'none';
+    }
+});
+</script>
+
+
+
             <!-- FontAwesome for icons -->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 

@@ -970,3 +970,137 @@ body {
 .status-step:first-child::before {
   content: none; /* Remove the connector line for the first step */
 }
+
+/*commande*/
+/* Title Styling */
+.order-status-title {
+  margin-bottom: 20px;
+  font-size: 26px;
+  color: #333;
+  border-bottom: 2px solid #ff840a;
+  padding-bottom: 10px;
+}
+
+/* Table Styling */
+.order-status-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.order-status-table thead {
+  background-color: #ffb183;
+  color: #ffffff;
+}
+
+.order-status-header {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.order-status-row:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.order-status-row:hover {
+  background-color: #f1f1f1;
+}
+
+.order-status-cell {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Button Styling */
+.order-status-button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ffb183;
+  color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+  text-align: center;
+}
+
+.order-status-button:hover {
+  background-color: #e67503;
+  transform: translateY(-2px);
+}
+
+.order-status-button:active {
+  background-color: #cc6e00;
+  transform: translateY(0);
+}
+/* Modal Background */
+.status-modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal Content */
+.status-modal-content {
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 600px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Close Button */
+.status-close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.status-close:hover,
+.status-close:focus {
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Status Steps */
+.status-progress {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.status-step {
+  flex: 1 1 20%;
+  text-align: center;
+  padding: 10px;
+}
+
+.status-icon {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.status-step.active {
+  color: #4caf50;
+}
+
+.status-step.cancelled {
+  color: #f44336;
+}
+
+.status-step.pending {
+  color: #ff9800;
+}
