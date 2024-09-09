@@ -259,12 +259,89 @@ if ($stmt) {
                 });
 
             </script>
-
-            <div id="statuts" class="tabcontent">
-                <h2>status</h2>
-
-
+<?php
+// Fetch order status from the database
+$orderId = 309; // Replace with the actual order ID
+// Database connection
+$pdo = new PDO('mysql:host=localhost;dbname=base;charset=utf8mb4', 'root', '');
+$query = $pdo->prepare('SELECT statut FROM commande WHERE id_com = :id_com');
+$query->execute(['id_com' => $orderId]);
+$status = $query->fetchColumn();
+?>
+<div id="statuts" class="tabcontent">
+        <h2>Suivi de votre commande</h2><br>
+        <div class="status-progress">
+            <div class="status-step" data-status="En attente">
+                <div class="status-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <p>En attente</p>
             </div>
+            <div class="status-step" data-status="Confirmée">
+                <div class="status-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <p>Confirmée</p>
+            </div>
+            <div class="status-step" data-status="Expédiée">
+                <div class="status-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <p>Expédiée</p>
+            </div>
+            <div class="status-step" data-status="Livrée">
+                <div class="status-icon">
+                    <i class="fas fa-box"></i>
+                </div>
+                <p>Livrée</p>
+            </div>
+            <div class="status-step" data-status="Annulée">
+                <div class="status-icon">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <p>Annulée</p>
+            </div>
+        </div>
+    </div>
+    <script>
+       document.addEventListener('DOMContentLoaded', () => {
+    const orderStatus = '<?php echo $status; ?>'; // PHP variable for status
+
+    const statusOrder = ['En attente', 'Confirmée', 'Expédiée', 'Livrée', 'Annulée'];
+
+    const steps = document.querySelectorAll('.status-step');
+
+    const updateStatusSteps = (steps, orderStatus) => {
+        steps.forEach(step => {
+            const stepStatus = step.getAttribute('data-status');
+            const stepIndex = statusOrder.indexOf(stepStatus);
+            const orderIndex = statusOrder.indexOf(orderStatus);
+
+            // Reset classes
+            step.classList.remove('active', 'cancelled', 'pending');
+
+            if (orderStatus === 'Annulée') {
+                step.classList.add('cancelled');
+                if (stepIndex < statusOrder.indexOf('Annulée')) {
+                    step.style.opacity = 0.5; // Dim all previous steps
+                }
+            } else if (stepIndex <= orderIndex) {
+                step.classList.add('active');
+            }
+
+            if (stepStatus === 'En attente') {
+                step.classList.add('pending');
+            }
+        });
+    };
+
+    updateStatusSteps(steps, orderStatus);
+});
+
+    </script>
+            <!-- FontAwesome for icons -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
             <!-- Scripts -->
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script>
@@ -435,11 +512,11 @@ if ($stmt) {
                             if (orderData.orderId) {
                                 // Assign orderId to each item
                                 const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-                                 const items = wishlist.map(item => ({
-                        id_com: null, // This will be set on the server
-                        id_outil: item.id,
-                        Qte_com: item.quantity
-                    }));
+                                const items = wishlist.map(item => ({
+                                    id_com: null, // This will be set on the server
+                                    id_outil: item.id,
+                                    Qte_com: item.quantity
+                                }));
                                 items.forEach(item => {
                                     item.id_com = orderData.orderId;
                                 });
@@ -498,91 +575,91 @@ if ($stmt) {
                     createOrderAndAddItems(data, items);
                 }
 
-                    // Event listener for "Passer à la commande" button
-                    document.getElementById('showDeliveryForm').addEventListener('click', function () {
-                        const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
-                        if (wishlist.length === 0) {
-                            Swal.fire({
-                                title: 'Votre panier est vide',
-                                text: 'Veuillez ajouter des articles à votre panier avant de continuer.',
-                                icon: 'warning',
-                                confirmButtonText: 'D\'accord',
-                                confirmButtonColor: '#ff840a', // Your preferred button color
-                                background: '#fff', // Background color
-                                color: '#333' // Text color
-                            });
-                            return;
-                        }
-
-                        // Proceed with showing the delivery form
-                        document.getElementById('Wishlist').style.display = 'none';
-                        document.getElementById('deliveryFormContainer').style.display = 'block';
-                        updateTotalPrice(); // Ensure total price is updated when showing the delivery form
-                    });
-
-                    // Event listener for wilaya change
-                    document.getElementById('wilaya').addEventListener('change', function () {
-                        updateTotalPrice(); // Update total price when wilaya is changed
-                    });
-
-                    // Initial render
-                    document.addEventListener("DOMContentLoaded", function () {
-                        renderWishlist();
-
-                        const hash = window.location.hash;
-                        if (hash) {
-                            // Remove hash from URL
-                            history.replaceState(null, null, 'user.php');
-
-                            // Open the specific tab
-                            const tabName = hash.substring(1); // Get the tab name without '#'
-                            openTab({ currentTarget: document.querySelector(`.tablink[onclick*='${tabName}']`) }, tabName);
-                        }
-                    });
-
-                    // Function to open tabs
-                    function openTab(evt, tabName) {
-                        var i, tabcontent, tablinks;
-                        tabcontent = document.getElementsByClassName("tabcontent");
-                        for (i = 0; i < tabcontent.length; i++) {
-                            tabcontent[i].style.display = "none";
-                            tabcontent[i].classList.remove("active");
-                        }
-                        tablinks = document.getElementsByClassName("tablink");
-                        for (i = 0; i < tablinks.length; i++) {
-                            tablinks[i].classList.remove("active");
-                        }
-                        document.getElementById(tabName).style.display = "block";
-                        document.getElementById(tabName).classList.add("active");
-                        evt.currentTarget.classList.add("active");
+                // Event listener for "Passer à la commande" button
+                document.getElementById('showDeliveryForm').addEventListener('click', function () {
+                    const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+                    if (wishlist.length === 0) {
+                        Swal.fire({
+                            title: 'Votre panier est vide',
+                            text: 'Veuillez ajouter des articles à votre panier avant de continuer.',
+                            icon: 'warning',
+                            confirmButtonText: 'D\'accord',
+                            confirmButtonColor: '#ff840a', // Your preferred button color
+                            background: '#fff', // Background color
+                            color: '#333' // Text color
+                        });
+                        return;
                     }
 
-                    // Handle input field editing
-                    let currentlyEditing = null;
+                    // Proceed with showing the delivery form
+                    document.getElementById('Wishlist').style.display = 'none';
+                    document.getElementById('deliveryFormContainer').style.display = 'block';
+                    updateTotalPrice(); // Ensure total price is updated when showing the delivery form
+                });
 
-                    function toggleEdit(name) {
-                        // Get the input field and its corresponding edit icon
-                        const input = document.querySelector(`input[name="${name}"]`);
-                        const inputContainer = input.closest('.input-container');
+                // Event listener for wilaya change
+                document.getElementById('wilaya').addEventListener('change', function () {
+                    updateTotalPrice(); // Update total price when wilaya is changed
+                });
 
-                        // If there is another field currently being edited, reset it
-                        if (currentlyEditing && currentlyEditing !== input) {
-                            currentlyEditing.setAttribute('readonly', true);
-                            currentlyEditing.classList.remove('edit-mode');
-                        }
+                // Initial render
+                document.addEventListener("DOMContentLoaded", function () {
+                    renderWishlist();
 
-                        // Toggle the readonly attribute and edit mode for the clicked field
-                        if (input.hasAttribute('readonly')) {
-                            input.removeAttribute('readonly');
-                            input.focus();
-                            input.classList.add('edit-mode');
-                            currentlyEditing = input;
-                        } else {
-                            input.setAttribute('readonly', true);
-                            input.classList.remove('edit-mode');
-                            currentlyEditing = null;
-                        }
+                    const hash = window.location.hash;
+                    if (hash) {
+                        // Remove hash from URL
+                        history.replaceState(null, null, 'user.php');
+
+                        // Open the specific tab
+                        const tabName = hash.substring(1); // Get the tab name without '#'
+                        openTab({ currentTarget: document.querySelector(`.tablink[onclick*='${tabName}']`) }, tabName);
                     }
+                });
+
+                // Function to open tabs
+                function openTab(evt, tabName) {
+                    var i, tabcontent, tablinks;
+                    tabcontent = document.getElementsByClassName("tabcontent");
+                    for (i = 0; i < tabcontent.length; i++) {
+                        tabcontent[i].style.display = "none";
+                        tabcontent[i].classList.remove("active");
+                    }
+                    tablinks = document.getElementsByClassName("tablink");
+                    for (i = 0; i < tablinks.length; i++) {
+                        tablinks[i].classList.remove("active");
+                    }
+                    document.getElementById(tabName).style.display = "block";
+                    document.getElementById(tabName).classList.add("active");
+                    evt.currentTarget.classList.add("active");
+                }
+
+                // Handle input field editing
+                let currentlyEditing = null;
+
+                function toggleEdit(name) {
+                    // Get the input field and its corresponding edit icon
+                    const input = document.querySelector(`input[name="${name}"]`);
+                    const inputContainer = input.closest('.input-container');
+
+                    // If there is another field currently being edited, reset it
+                    if (currentlyEditing && currentlyEditing !== input) {
+                        currentlyEditing.setAttribute('readonly', true);
+                        currentlyEditing.classList.remove('edit-mode');
+                    }
+
+                    // Toggle the readonly attribute and edit mode for the clicked field
+                    if (input.hasAttribute('readonly')) {
+                        input.removeAttribute('readonly');
+                        input.focus();
+                        input.classList.add('edit-mode');
+                        currentlyEditing = input;
+                    } else {
+                        input.setAttribute('readonly', true);
+                        input.classList.remove('edit-mode');
+                        currentlyEditing = null;
+                    }
+                }
 
             </script>
 </body>

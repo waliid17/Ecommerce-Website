@@ -908,3 +908,65 @@ body {
 .btn-back i {
   margin-right: 8px;
 }
+
+.status-progress {
+  display: flex;
+  justify-content: space-between;
+  position: relative; /* Ensure the pseudo-element is positioned correctly */
+}
+
+.status-step {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+}
+
+.status-icon {
+  font-size: 2rem;
+  color: gray; /* Default color for icons */
+}
+
+.status-step.active .status-icon {
+  color: green; /* Color for active steps */
+}
+
+.status-step.cancelled .status-icon {
+  color: red; /* Color for cancelled steps */
+}
+
+.status-step.pending .status-icon {
+  color: #ff840a !important; /* Orange color for "En attente" */
+}
+
+.status-step p {
+  margin: 0;
+  font-size: 1rem;
+  color: gray; /* Default color for text */
+}
+
+.status-step.active p {
+  color: green; /* Color for text in active steps */
+}
+
+.status-step.cancelled p {
+  color: red; /* Color for text in cancelled steps */
+}
+
+.status-step.pending p {
+  color: #ff840a !important; /* Orange color for text in "En attente" */
+}
+
+.status-progress::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  border-bottom: 2px dashed gray;
+  z-index: -1;
+}
+
+.status-step:first-child::before {
+  content: none; /* Remove the connector line for the first step */
+}
