@@ -585,19 +585,18 @@ body {
   width: calc(100% - 40px);
   font-size: 16px;
   padding: 12.5px;
-  border: 1px solid #ddd; 
+  border: 1px solid #ddd;
   border-left: none;
   border-radius: 0 5px 5px 0;
-  transition: border-color 0.3s, box-shadow 0.3s; 
-  outline: none; 
+  transition: border-color 0.3s, box-shadow 0.3s;
+  outline: none;
 }
 
 .input-container textarea:hover,
 .input-container textarea:focus {
-  border-color: #ddd !important; 
-  box-shadow: none !important; 
+  border-color: #ddd !important;
+  box-shadow: none !important;
 }
-
 
 .input-container textarea {
   height: 150px;
@@ -619,68 +618,68 @@ body {
 }
 /* Wishlist Container */
 #wishlistForm {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 /* Wishlist Item List */
 .wishlist-items {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .wishlist-item {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid #ddd;
-    padding: 10px;
-    margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
 }
 
 .wishlist-item img {
-    width: 100px;
-    height: auto;
-    margin-right: 15px;
-    border-radius: 5px;
+  width: 100px;
+  height: auto;
+  margin-right: 15px;
+  border-radius: 5px;
 }
 
 .item-details {
-    flex: 1;
+  flex: 1;
 }
 
 .item-details h3 {
-    margin: 0;
-    font-size: 18px;
-    color: #333;
+  margin: 0;
+  font-size: 18px;
+  color: #333;
 }
 
 .item-details p {
-    margin: 5px 0;
-    color: #555;
+  margin: 5px 0;
+  color: #555;
 }
 
 .item-actions {
-    margin-left: 15px;
+  margin-left: 15px;
 }
 
 .item-actions button {
-    background-color: #ff840a;
-    border: none;
-    color: white;
-    padding: 5px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 14px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+  background-color: #ff840a;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
 .item-actions button:hover {
-    background-color: #e67503;
+  background-color: #e67503;
 }
 /* Wishlist Container */
 #wishlistForm {
@@ -963,16 +962,6 @@ body {
   color: #ff9800;
 }
 
-.status-progress::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  border-bottom: 2px solid transparent; /* Hide the connector line by making it transparent */
-  z-index: -1;
-}
-
 /* Order Status Title */
 .order-status-title {
   margin-bottom: 20px;
@@ -1055,12 +1044,15 @@ body {
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.6); /* Darker background for better focus */
   transition: opacity 0.3s ease; /* Smooth fade-in effect */
+  display: flex; /* Use flexbox to center the modal */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  opacity: 0; /* Start with hidden opacity */
 }
 
 /* Modal Content */
 .status-modal-content {
   background-color: #fff;
-  margin: 2% auto; /* Adjusted to position the modal more centrally */
   padding: 50px; /* Increased padding for a larger content area */
   border-radius: 12px; /* Slightly rounded corners */
   width: 95%; /* Increased width */
@@ -1069,6 +1061,16 @@ body {
   overflow-y: auto; /* Scroll if content overflows */
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4); /* More pronounced shadow for depth */
   animation: fadeIn 0.3s ease; /* Fade-in animation */
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Close Button */
@@ -1085,10 +1087,4 @@ body {
   color: #333;
   text-decoration: none;
   cursor: pointer;
-}
-
-/* Fade-in Animation */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
 }
