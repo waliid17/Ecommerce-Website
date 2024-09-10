@@ -389,23 +389,30 @@ function showStatus(orderId) {
 
             updateStatusSteps(steps, orderStatus);
 
-            // Display the modal
-            document.getElementById('orderStatusModal').style.display = 'block';
+            // Display the modal with fade-in effect
+            const modal = document.getElementById('orderStatusModal');
+            modal.style.display = 'block';
+            setTimeout(() => modal.style.opacity = 1, 10); // Trigger fade-in effect
         })
         .catch(error => console.error('Error:', error));
 }
 
 // Close the modal
 document.querySelector('.status-close').addEventListener('click', () => {
-    document.getElementById('orderStatusModal').style.display = 'none';
+    const modal = document.getElementById('orderStatusModal');
+    modal.style.opacity = 0;
+    setTimeout(() => modal.style.display = 'none', 300); // Ensure transition ends before hiding
 });
 
 // Close the modal when clicking outside
 window.addEventListener('click', (event) => {
     if (event.target === document.getElementById('orderStatusModal')) {
-        document.getElementById('orderStatusModal').style.display = 'none';
+        const modal = document.getElementById('orderStatusModal');
+        modal.style.opacity = 0;
+        setTimeout(() => modal.style.display = 'none', 300); // Ensure transition ends before hiding
     }
 });
+
 </script>
 
 
