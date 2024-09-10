@@ -1088,3 +1088,38 @@ body {
   text-decoration: none;
   cursor: pointer;
 }
+/* Button styling */
+#downloadInvoiceButton {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #ff840a; /* Orange color */
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  /* Initial visibility is set to none, you can make it visible using JavaScript or CSS */
+}
+
+/* Button hover effect */
+#downloadInvoiceButton:hover {
+  background-color: #e67503; /* Darker orange */
+  transform: scale(1.05);
+}
+
+/* Button active effect */
+#downloadInvoiceButton:active {
+  background-color: #d16000; /* Even darker orange */
+  transform: scale(0.98);
+}
+
+/* Button focus effect for accessibility */
+#downloadInvoiceButton:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 132, 10, 0.5); /* Orange shadow */
+}
+

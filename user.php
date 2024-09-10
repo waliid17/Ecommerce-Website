@@ -315,105 +315,110 @@ if ($stmt) {
                 </table>
             </div>
 
-            <!-- Order Status Modal -->
-            <div id="orderStatusModal" class="status-modal">
-                <div class="status-modal-content">
-                    <span class="status-close">&times;</span>
-                    <h2>Suivi de votre commande</h2>
-                    <div class="status-progress">
-                        <div class="status-step" data-status="En attente">
-                            <div class="status-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <p>En attente</p>
-                        </div>
-                        <div class="status-step" data-status="Confirmée">
-                            <div class="status-icon">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                            <p>Confirmée</p>
-                        </div>
-                        <div class="status-step" data-status="Expédiée">
-                            <div class="status-icon">
-                                <i class="fas fa-truck"></i>
-                            </div>
-                            <p>Expédiée</p>
-                        </div>
-                        <div class="status-step" data-status="Livrée">
-                            <div class="status-icon">
-                                <i class="fas fa-box"></i>
-                            </div>
-                            <p>Livrée</p>
-                        </div>
-                        <div class="status-step" data-status="Annulée">
-                            <div class="status-icon">
-                                <i class="fas fa-times-circle"></i>
-                            </div>
-                            <p>Annulée</p>
-                        </div>
-                    </div>
+           <!-- Order Status Modal -->
+<div id="orderStatusModal" class="status-modal">
+    <div class="status-modal-content">
+        <span class="status-close">&times;</span>
+        <h2>Suivi de votre commande</h2>
+        <div class="status-progress">
+            <div class="status-step" data-status="En attente">
+                <div class="status-icon">
+                    <i class="fas fa-clock"></i>
                 </div>
+                <p>En attente</p>
             </div>
+            <div class="status-step" data-status="Confirmée">
+                <div class="status-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <p>Confirmée</p>
+            </div>
+            <div class="status-step" data-status="Expédiée">
+                <div class="status-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <p>Expédiée</p>
+            </div>
+            <div class="status-step" data-status="Livrée">
+                <div class="status-icon">
+                    <i class="fas fa-box"></i>
+                </div>
+                <p>Livrée</p>
+            </div>
+            <div class="status-step" data-status="Annulée">
+                <div class="status-icon">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <p>Annulée</p>
+            </div>
+        </div>
+        <button id="downloadInvoiceButton" style="display: none;">Télécharger la facture</button>
+    </div>
+</div>
+
 
             <script>
                 function showStatus(orderId) {
-                    // Fetch the status via AJAX
-                    fetch(`getOrderStatus.php?id=${orderId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            const orderStatus = data.status;
-                            const statusOrder = ['En attente', 'Confirmée', 'Expédiée', 'Livrée', 'Annulée'];
-                            const steps = document.querySelectorAll('.status-step');
+    fetch(`getOrderStatus.php?id=${orderId}`)
+        .then(response => response.json())
+        .then(data => {
+            const orderStatus = data.status;
+            const statusOrder = ['En attente', 'Confirmée', 'Expédiée', 'Livrée', 'Annulée'];
+            const steps = document.querySelectorAll('.status-step');
+            const downloadButton = document.getElementById('downloadInvoiceButton');
 
-                            const updateStatusSteps = (steps, orderStatus) => {
-                                steps.forEach(step => {
-                                    const stepStatus = step.getAttribute('data-status');
-                                    const stepIndex = statusOrder.indexOf(stepStatus);
-                                    const orderIndex = statusOrder.indexOf(orderStatus);
+            const updateStatusSteps = (steps, orderStatus) => {
+                steps.forEach(step => {
+                    const stepStatus = step.getAttribute('data-status');
+                    const stepIndex = statusOrder.indexOf(stepStatus);
+                    const orderIndex = statusOrder.indexOf(orderStatus);
 
-                                    // Reset classes
-                                    step.classList.remove('active', 'cancelled', 'pending');
+                    step.classList.remove('active', 'cancelled', 'pending');
 
-                                    if (orderStatus === 'Annulée') {
-                                        step.classList.add('cancelled');
-                                        if (stepIndex < statusOrder.indexOf('Annulée')) {
-                                            step.style.opacity = 0.5; // Dim all previous steps
-                                        }
-                                    } else if (stepIndex <= orderIndex) {
-                                        step.classList.add('active');
-                                    }
+                    if (orderStatus === 'Annulée') {
+                        step.classList.add('cancelled');
+                        if (stepIndex < statusOrder.indexOf('Annulée')) {
+                            step.style.opacity = 0.5;
+                        }
+                    } else if (stepIndex <= orderIndex) {
+                        step.classList.add('active');
+                    }
 
-                                    if (stepStatus === 'En attente') {
-                                        step.classList.add('pending');
-                                    }
-                                });
-                            };
-
-                            updateStatusSteps(steps, orderStatus);
-
-                            // Display the modal with fade-in effect
-                            const modal = document.getElementById('orderStatusModal');
-                            modal.style.display = 'flex'; // Use flexbox to center
-                            setTimeout(() => modal.style.opacity = 1, 10); // Trigger fade-in effect
-                        })
-                        .catch(error => console.error('Error:', error));
-                }
-
-                // Close the modal
-                document.querySelector('.status-close').addEventListener('click', () => {
-                    const modal = document.getElementById('orderStatusModal');
-                    modal.style.opacity = 0;
-                    setTimeout(() => modal.style.display = 'none', 300); // Ensure transition ends before hiding
-                });
-
-                // Close the modal when clicking outside
-                window.addEventListener('click', (event) => {
-                    if (event.target === document.getElementById('orderStatusModal')) {
-                        const modal = document.getElementById('orderStatusModal');
-                        modal.style.opacity = 0;
-                        setTimeout(() => modal.style.display = 'none', 300); // Ensure transition ends before hiding
+                    if (stepStatus === 'En attente') {
+                        step.classList.add('pending');
                     }
                 });
+            };
+
+            updateStatusSteps(steps, orderStatus);
+
+            if (orderStatus === 'Livrée') {
+                downloadButton.style.display = 'block';
+                downloadButton.onclick = () => window.location.href = `generateInvoice.php?id=${orderId}`;
+            } else {
+                downloadButton.style.display = 'none';
+            }
+
+            const modal = document.getElementById('orderStatusModal');
+            modal.style.display = 'flex';
+            setTimeout(() => modal.style.opacity = 1, 10);
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+document.querySelector('.status-close').addEventListener('click', () => {
+    const modal = document.getElementById('orderStatusModal');
+    modal.style.opacity = 0;
+    setTimeout(() => modal.style.display = 'none', 300);
+});
+
+window.addEventListener('click', (event) => {
+    if (event.target === document.getElementById('orderStatusModal')) {
+        const modal = document.getElementById('orderStatusModal');
+        modal.style.opacity = 0;
+        setTimeout(() => modal.style.display = 'none', 300);
+    }
+});
 
             </script>
 
