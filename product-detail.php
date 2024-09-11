@@ -15,31 +15,36 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    <?php
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "base";
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "base";
 
-    $conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    
-    $id = $_GET["id"];
-    // Fetch product details
-    $sql = "SELECT nom, image, prix_actuel, marque, description FROM outil WHERE id_outil=$id";
-    $result = $conn->query($sql);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $name = htmlspecialchars($row["nom"]);
-        $image = htmlspecialchars("uploads/" . $row["image"]);
-        $curr_price = htmlspecialchars($row["prix_actuel"]);
-        $brand = htmlspecialchars($row["marque"]);
-        $prod_desc = htmlspecialchars($row["description"]);
-    ?>
+$id = $_GET["id"];
+
+// Fetch product details and the brand name from the `marque` table
+$sql = "SELECT outil.nom, outil.image, outil.prix_actuel, outil.description, marque.nom_marque 
+        FROM outil 
+        INNER JOIN marque ON outil.id_marque = marque.id_marque
+        WHERE outil.id_outil = $id";
+
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $name = htmlspecialchars($row["nom"]);
+    $image = htmlspecialchars("uploads/" . $row["image"]);
+    $curr_price = htmlspecialchars($row["prix_actuel"]);
+    $brand = htmlspecialchars($row["nom_marque"]); // Fetching brand name from the `marque` table
+    $prod_desc = htmlspecialchars($row["description"]);
+?>
     
     <!-- Header -->
     <header>
@@ -96,37 +101,37 @@
     </header>
     <!-- End Header -->
 
-   <!-- Product Detail Content -->
+<!-- Product Detail Content -->
 <div class="bg-main">
-    <div class="container">
-        <div class="box">
-            <div class="breadcumb">
-                <a href="index.php">ACCUEIL</a>
-                <span><i class='bx bxs-chevrons-right'></i></span>
-                <a href="./product-detail.php?id=<?= $id ?>"><?= $name ?></a>
-            </div>
-        </div>
-        <div class="row product-row">
-            <div class="col-5 col-md-12">
-                <div class="product-img" id="product-img">
-                    <img class="inner-container" src="<?= $image ?>" alt="">
+        <div class="container">
+            <div class="box">
+                <div class="breadcumb">
+                    <a href="index.php">ACCUEIL</a>
+                    <span><i class='bx bxs-chevrons-right'></i></span>
+                    <a href="./product-detail.php?id=<?= $id ?>"><?= $name ?></a>
                 </div>
-                <div class="box">
-                    <div class="product-img-list">
-                        <div class="product-img-item">
-                            <img src="<?= $image ?>" alt="">
+            </div>
+            <div class="row product-row">
+                <div class="col-5 col-md-12">
+                    <div class="product-img" id="product-img">
+                        <img class="inner-container" src="<?= $image ?>" alt="">
+                    </div>
+                    <div class="box">
+                        <div class="product-img-list">
+                            <div class="product-img-item">
+                                <img src="<?= $image ?>" alt="">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-7 col-md-12">
-                <div class="product-info">
-                    <h1><?= $name ?></h1>
-                    <div class="product-info-detail">
-                        <span class="product-info-detail-title">Marque:</span>
-                        <a href="#"><?= $brand ?></a>
-                    </div>
+                <div class="col-7 col-md-12">
+                    <div class="product-info">
+                        <h1><?= $name ?></h1>
+                        <div class="product-info-detail">
+                            <span class="product-info-detail-title">Marque:</span>
+                            <a href="#"><?= $brand ?></a> 
+                        </div>
                     <div class="product-info-detail">
                         <span class="product-info-detail-title">Rated:</span>
                         <span class="rating">

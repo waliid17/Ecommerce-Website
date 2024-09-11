@@ -215,15 +215,15 @@
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // SQL query to fetch image URLs
-    $sql = "SELECT url_img FROM image";
+    // SQL query to fetch image URLs from the new `marque` table
+    $sql = "SELECT url_marque FROM marque";
     $result = $conn->query($sql);
 
     $images = [];
     if ($result->num_rows > 0) {
         // Fetch all image URLs
         while ($row = $result->fetch_assoc()) {
-            $images[] = $row['url_img'];
+            $images[] = $row['url_marque'];
         }
     }
 
@@ -238,6 +238,7 @@
         </div>
     </div>
     <!-- end brands section -->
+
     <script src="./js/index.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
