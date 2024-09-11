@@ -56,12 +56,23 @@
     $products = [];
     $sql = "
     SELECT 
-        o.id_outil, o.nom, o.description, o.ancien_prix, o.prix_actuel, o.image, o.marque, c.nom_cat, o.id_cat
+        o.id_outil, 
+        o.nom, 
+        o.description, 
+        o.ancien_prix, 
+        o.prix_actuel, 
+        o.image, 
+        c.nom_cat, 
+        o.id_cat, 
+        m.nom_marque
     FROM 
         outil o
     LEFT JOIN 
         categorie c ON o.id_cat = c.id_cat
+    LEFT JOIN 
+        marque m ON o.id_marque = m.id_marque
 ";
+
     $result = $connection->query($sql);
 
     if ($result->num_rows > 0) {
@@ -69,16 +80,27 @@
             $products[] = $row;
         }
     }
+    // Fetch the list of brands
+    $brands = [];
+    $sql_brands = "SELECT id_marque, nom_marque FROM marque";
+    $result_brands = $connection->query($sql_brands);
+
+    if ($result_brands->num_rows > 0) {
+        while ($row = $result_brands->fetch_assoc()) {
+            $brands[] = $row;
+        }
+    }
+
     // Fetch unique statuses from the commande table
     $sqlStatuses = "SELECT DISTINCT statut FROM commande";
     $resultStatuses = $connection->query($sqlStatuses);
 
     $statuses = [];
-    $statuses[] ='En attente' ;
-    $statuses[] ='Confirmée' ;
-    $statuses[] ='Expédiée' ;
-    $statuses[] ='Livrée' ;
-    $statuses[] ='Annulée' ;
+    $statuses[] = 'En attente';
+    $statuses[] = 'Confirmée';
+    $statuses[] = 'Expédiée';
+    $statuses[] = 'Livrée';
+    $statuses[] = 'Annulée';
 
     // Fetch messages
     function fetchMessages($connection)
@@ -339,7 +361,7 @@
                                 <td><?php echo htmlspecialchars($product['prix_actuel']); ?></td>
                                 <td><img src="../images/<?php echo htmlspecialchars($product['image']); ?>"
                                         alt="<?php echo htmlspecialchars($product['nom']); ?>" width="100"></td>
-                                <td><?php echo htmlspecialchars($product['marque']); ?></td>
+                                <td><?php echo htmlspecialchars($product['nom_marque']); ?></td>
                                 <td><?php echo $product['nom_cat']; ?></td>
                                 <td>
                                     <div class="action-buttons">
@@ -397,7 +419,7 @@
                                                         // Loop through categories and create options
                                                         foreach ($categories as $category) {
                                                             // Check if the current category should be selected
-                                                            $selected =  $product['id_cat'] == $category['id_cat'] ? ' selected' : '';
+                                                            $selected = $product['id_cat'] == $category['id_cat'] ? ' selected' : '';
                                                             echo '<option value="' . htmlspecialchars($category['id_cat']) . '"' . $selected . '>' . htmlspecialchars($category['nom_cat']) . '</option>';
                                                         }
                                                         ?>
@@ -430,9 +452,18 @@
                                             </tr>
                                             <tr>
                                                 <td><label for="brand">Marque :</label></td>
-                                                <td><input type="text" id="brand" name="marque"
-                                                        value="<?php echo htmlspecialchars($product['marque']); ?>"
-                                                        required></td>
+                                                <td>
+                                                    <select id="brand" name="id_marque" required>
+                                                        <?php
+                                                        // Loop through brands and create options
+                                                        foreach ($brands as $brand) {
+                                                            // Ensure $product['id_marque'] is set and compare correctly
+                                                            $selected = isset($product['id_marque']) && $product['id_marque'] == $brand['id_marque'] ? ' selected' : '';
+                                                            echo '<option value="' . htmlspecialchars($brand['id_marque']) . '"' . $selected . '>' . htmlspecialchars($brand['nom_marque']) . '</option>';
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td><label for="image">Photo du produit :</label></td>
@@ -500,7 +531,18 @@
                                 </tr>
                                 <tr>
                                     <td><label for="brand">Marque :</label></td>
-                                    <td><input type="text" id="brand" name="marque" required></td>
+                                    <td>
+                                        <select id="brand" name="id_marque" required>
+                                            <?php
+                                            // Loop through brands and create options
+                                            foreach ($brands as $brand) {
+                                                // Ensure $product['id_marque'] is set and compare correctly
+                                                $selected = isset($product['id_marque']) && $product['id_marque'] == $brand['id_marque'] ? ' selected' : '';
+                                                echo '<option value="' . htmlspecialchars($brand['id_marque']) . '"' . $selected . '>' . htmlspecialchars($brand['nom_marque']) . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><label for="image">Photo du produit :</label></td>
@@ -952,7 +994,8 @@
                                 <td>
                                     <select class="status-select" data-order-id="<?php echo htmlspecialchars($order_id); ?>">
                                         <?php foreach ($statuses as $status): ?>
-                                            <option <?= ($status==$order_data['statut']) ?'selected':'' ?> value="<?php echo htmlspecialchars($status); ?>">
+                                            <option <?= ($status == $order_data['statut']) ? 'selected' : '' ?>
+                                                value="<?php echo htmlspecialchars($status); ?>">
                                                 <?php echo htmlspecialchars($status); ?>
                                             </option>
                                         <?php endforeach; ?>
@@ -1079,7 +1122,7 @@
         // Handle image deletion
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_image_id'])) {
             $delete_id = intval($_POST['delete_image_id']);
-            $delete_sql = "DELETE FROM image WHERE id_img = ?";
+            $delete_sql = "DELETE FROM marque WHERE id_marque = ?";
             $stmt = $conn->prepare($delete_sql);
             $stmt->bind_param("i", $delete_id);
             if ($stmt->execute()) {
@@ -1128,7 +1171,7 @@
                 $image_url = "uploads/" . $image_name;
 
                 // Insert image path into the database
-                $insert_sql = "INSERT INTO image (url_img) VALUES (?)";
+                $insert_sql = "INSERT INTO marque (url_marque) VALUES (?)";
                 $stmt = $conn->prepare($insert_sql);
                 $stmt->bind_param("s", $image_url);
                 if ($stmt->execute()) {
@@ -1150,7 +1193,7 @@
         }
 
         // Fetch all images from the database
-        $sql = "SELECT id_img, url_img FROM image";
+        $sql = "SELECT id_marque, url_marque FROM marque";
         $result = $conn->query($sql);
 
         $images = [];
@@ -1176,11 +1219,11 @@
                     <tbody>
                         <?php foreach ($images as $image): ?>
                             <tr>
-                                <td><img src="../<?php echo htmlspecialchars($image['url_img']); ?>" alt="Brand Image"
+                                <td><img src="../<?php echo htmlspecialchars($image['url_marque']); ?>" alt="Brand Image"
                                         width="100"></td>
                                 <td>
                                     <form method="post" style="display:inline;">
-                                        <input type="hidden" name="delete_image_id" value="<?php echo $image['id_img']; ?>">
+                                        <input type="hidden" name="delete_image_id" value="<?php echo $image['id_marque']; ?>">
                                         <button type="submit">Supprimer</button>
                                     </form>
                                 </td>

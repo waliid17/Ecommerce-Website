@@ -60,17 +60,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if `id_outil` exists in POST request
     if (isset($_POST['id_outil']) && !empty($_POST['id_outil'])) {
         $id_outil = intval($_POST['id_outil']);
-        $sql = "UPDATE outil SET nom='$nom', description='$description', ancien_prix='$ancien_prix', prix_actuel='$prix_actuel', image='$image_path', marque='$marque', id_cat='$id_cat' WHERE id_outil='$id_outil'";
+        $sql = "UPDATE outil SET nom='$nom', description='$description', ancien_prix='$ancien_prix', prix_actuel='$prix_actuel', image='$image_path', id_marque='$marque', id_cat='$id_cat' WHERE id_outil='$id_outil'";
     } else {
-        $sql = "INSERT INTO outil (nom, description, ancien_prix, prix_actuel, image, marque, id_cat) 
+        $sql = "INSERT INTO outil (nom, description, ancien_prix, prix_actuel, image, id_marque, id_cat) 
                 VALUES ('$nom', '$description', '$ancien_prix', '$prix_actuel', '$image_path', '$marque', $id_cat)";
     }
-
+    
     if ($conn->query($sql) === TRUE) {
-        echo "Product saved successfully!";
+        echo "Produit ajouté avec succès !";
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
+    
 
     $conn->close();
 }

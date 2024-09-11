@@ -18,7 +18,7 @@ $sqlTools = "SELECT COUNT(*) as count FROM outil";
 $sqlMessages = "SELECT COUNT(*) as count FROM message";
 $sqlOrders = "SELECT COUNT(*) as count FROM commande";
 $sqlWilayas = "SELECT COUNT(*) as count FROM wilaya";
-$sqlMarques = "SELECT COUNT(*) as count FROM image";
+$sqlMarques = "SELECT COUNT(*) as count FROM marque";
 
 // Execute the queries and fetch the counts
 $resultUsers = $conn->query($sqlUsers);

@@ -14,6 +14,18 @@ if ($result->num_rows > 0) {
     $categorie[] = $row;  // Store each row in the $categories array
   }
 }
+// Fetch brands from the new table
+$brands = [];
+$sql_brands = "SELECT id_marque, nom_marque FROM marque";
+$result_brands = $connection->query($sql_brands);
+
+if ($result_brands->num_rows > 0) {
+  while ($row = $result_brands->fetch_assoc()) {
+    $brands[] = $row;
+  }
+}
+$selectedbrands = isset($_GET['brand']) ? $_GET['brand'] : [];
+$selectedcategories = isset($_GET['category']) ? $_GET['category'] : [];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -116,9 +128,10 @@ if ($result->num_rows > 0) {
               if (!empty($categorie)) {
                 echo "<ul class='filter-list'>";
                 foreach ($categorie as $category) {
+                  $selcted= in_array($category['id_cat'], $selectedcategories) ? 'checked' : '';
                   echo '<li>
               <div class="group-checkbox">
-                <input type="checkbox" id="cat' . $category['id_cat'] . '" data-filter="category" data-value="' . $category['id_cat'] . '" />
+                <input type="checkbox" id="cat' . $category['id_cat'] . '" data-filter="category" data-value="' . $category['id_cat'] . '"'.$selcted.' />
                 <label for="cat' . $category['id_cat'] . '">' . $category['nom_cat'] . '
                   <i class="bx bx-check"></i>
                 </label>
@@ -144,44 +157,20 @@ if ($result->num_rows > 0) {
               </div>
             </div>
             <div class="box">
-              <span class="filter-header"> Marques </span>
+              <span class="filter-header">Marques</span>
               <ul class="filter-list">
-                <li>
-                  <div class="group-checkbox">
-                    <input type="checkbox" id="remember1" data-filter="brand" data-value="YATO" />
-                    <label for="remember1">
-                      YATO
-                      <i class="bx bx-check"></i>
-                    </label>
-                  </div>
-                </li>
-                <li>
-                  <div class="group-checkbox">
-                    <input type="checkbox" id="remember2" data-filter="brand" data-value="HONESTPRO" />
-                    <label for="remember2">
-                      HONESTPRO
-                      <i class="bx bx-check"></i>
-                    </label>
-                  </div>
-                </li>
-                <li>
-                  <div class="group-checkbox">
-                    <input type="checkbox" id="remember3" data-filter="brand" data-value="BODA" />
-                    <label for="remember3">
-                      BODA
-                      <i class="bx bx-check"></i>
-                    </label>
-                  </div>
-                </li>
-                <li>
-                  <div class="group-checkbox">
-                    <input type="checkbox" id="remember4" data-filter="brand" data-value="TOLSEN" />
-                    <label for="remember4">
-                      TOLSEN
-                      <i class="bx bx-check"></i>
-                    </label>
-                  </div>
-                </li>
+                <?php foreach ($brands as $brand): ?>
+                  <li>
+                    <div class="group-checkbox">
+                      <input type="checkbox" id="brand_<?php echo $brand['id_marque']; ?>" data-filter="brand"
+                        data-value="<?php echo htmlspecialchars($brand['id_marque']); ?>" <?php echo in_array($brand['id_marque'], $selectedbrands) ? 'checked' : ''; ?> />
+                      <label for="brand_<?php echo $brand['id_marque']; ?>">
+                        <?php echo htmlspecialchars($brand['nom_marque']); ?>
+                        <i class="bx bx-check"></i>
+                      </label>
+                    </div>
+                  </li>
+                <?php endforeach; ?>
               </ul>
               <div class="container"><br>
                 <button class="filter-button" id="filter-button">
@@ -201,17 +190,17 @@ if ($result->num_rows > 0) {
                   $offset = ($page - 1) * $items_per_page;
 
                   // Capture filters
-                  $brands = isset($_GET['brand']) ? $_GET['brand'] : [];
-                  $categories = isset($_GET['category']) ? $_GET['category'] : [];
                   $prixMin = isset($_GET['prixMin']) ? (float) $_GET['prixMin'] : 0;
                   $prixMax = isset($_GET['prixMax']) ? (float) $_GET['prixMax'] : PHP_INT_MAX;
+                  $brands = isset($_GET['brand']) ? $_GET['brand'] : [];
+                  $categories = isset($_GET['category']) ? $_GET['category'] : [];
 
                   // Build the WHERE clause
                   $whereClauses = ["prix_actuel BETWEEN $prixMin AND $prixMax"];
 
                   if (!empty($brands)) {
                     $brands = array_map([$connection, 'real_escape_string'], $brands);
-                    $whereClauses[] = "marque IN ('" . implode("','", $brands) . "')";
+                    $whereClauses[] = "id_marque IN ('" . implode("','", $brands) . "')";
                   }
 
                   if (!empty($categories)) {
