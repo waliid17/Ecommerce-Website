@@ -133,13 +133,13 @@
                 <div class="text header-text">
                     <?php
                     session_start();
-                    if (isset($_SESSION['user-id'])) {
+                    if (isset($_SESSION['admin-id'])) {
                         $connection = new mysqli("localhost", "root", "", "base");
                         if ($connection->connect_error) {
                             die("Connection failed: " . $connection->connect_error);
                         }
 
-                        $id = $_SESSION['user-id'];
+                        $id = $_SESSION['admin-id'];
                         // Ensure that the ID is properly sanitized
                         $id = $connection->real_escape_string($id);
 
