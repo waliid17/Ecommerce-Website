@@ -54,8 +54,7 @@
 
     // Fetch products with category names
     $products = [];
-    $sql = "
-    SELECT 
+    $sql = "SELECT 
         o.id_outil, 
         o.nom, 
         o.description, 
@@ -64,7 +63,8 @@
         o.image, 
         c.nom_cat, 
         o.id_cat, 
-        m.nom_marque
+        m.nom_marque,
+        m.id_marque
     FROM 
         outil o
     LEFT JOIN 
@@ -458,7 +458,7 @@
                                                         // Loop through brands and create options
                                                         foreach ($brands as $brand) {
                                                             // Ensure $product['id_marque'] is set and compare correctly
-                                                            $selected = isset($product['id_marque']) && $product['id_marque'] == $brand['id_marque'] ? ' selected' : '';
+                                                            $selected = $product['id_marque'] == $brand['id_marque'] ? ' selected' : '';
                                                             echo '<option value="' . htmlspecialchars($brand['id_marque']) . '"' . $selected . '>' . htmlspecialchars($brand['nom_marque']) . '</option>';
                                                         }
                                                         ?>
@@ -1127,13 +1127,13 @@
             $stmt->bind_param("i", $delete_id);
             if ($stmt->execute()) {
                 echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script><script>
-        Swal.fire({
-            title: 'Success!',
-            text: 'Your operation was successful.',
-            icon: 'success',
-            confirmButtonText: 'OK'
-        });
-    </script>";
+    Swal.fire({
+        title: 'Success!',
+        text: 'Your operation was successful.',
+        icon: 'success',
+        confirmButtonText: 'OK'
+    });
+</script>";
             } else {
                 echo "Error deleting image: " . $conn->error;
             }
@@ -1141,12 +1141,13 @@
         }
 
         // Handle image upload
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image']) && isset($_POST['marque_name'])) {
             $upload_dir = '../uploads/';
             $image_name = basename($_FILES['image']['name']);
             $target_file = $upload_dir . $image_name;
             $image_type = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
+            $marque_name = $_POST['marque_name']; // Get brand name
+        
             // Check if the file is an actual image
             $check = getimagesize($_FILES['image']['tmp_name']);
             if ($check === false) {
@@ -1154,7 +1155,7 @@
                 exit;
             }
 
-            // Check file size (optional, e.g., limit to 2MB)
+            // Check file size (optional, e.g., limit to 10MB)
             if ($_FILES['image']['size'] > 10000000) {
                 echo "Sorry, your file is too large.";
                 exit;
@@ -1170,19 +1171,19 @@
             if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
                 $image_url = "uploads/" . $image_name;
 
-                // Insert image path into the database
-                $insert_sql = "INSERT INTO marque (url_marque) VALUES (?)";
+                // Insert image path and brand name into the database
+                $insert_sql = "INSERT INTO marque (url_marque, nom_marque) VALUES (?, ?)";
                 $stmt = $conn->prepare($insert_sql);
-                $stmt->bind_param("s", $image_url);
+                $stmt->bind_param("ss", $image_url, $marque_name);
                 if ($stmt->execute()) {
                     echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script><script>
-            Swal.fire({
-                title: 'Success!',
-                text: 'Image uploaded successfully.',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            });
-        </script>";
+        Swal.fire({
+            title: 'Success!',
+            text: 'Image uploaded successfully.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    </script>";
                 } else {
                     echo "Error saving image to database: " . $conn->error;
                 }
@@ -1193,7 +1194,7 @@
         }
 
         // Fetch all images from the database
-        $sql = "SELECT id_marque, url_marque FROM marque";
+        $sql = "SELECT id_marque, url_marque, nom_marque FROM marque";
         $result = $conn->query($sql);
 
         $images = [];
@@ -1205,6 +1206,7 @@
 
         $conn->close();
         ?>
+
         <div class="content" id="marques-content" style="display: block;">
             <h2>LES MARQUES :</h2>
             <!-- Brand Images Table -->
@@ -1212,6 +1214,7 @@
                 <table class="brand-table">
                     <thead>
                         <tr>
+                            <th>Marque</th>
                             <th>Image</th>
                             <th>Actions</th>
                         </tr>
@@ -1219,6 +1222,7 @@
                     <tbody>
                         <?php foreach ($images as $image): ?>
                             <tr>
+                                <td><?php echo htmlspecialchars($image['nom_marque']); ?></td>
                                 <td><img src="../<?php echo htmlspecialchars($image['url_marque']); ?>" alt="Brand Image"
                                         width="100"></td>
                                 <td>
@@ -1234,13 +1238,24 @@
             <?php else: ?>
                 <p>Aucune image de marque trouvée.</p>
             <?php endif; ?>
-            <div class="add-image-section">
-                <h3>Ajouter une nouvelle image de marque</h3>
+
+            <div class="add-marque-section">
+                <h3>Ajouter une nouvelle marque</h3>
                 <form method="post" enctype="multipart/form-data" class="add-image-form">
+                    <!-- Input for the brand name -->
+                    <label for="marque-name">Nom de Marque:</label>
+                    <input type="text" name="marque_name" id="marque-name" class="custom-input" required>
+
+                    <!-- Input for the image -->
+                    <label for="image">Image de Marque:</label>
                     <input type="file" name="image" class="custom-file-inputt" id="image" required>
+
+                    <!-- Image preview -->
                     <div id="image-preview" style="margin-top: 20px;">
                         <!-- Image preview will be displayed here -->
                     </div>
+
+                    <!-- Submit button -->
                     <button type="submit" class="add-image-button">Ajouter</button>
                 </form>
             </div>

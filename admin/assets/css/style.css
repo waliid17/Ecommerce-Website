@@ -1316,30 +1316,98 @@ body {
 .brand-table button:hover {
   background-color: #e67503;
 }
-/* Add Image Section */
-.add-image-section {
-  margin-top: 40px;
-  padding: 30px;
-  background-color: #fff;
-  border: 1px solid #ddd;
+/* Add Marque Section Styles */
+.add-marque-section {
+  background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* Section Heading */
-.add-image-section h3 {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 25px;
-  font-weight: 600;
-  text-transform: capitalize;
-  letter-spacing: 0.5px;
+  padding: 30px;
+  margin: 30px auto;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+.add-marque-section h3 {
+  color: #2c3e50;
+  font-size: 28px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.add-marque-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-marque-form label {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.custom-input,
+.custom-file-inputt {
+  border: 1px solid #bdc3c7;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 15px;
+  margin-bottom: 20px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.custom-input:focus,
+.custom-file-inputt:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+  outline: none;
+}
+
+.custom-file-inputt {
+  padding: 8px;
+}
+
+#image-preview {
+  text-align: center;
+}
+
+#image-preview img {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #ecf0f1;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 15px;
+}
+
+.add-image-button {
+  background-color: #3498db;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  padding: 14px 24px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  font-weight: 500;
+}
+
+.add-image-button:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.add-image-button:active {
+  background-color: #1c5980;
+  transform: translateY(0);
+}
+.add-marque-section h3 {
+  text-align: center;
+  color: #2c3e50;
+  font-size: 28px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
 
 /* Form Layout */
 .add-image-form {

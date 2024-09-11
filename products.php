@@ -128,10 +128,10 @@ $selectedcategories = isset($_GET['category']) ? $_GET['category'] : [];
               if (!empty($categorie)) {
                 echo "<ul class='filter-list'>";
                 foreach ($categorie as $category) {
-                  $selcted= in_array($category['id_cat'], $selectedcategories) ? 'checked' : '';
+                  $selcted = in_array($category['id_cat'], $selectedcategories) ? 'checked' : '';
                   echo '<li>
               <div class="group-checkbox">
-                <input type="checkbox" id="cat' . $category['id_cat'] . '" data-filter="category" data-value="' . $category['id_cat'] . '"'.$selcted.' />
+                <input type="checkbox" id="cat' . $category['id_cat'] . '" data-filter="category" data-value="' . $category['id_cat'] . '"' . $selcted . ' />
                 <label for="cat' . $category['id_cat'] . '">' . $category['nom_cat'] . '
                   <i class="bx bx-check"></i>
                 </label>
@@ -148,11 +148,11 @@ $selectedcategories = isset($_GET['category']) ? $_GET['category'] : [];
               <div class="price-range">
                 <div class="price-input">
                   <label for="prixMin">Prix Min (DA):</label>
-                  <input type="text" id="prixMin" name="prixMin" />
+                  <input type="text" id="prixMin" name="prixMin" <?= isset($_GET['prixMin']) ? 'value="' . (float) $_GET['prixMin'] . '"' : ' ' ?> />
                 </div>
                 <div class="price-input">
                   <label for="prixMax">Prix Max (DA):</label>
-                  <input type="text" id="prixMax" name="prixMax" />
+                  <input type="text" id="prixMax" name="prixMax" <?= isset($_GET['prixMax']) ? 'value="' . (float) $_GET['prixMax'] . '"' : ' ' ?> />
                 </div>
               </div>
             </div>

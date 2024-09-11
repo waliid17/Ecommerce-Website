@@ -6,7 +6,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = htmlspecialchars($_POST['description']);
     $ancien_prix = floatval($_POST['ancien_prix']);
     $prix_actuel = floatval($_POST['prix_actuel']);
-    $marque = htmlspecialchars($_POST['nom_marque']); // This seems to be incorrect
     $id_cat = intval($_POST['id_cat']);
     $id_marque = intval($_POST['id_marque']); // Ensure you have an ID for the marque
 
