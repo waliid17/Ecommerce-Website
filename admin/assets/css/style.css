@@ -1641,6 +1641,173 @@ input#file-upload-button{
 .form-table button:hover {
   background-color: #e67503; /* Button hover color */
 }
+/* Base styles for the table */
+#Catégories-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+/* Header styles */
+#Catégories-content thead tr {
+  background-color: #ffb183; /* Header background color */
+  text-align: left;
+}
+
+#Catégories-content th,
+#Catégories-content td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+#Catégories-content th {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #ffffff; /* Header text color */
+}
+
+#Catégories-content td {
+  color: #333333; /* Body text color */
+}
+
+/* Row styles */
+#Catégories-content tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Alternating row color */
+}
+
+#Catégories-content tbody tr:hover {
+  background-color: #f1f1f1; /* Row hover color */
+}
+
+/* Button styling within table actions */
+#Catégories-content .action-button {
+  background-color: #ff840a; /* Primary orange color */
+  color: #ffffff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+#Catégories-content .action-button:hover {
+  background-color: #e67503; /* Darker orange for hover effect */
+  transform: scale(1.05); /* Slightly enlarge button on hover */
+}
+/* Button Styling */
+#Catégories-content .action-button {
+  background-color: #ff840a; /* Primary orange color */
+  color: #ffffff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none; /* Ensure text is not underlined */
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  display: inline-block; /* Makes button display properly */
+}
+
+#Catégories-content .action-button:hover {
+  background-color: #e67503; /* Darker orange for hover effect */
+  transform: translateY(-2px); /* Slight lift effect on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for more pronounced effect */
+}
+
+#Catégories-content .action-button:active {
+  background-color: #d96502; /* Even darker orange when button is pressed */
+  transform: translateY(1px); /* Pressed effect */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduced shadow for pressed effect */
+}
+/* Style for the form container */
+#add-category-form {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e1e1e1;
+  display: none; /* Hidden by default */
+}
+
+/* Form styling */
+#add-category-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Adds space between form elements */
+}
+
+/* Label styling */
+#add-category-form label {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+/* Input field styling */
+#add-category-form input[type="text"] {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #333;
+  box-sizing: border-box;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#add-category-form input[type="text"]:focus {
+  border-color: #ff840a;
+  box-shadow: 0 0 5px rgba(255, 132, 10, 0.3);
+  outline: none;
+}
+
+/* Button styling */
+#add-category-form button.action-button {
+  background-color: #ff840a;
+  color: #ffffff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  font-weight: 600;
+}
+
+#add-category-form button.action-button:hover {
+  background-color: #e67503;
+  transform: translateY(-2px);
+}
+
+#add-category-form button.action-button:active {
+  background-color: #d16402;
+  transform: translateY(0);
+}
+
+#add-category-form button.action-button.cancel {
+  background-color: #f44336;
+}
+
+#add-category-form button.action-button.cancel:hover {
+  background-color: #d32f2f;
+}
+
+#add-category-form button.action-button.cancel:active {
+  background-color: #c62828;
+}
+
 /* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }

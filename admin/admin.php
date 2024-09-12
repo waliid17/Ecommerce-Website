@@ -211,6 +211,12 @@
                             <span class="text nav-text">LES WILAYAS</span>
                         </a>
                     </li>
+                    <li class="nav-link">
+                        <a href="#" class="nav-item" data-target="Catégories-content">
+                            <i class="bx bx-category icon"></i>
+                            <span class="text nav-text">LES CATÉGORIES</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
 
@@ -1569,6 +1575,151 @@
 
         </script>
 
+        <?php
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "base";
+
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        // Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+
+        // Fetch categories
+        $sql = "SELECT * FROM categorie";
+        $result = $conn->query($sql);
+
+        if (!$result) {
+            die("Query failed: " . $conn->error);
+        }
+        ?>
+
+        <div class="content" id="Catégories-content">
+            <h2>LES CATÉGORIES :</h2><br>
+            <!-- Categories Table -->
+            <table class="message-table">
+                <thead>
+                    <tr>
+                        <th>Nom de Catégorie</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if ($result->num_rows > 0): ?>
+                        <?php while ($row = $result->fetch_assoc()): ?>
+                            <tr>
+                                <td><?php echo $row['nom_cat']; ?></td>
+                                <td>
+                                    <button class="action-button"
+                                        onclick="confirmDelete(<?php echo $row['id_cat']; ?>)">Supprimer</button>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="2">Aucune catégorie trouvée</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table><br>
+            <!-- Button to Show Input Form -->
+            <button class="action-button" onclick="showAddCategoryForm()">Ajouter une catégorie</button><br><br>
+
+            <!-- Input Form for Adding Category (Initially Hidden) -->
+            <div id="add-category-form" style="display: none;">
+                <form method="POST" action="add_category.php">
+                    <label for="nom_cat">Nom de la catégorie:</label>
+                    <input type="text" name="nom_cat" required>
+                    <button type="submit" class="action-button">Ajouter</button>
+                    <button type="button" class="action-button" onclick="hideAddCategoryForm()">Annuler</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- SweetAlert2 JavaScript -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            function showAddCategoryForm() {
+                document.getElementById('add-category-form').style.display = 'block';
+            }
+
+            function hideAddCategoryForm() {
+                document.getElementById('add-category-form').style.display = 'none';
+            }
+
+            function confirmDelete(id) {
+                Swal.fire({
+                    title: 'Êtes-vous sûr ?',
+                    text: "Vous ne pourrez pas annuler cela!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ff840a',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Oui, supprimez-le!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`delete_category.php?id_cat=${id}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    Swal.fire({
+                                        title: 'Supprimé!',
+                                        text: data.message,
+                                        icon: 'success',
+                                        confirmButtonColor: '#ff840a'
+                                    }).then(() => {
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: 'Erreur!',
+                                        text: data.message,
+                                        icon: 'error',
+                                        confirmButtonColor: '#ff840a'
+                                    });
+                                }
+                            });
+                    }
+                });
+            }
+
+            document.querySelector('#add-category-form form').addEventListener('submit', function (event) {
+                event.preventDefault();
+                const formData = new FormData(this);
+
+                fetch('add_category.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                title: 'Ajouté!',
+                                text: data.message,
+                                icon: 'success',
+                                confirmButtonColor: '#ff840a'
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Erreur!',
+                                text: data.message,
+                                icon: 'error',
+                                confirmButtonColor: '#ff840a'
+                            });
+                        }
+                    });
+            });
+        </script>
+        
+
+
     </section>
 
     <!-- Scripts -->
@@ -1589,41 +1740,14 @@
 
     <script src="assets/js/app.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            let currentOpenForm = null;
-
-            document.querySelectorAll('.edit-role').forEach(function (editIcon) {
-                editIcon.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    const clientId = this.getAttribute('data-client-id');
-                    const row = this.closest('tr');
-                    const roleDisplay = row.querySelector('.role-display');
-                    const form = row.querySelector('.edit-role-form');
-
-                    if (currentOpenForm && currentOpenForm !== form) {
-                        // Hide the previously opened form
-                        const prevRow = currentOpenForm.closest('tr');
-                        const prevRoleDisplay = prevRow.querySelector('.role-display');
-                        currentOpenForm.style.display = 'none';
-                        prevRoleDisplay.style.display = 'inline-block';
-                    }
-
-                    if (form) {
-                        if (form.style.display === 'none' || form.style.display === '') {
-                            // Show the current form and hide role
-                            roleDisplay.style.display = 'none';
-                            form.style.display = 'flex';
-                            currentOpenForm = form;
-                        } else {
-                            // Hide form and show role
-                            roleDisplay.style.display = 'inline-block';
-                            form.style.display = 'none';
-                            currentOpenForm = null;
-                        }
-                    }
+        <?php if ($_GET['message'] == 'produitajouter'): ?>
+                Swal.fire({
+                    title: 'ajouter!',
+                    text: 'produit ajouter!',
+                    icon: 'success',
+                    confirmButtonColor: '#ff840a'
                 });
-            });
-        });
+            <?php endif; ?>
     </script>
 
 

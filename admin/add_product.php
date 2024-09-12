@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = $conn->real_escape_string(trim($_POST['description']));
     $ancien_prix = filter_var($_POST['ancien_prix'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $prix_actuel = filter_var($_POST['prix_actuel'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-    $marque = $conn->real_escape_string(trim($_POST['marque']));
+    $marque = $conn->real_escape_string(trim($_POST['id_marque']));
     $id_cat = intval($_POST['id_cat']);
 
     // Handle file upload
@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     if ($conn->query($sql) === TRUE) {
-        echo "Produit ajouté avec succès !";
+       header('location: admin.php?targetId=outil-content&message=produitajouter');
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
