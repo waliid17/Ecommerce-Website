@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id'])) {
     $id = $_POST['id'];
 
     // Prepare and bind
-    $stmt = $conn->prepare("DELETE FROM message WHERE id = ?");
+    $stmt = $conn->prepare("DELETE FROM message WHERE ID_Msg = ?");
     $stmt->bind_param("i", $id);
 
     // Attempt to execute the statement
@@ -38,5 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id'])) {
 
 // Close connection
 $conn->close();
-header("location: ./admin/admin.php?targetId=messages-content");
+
+// Redirect after deletion
+header("Location: ./admin/admin.php?targetId=messages-content");
+exit();
 ?>

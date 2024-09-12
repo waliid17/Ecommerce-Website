@@ -102,11 +102,14 @@
     $statuses[] = 'Livrée';
     $statuses[] = 'Annulée';
 
-    // Fetch messages
+    // Fetch messages with client details
     function fetchMessages($connection)
     {
         $messages = [];
-        $sql = "SELECT id, prenom, nom, phone, email, sujet, contenu, date FROM message";
+        $sql = "SELECT m.ID_Msg, m.Sjt_Msg, m.Ctn_Msg, m.Date_Msg,
+                   c.prenom, c.nom, c.telephone, c.email
+            FROM message m
+            JOIN client c ON m.id_client = c.id_client";
         $result = $connection->query($sql);
 
         if ($result->num_rows > 0) {
@@ -710,15 +713,15 @@
                             <tr>
                                 <td><?php echo htmlspecialchars($message['prenom']); ?></td>
                                 <td><?php echo htmlspecialchars($message['nom']); ?></td>
-                                <td><?php echo htmlspecialchars($message['phone']); ?></td>
+                                <td><?php echo htmlspecialchars($message['telephone']); ?></td>
                                 <td><?php echo htmlspecialchars($message['email']); ?></td>
-                                <td><?php echo htmlspecialchars($message['sujet']); ?></td>
-                                <td><?php echo htmlspecialchars($message['contenu']); ?></td>
-                                <td><?php echo htmlspecialchars($message['date']); ?></td>
+                                <td><?php echo htmlspecialchars($message['Sjt_Msg']); ?></td>
+                                <td><?php echo htmlspecialchars($message['Ctn_Msg']); ?></td>
+                                <td><?php echo htmlspecialchars($message['Date_Msg']); ?></td>
                                 <td>
                                     <form action="../delete_message.php" method="post" class="action-buttons"
                                         style="display: inline;">
-                                        <input type="hidden" name="id" value="<?php echo $message['id']; ?>">
+                                        <input type="hidden" name="id" value="<?php echo $message['ID_Msg']; ?>">
                                         <button class="delete-button" type="submit">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 14"
                                                 class="svgIcon bin-top">
@@ -756,6 +759,7 @@
                 </table>
             </div>
         </div>
+
         <!-- Modal Structure -->
         <div id="myModal" class="modal">
             <div class="modal-dialog">
@@ -1717,7 +1721,7 @@
                     });
             });
         </script>
-        
+
 
 
     </section>
@@ -1741,13 +1745,13 @@
     <script src="assets/js/app.js"></script>
     <script>
         <?php if ($_GET['message'] == 'produitajouter'): ?>
-                Swal.fire({
-                    title: 'ajouter!',
-                    text: 'produit ajouter!',
-                    icon: 'success',
-                    confirmButtonColor: '#ff840a'
-                });
-            <?php endif; ?>
+            Swal.fire({
+                title: 'ajouter!',
+                text: 'produit ajouter!',
+                icon: 'success',
+                confirmButtonColor: '#ff840a'
+            });
+        <?php endif; ?>
     </script>
 
 

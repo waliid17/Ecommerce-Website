@@ -1,4 +1,4 @@
-<?php
+<?php 
 // Database credentials
 $servername = "localhost";
 $username = "root";
@@ -30,22 +30,54 @@ if (empty($prenom) || empty($nom) || empty($phone) || empty($email) || empty($su
     exit;
 }
 
+// Check if the client already exists in the `client` table
+$clientStmt = $conn->prepare("SELECT id_client FROM client WHERE email = ?");
+if (!$clientStmt) {
+    echo json_encode(["status" => "error", "message" => "Erreur dans la préparation de la requête: " . $conn->error]);
+    $conn->close();
+    exit;
+}
+$clientStmt->bind_param("s", $email);
+$clientStmt->execute();
+$clientStmt->bind_result($id_client);
+$clientStmt->fetch();
+$clientStmt->close();
+
+// If the client does not exist, insert them into the `client` table
+if (empty($id_client)) {
+    $insertClientStmt = $conn->prepare("INSERT INTO client (prenom, nom, email, telephone, activation) VALUES (?, ?, ?, ?, 1)");
+    if (!$insertClientStmt) {
+        echo json_encode(["status" => "error", "message" => "Erreur dans la préparation de la requête: " . $conn->error]);
+        $conn->close();
+        exit;
+    }
+    $insertClientStmt->bind_param("ssss", $prenom, $nom, $email, $phone);
+    if ($insertClientStmt->execute()) {
+        $id_client = $insertClientStmt->insert_id; // Get the newly inserted client ID
+    } else {
+        echo json_encode(["status" => "error", "message" => "Erreur lors de l'insertion du client: " . $insertClientStmt->error]);
+        $insertClientStmt->close();
+        $conn->close();
+        exit;
+    }
+    $insertClientStmt->close();
+}
+
 // Check how many messages this user has sent in the last 24 hours
-$checkStmt = $conn->prepare("SELECT COUNT(*) FROM message WHERE email = ? AND date >= DATE_SUB(NOW(), INTERVAL 1 DAY)");
+$checkStmt = $conn->prepare("SELECT COUNT(*) FROM message WHERE id_client = ? AND Date_Msg >= DATE_SUB(NOW(), INTERVAL 1 DAY)");
 if (!$checkStmt) {
     echo json_encode(["status" => "error", "message" => "Erreur dans la préparation de la requête: " . $conn->error]);
     $conn->close();
     exit;
 }
-
-$checkStmt->bind_param("s", $email);
+$checkStmt->bind_param("i", $id_client);
 $checkStmt->execute();
 $checkStmt->bind_result($messageCount);
 $checkStmt->fetch();
 $checkStmt->close();
 
 // Debugging information
-error_log("Message count for $email: $messageCount");
+error_log("Message count for client $id_client: $messageCount");
 
 // Check if message count exceeds the limit
 if ($messageCount >= 3) {
@@ -54,15 +86,15 @@ if ($messageCount >= 3) {
     exit;
 }
 
-// Prepare and bind
-$stmt = $conn->prepare("INSERT INTO message (prenom, nom, phone, email, sujet, contenu, date) VALUES (?, ?, ?, ?, ?, ?, ?)");
+// Prepare and bind the message insert
+$stmt = $conn->prepare("INSERT INTO message (Sjt_Msg, Ctn_Msg, Date_Msg, id_client) VALUES (?, ?, ?, ?)");
 if (!$stmt) {
     echo json_encode(["status" => "error", "message" => "Erreur dans la préparation de la requête: " . $conn->error]);
     $conn->close();
     exit;
 }
 
-$stmt->bind_param("sssssss", $prenom, $nom, $phone, $email, $sujet, $contenu, $date);
+$stmt->bind_param("sssi", $sujet, $contenu, $date, $id_client);
 
 // Execute the statement
 if ($stmt->execute()) {

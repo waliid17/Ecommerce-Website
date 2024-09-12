@@ -450,64 +450,193 @@
                 <h2>CONTACT</h2>
             </div>
         </div>
-        <!-- section contact -->
-        <section id="contact">
-            <div class="contact-container">
-                <div class="contact-info">
-                    <h2 class="section-title">Notre Adresse</h2>
-                    <div class="map-container">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.268053857073!2d2.8747272764389673!3d36.74013647108209!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fa5d800390b4f%3A0xe885582e7ab8a554!2sMovent%20Agency!5e0!3m2!1sfr!2sdz!4v1719618253374!5m2!1sfr!2sdz"
-                            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade"></iframe>
-                    </div>
-                    <address>Algérie, Alger, Route de bridja, Staoueli</address>
+        <?php
+        // Start session if not already started
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Database connection
+        $connection = new mysqli("localhost", "root", "", "base");
+
+        // Check if the connection was successful
+        if ($connection->connect_error) {
+            die("Connection failed: " . $connection->connect_error);
+        }
+
+        // Initialize variables
+        $user_prenom = $user_nom = $user_phone = $user_email = '';
+
+        // Check if the user is logged in
+        if (isset($_SESSION['user-id'])) {
+            $userId = $_SESSION['user-id'];
+
+            // SQL query to fetch user data
+            $sql = "SELECT prenom, nom, telephone, email FROM client WHERE id_client = ?";
+            $stmt = $connection->prepare($sql);
+
+            if ($stmt === false) {
+                die("Prepare failed: " . $connection->error);
+            }
+
+            $stmt->bind_param("i", $userId);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                // Fetch the user's data
+                $user = $result->fetch_assoc();
+                $user_prenom = $user['prenom'];
+                $user_nom = $user['nom'];
+                $user_phone = $user['telephone'];
+                $user_email = $user['email'];
+            } else {
+                echo "No user found with the provided ID.";
+                exit;
+            }
+
+            // Close the database connection
+            $stmt->close();
+            $connection->close();
+
+            // Display the contact form
+            echo '
+    <section id="contact">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2 class="section-title">Notre Adresse</h2>
+                <div class="map-container">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.268053857073!2d2.8747272764389673!3d36.74013647108209!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fa5d800390b4f%3A0xe885582e7ab8a554!2sMovent%20Agency!5e0!3m2!1sfr!2sdz!4v1719618253374!5m2!1sfr!2sdz"
+                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
-                <div class="contact-form-container">
-                    <h2 class="section-title">Envoyer un message</h2>
-                    <form id="contactForm" method="POST" class="contact-form">
-                        <div class="input-group">
-                            <div class="input-container">
-                                <div class="icon"><i class="fas fa-user"></i></div>
-                                <input type="text" name="prenom" placeholder="Prénom" required>
-                            </div>
+                <address>Algérie, Alger, Route de bridja, Staoueli</address>
+            </div>
+            <div class="contact-form-container">
+                <h2 class="section-title">Envoyer un message</h2>
+                <form id="contactForm" method="POST" class="contact-form">
+                    <div class="input-group">
+                        <div class="input-container">
+                            <div class="icon"><i class="fas fa-user"></i></div>
+                            <input type="text" name="prenom" value="' . htmlspecialchars($user_prenom) . '" placeholder="Prénom" readonly>
                         </div>
-                        <div class="input-group">
-                            <div class="input-container">
-                                <div class="icon"><i class="fas fa-user"></i></div>
-                                <input type="text" name="nom" placeholder="Nom" required>
-                            </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-container">
+                            <div class="icon"><i class="fas fa-user"></i></div>
+                            <input type="text" name="nom" value="' . htmlspecialchars($user_nom) . '" placeholder="Nom" readonly>
                         </div>
-                        <div class="input-group">
-                            <div class="input-container">
-                                <div class="icon"><i class="fas fa-phone"></i></div>
-                                <input type="tel" name="phone" placeholder="Numéro de téléphone" required
-                                    pattern="[0-9]{10}">
-                            </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-container">
+                            <div class="icon"><i class="fas fa-phone"></i></div>
+                            <input type="tel" name="phone" value="' . htmlspecialchars($user_phone) . '" placeholder="Numéro de téléphone" readonly>
                         </div>
-                        <div class="input-group">
-                            <div class="input-container">
-                                <div class="icon"><i class="fas fa-envelope"></i></div>
-                                <input type="email" name="email" placeholder="Adresse Mail" required>
-                            </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-container">
+                            <div class="icon"><i class="fas fa-envelope"></i></div>
+                            <input type="email" name="email" value="' . htmlspecialchars($user_email) . '" placeholder="Adresse Mail" readonly>
                         </div>
-                        <div class="input-group">
-                            <div class="input-container">
-                                <div class="icon"><i class="fas fa-comment-alt"></i></div>
-                                <input type="text" name="sujet" placeholder="sujet" required>
-                            </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-container">
+                            <div class="icon"><i class="fas fa-comment-alt"></i></div>
+                            <input type="text" name="sujet" placeholder="Sujet" required>
                         </div>
-                        <div class="input-group">
-                            <div class="input-container">
-                                <div class="iconm"><i class="fas fa-comment"></i></div>
-                                <textarea name="contenu" cols="30" rows="10" placeholder="contenu" required></textarea>
-                            </div>
+                    </div>
+                    <div class="input-group">
+                        <div class="input-container">
+                            <div class="iconm"><i class="fas fa-comment"></i></div>
+                            <textarea name="contenu" cols="30" rows="10" placeholder="Contenu" required></textarea>
                         </div>
-                        <input type="submit" value="Envoyer" class="submit-btn">
-                    </form>
+                    </div>
+                    <input type="submit" value="Envoyer" class="submit-btn">
+                </form>
+            </div>
+        </div>
+    </section>
+    <div id="successModal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <span class="close" id="modalClose">&times;</span>
+                <div class="modal-body">
+                    <div class="modal-icon">
+                        <svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="orange" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12l5 5L20 7"></path>
+                        </svg>
+                    </div>
+                    <h2>Succès</h2>
+                    <p>Votre message a été bien envoyé ! Merci pour votre message</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-ok" id="modalOk">OK</button>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#contactForm").submit(function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                $.ajax({
+                    url: "message.php",
+                    type: "POST",
+                    data: $(this).serialize(),
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.status === "success") {
+                            $("#successModal").css({
+                                display: "flex",
+                                opacity: "1"
+                            }).find(".btn-ok").focus(); // Focus on the OK button
+                        } else {
+                            alert("Erreur: " + response.message);
+                        }
+                    },
+                    error: function () {
+                        alert("Erreur lors de lenvoi du message.");
+                    }
+                });
+            });
+
+            $("#modalOk, #modalClose").click(function () {
+                $("#successModal").css({
+                    display: "none",
+                    opacity: "0"
+                });
+            });
+        });
+    </script>';
+        } else {
+            // Display message indicating that login is required
+            echo '
+    <section id="contact">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2 class="section-title">Notre Adresse</h2>
+                <div class="map-container">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3197.268053857073!2d2.8747272764389673!3d36.74013647108209!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128fa5d800390b4f%3A0xe885582e7ab8a554!2sMovent%20Agency!5e0!3m2!1sfr!2sdz!4v1719618253374!5m2!1sfr!2sdz"
+                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                <address>Algérie, Alger, Route de bridja, Staoueli</address>
+            </div>
+            <div class="contact-form-container">
+                <h2 class="section-title">Envoyer un message</h2>
+                <p>Vous devez être connecté pour envoyer un message. Veuillez vous <a href="login.php">connecter</a> pour accéder au formulaire de contact.</p>
+            </div>
+        </div>
+    </section>';
+        }
+        ?>
+
+
 
         <!-- Modal HTML -->
         <div id="successModal" class="modal">
