@@ -663,43 +663,6 @@
 
         <!-- Include jQuery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-        <!-- AJAX script -->
-        <script>
-            $(document).ready(function () {
-                $('#contactForm').submit(function (event) {
-                    event.preventDefault(); // Prevent default form submission
-
-                    $.ajax({
-                        url: 'message.php',
-                        type: 'POST',
-                        data: $(this).serialize(),
-                        dataType: 'json',
-                        success: function (response) {
-                            if (response.status === 'success') {
-                                $('#successModal').css({
-                                    'display': 'flex',
-                                    'opacity': '1'
-                                }).find('.btn-ok').focus(); // Focus on the OK button
-                            } else {
-                                alert('Erreur: ' + response.message);
-                            }
-                        },
-                        error: function () {
-                            alert('Erreur lors de l\'envoi du message.');
-                        }
-                    });
-                });
-
-                $('#modalOk, #modalClose').click(function () {
-                    $('#successModal').css({
-                        'display': 'none',
-                        'opacity': '0'
-                    });
-                });
-            });
-        </script>
-
         <!-- footer -->
         <footer class="bg-second">
             <div class="container">

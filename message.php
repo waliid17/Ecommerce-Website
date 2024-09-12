@@ -43,26 +43,6 @@ $clientStmt->bind_result($id_client);
 $clientStmt->fetch();
 $clientStmt->close();
 
-// If the client does not exist, insert them into the `client` table
-if (empty($id_client)) {
-    $insertClientStmt = $conn->prepare("INSERT INTO client (prenom, nom, email, telephone, activation) VALUES (?, ?, ?, ?, 1)");
-    if (!$insertClientStmt) {
-        echo json_encode(["status" => "error", "message" => "Erreur dans la préparation de la requête: " . $conn->error]);
-        $conn->close();
-        exit;
-    }
-    $insertClientStmt->bind_param("ssss", $prenom, $nom, $email, $phone);
-    if ($insertClientStmt->execute()) {
-        $id_client = $insertClientStmt->insert_id; // Get the newly inserted client ID
-    } else {
-        echo json_encode(["status" => "error", "message" => "Erreur lors de l'insertion du client: " . $insertClientStmt->error]);
-        $insertClientStmt->close();
-        $conn->close();
-        exit;
-    }
-    $insertClientStmt->close();
-}
-
 // Check how many messages this user has sent in the last 24 hours
 $checkStmt = $conn->prepare("SELECT COUNT(*) FROM message WHERE id_client = ? AND Date_Msg >= DATE_SUB(NOW(), INTERVAL 1 DAY)");
 if (!$checkStmt) {
