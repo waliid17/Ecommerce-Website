@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 13 sep. 2024 à 18:34
+-- Généré le : ven. 13 sep. 2024 à 23:01
 -- Version du serveur : 8.3.0
 -- Version de PHP : 8.2.18
 
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `categorie` (
   `id_cat` int NOT NULL AUTO_INCREMENT,
   `nom_cat` varchar(100) NOT NULL,
   PRIMARY KEY (`id_cat`)
-) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `categorie`
@@ -99,11 +99,11 @@ INSERT INTO `client` (`id_client`, `prenom`, `nom`, `email`, `mot_de_passe`, `te
 -- --------------------------------------------------------
 
 --
--- Structure de la table `commande`
+-- Structure de la table `commande_facture`
 --
 
-DROP TABLE IF EXISTS `commande`;
-CREATE TABLE IF NOT EXISTS `commande` (
+DROP TABLE IF EXISTS `commande_facture`;
+CREATE TABLE IF NOT EXISTS `commande_facture` (
   `id_com` int NOT NULL AUTO_INCREMENT,
   `date_com` date DEFAULT NULL,
   `statut` enum('En attente','Confirmée','Expédiée','Livrée','Annulée') NOT NULL,
@@ -111,7 +111,15 @@ CREATE TABLE IF NOT EXISTS `commande` (
   `adr_Liv` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id_com`),
   KEY `fk_id_wilaya` (`id_wilaya`)
-) ENGINE=MyISAM AUTO_INCREMENT=344 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=346 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `commande_facture`
+--
+
+INSERT INTO `commande_facture` (`id_com`, `date_com`, `statut`, `id_wilaya`, `adr_Liv`) VALUES
+(345, '2024-09-13', 'Livrée', 101, 'wawawawawawa'),
+(344, '2024-09-13', 'Annulée', 100, 'wawawawa');
 
 -- --------------------------------------------------------
 
@@ -128,6 +136,14 @@ CREATE TABLE IF NOT EXISTS `conteniroutil` (
   KEY `id_outil` (`id_outil`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Déchargement des données de la table `conteniroutil`
+--
+
+INSERT INTO `conteniroutil` (`id_com`, `id_outil`, `Qte_com`) VALUES
+(345, 6, 1),
+(344, 6, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -141,6 +157,14 @@ CREATE TABLE IF NOT EXISTS `effectuer_com` (
   PRIMARY KEY (`id_com`,`id_client`),
   KEY `id_client` (`id_client`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `effectuer_com`
+--
+
+INSERT INTO `effectuer_com` (`id_com`, `id_client`) VALUES
+(344, 192),
+(345, 192);
 
 -- --------------------------------------------------------
 
@@ -203,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `outil` (
   `id_marque` int DEFAULT NULL,
   PRIMARY KEY (`id_outil`),
   KEY `fk_outil_categorie` (`id_cat`)
-) ENGINE=MyISAM AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=90 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `outil`
