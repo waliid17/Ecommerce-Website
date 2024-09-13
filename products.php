@@ -110,7 +110,7 @@ $selectedcategories = isset($_GET['category']) ? $_GET['category'] : [];
         <div class="breadcumb">
           <a href="./index.php">ACCUEIL</a>
           <span><i class="bx bxs-chevrons-right"></i></span>
-          <a href="./products.php">TOUS LES PRODUITS</a>
+          <a href="./products.php">TOUS LES OUTILS</a>
         </div>
       </div>
       <div class="box">
@@ -379,20 +379,19 @@ $selectedcategories = isset($_GET['category']) ? $_GET['category'] : [];
     <div class="container">
       <div class="row">
         <div class="col-3 col-md-6">
-          <h3 class="footer-head">PRODUITS</h3>
+          <h3 class="footer-head">SERVICES</h3>
           <ul class="menu">
-            <li><a href="#">Centre d'Aide</a></li>
-            <li><a href="#">Contactez-nous</a></li>
-            <li><a href="#">Aide Produit</a></li>
-            <li><a href="#">Garantie</a></li>
+            <li><a href="products.php">Nos Outils</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#bloge">À propos</a></li>
           </ul>
         </div>
         <div class="col-3 col-md-6">
-          <h3 class="footer-head">SERVICES</h3>
+          <h3 class="footer-head">Nos Avantages</h3>
           <ul class="menu">
-            <li><a href="#">Livraison Rapide</a></li>
-            <li><a href="#">Retours Gratuits</a></li>
-            <li><a href="#">Conseils Personnalisés</a></li>
+            <li>Livraison Rapide</li>
+            <li>Des Outils De Marque</li>
+            <li>Garantie</li>
           </ul>
         </div>
         <div class="col-3 col-md-6">

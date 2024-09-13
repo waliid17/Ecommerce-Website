@@ -172,7 +172,7 @@
                     <div class="info">
                         <div class="info-content">
                             <h2 class="top-down trans-delay-0-2">
-                                DES PRODUITS DE MARQUE
+                                DES OUTILS DE MARQUE
                             </h2>
                             <div class="top-down trans-delay-0-6">
                                 <button class="btn-flat btn-hover" onclick="scrollToBrands()">
@@ -294,7 +294,7 @@
     <div class="section">
         <div class="container">
             <div class="section-header">
-                <h2>NOS PRODUITS</h2>
+                <h2>NOS OUTILS</h2>
             </div>
             <div class="row">
                 <?php
@@ -668,20 +668,19 @@
             <div class="container">
                 <div class="row">
                     <div class="col-3 col-md-6">
-                        <h3 class="footer-head">PRODUITS</h3>
+                        <h3 class="footer-head">SERVICES</h3>
                         <ul class="menu">
-                            <li><a href="#">Centre d'Aide</a></li>
-                            <li><a href="#">Contactez-nous</a></li>
-                            <li><a href="#">Aide Produit</a></li>
-                            <li><a href="#">Garantie</a></li>
+                            <li><a href="products.php">Nos Outils</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                            <li><a href="#bloge">À propos</a></li>
                         </ul>
                     </div>
                     <div class="col-3 col-md-6">
-                        <h3 class="footer-head">SERVICES</h3>
+                        <h3 class="footer-head">Nos Avantages</h3>
                         <ul class="menu">
-                            <li><a href="#">Livraison Rapide</a></li>
-                            <li><a href="#">Retours Gratuits</a></li>
-                            <li><a href="#">Conseils Personnalisés</a></li>
+                            <li>Livraison Rapide</li>
+                            <li>Des Outils De Marque</li>
+                            <li>Garantie</li>
                         </ul>
                     </div>
                     <div class="col-3 col-md-6">
