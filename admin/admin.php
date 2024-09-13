@@ -1337,7 +1337,7 @@
                 <thead>
                     <tr>
                         <th>Wilaya</th>
-                        <th>Delivery Price (DZD)</th>
+                        <th>Prix de livraison (DZD)</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
