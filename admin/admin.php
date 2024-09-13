@@ -308,6 +308,17 @@
                                 </a>
                             </div>
                         </div>
+                        <div class="Card">
+                            <div>
+                                <div class="num"><?php echo $countCatégories; ?></div>
+                                <div class="name">CATÉGORIES</div>
+                            </div>
+                            <div class="icons">
+                                <a href="?targetId=Catégories-content">
+                                <i class="bx bx-category icon"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
