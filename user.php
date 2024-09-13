@@ -215,7 +215,7 @@ if ($stmt) {
                     </div>
                     <div class="form-group">
                         <label for="address">Adresse de livraison:</label>
-                        <input type="text" id="address" name="address" class="form-control"
+                        <input type="text" id="adr_Liv" name="address" class="form-control"
                             placeholder="Entrez votre adresse" required>
                     </div>
                     <!-- Total price including delivery will be displayed here -->
@@ -315,110 +315,110 @@ if ($stmt) {
                 </table>
             </div>
 
-           <!-- Order Status Modal -->
-<div id="orderStatusModal" class="status-modal">
-    <div class="status-modal-content">
-        <span class="status-close">&times;</span>
-        <h2>Suivi de votre commande</h2>
-        <div class="status-progress">
-            <div class="status-step" data-status="En attente">
-                <div class="status-icon">
-                    <i class="fas fa-clock"></i>
+            <!-- Order Status Modal -->
+            <div id="orderStatusModal" class="status-modal">
+                <div class="status-modal-content">
+                    <span class="status-close">&times;</span>
+                    <h2>Suivi de votre commande</h2>
+                    <div class="status-progress">
+                        <div class="status-step" data-status="En attente">
+                            <div class="status-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <p>En attente</p>
+                        </div>
+                        <div class="status-step" data-status="Confirmée">
+                            <div class="status-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <p>Confirmée</p>
+                        </div>
+                        <div class="status-step" data-status="Expédiée">
+                            <div class="status-icon">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <p>Expédiée</p>
+                        </div>
+                        <div class="status-step" data-status="Livrée">
+                            <div class="status-icon">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <p>Livrée</p>
+                        </div>
+                        <div class="status-step" data-status="Annulée">
+                            <div class="status-icon">
+                                <i class="fas fa-times-circle"></i>
+                            </div>
+                            <p>Annulée</p>
+                        </div>
+                    </div>
+                    <button id="downloadInvoiceButton" style="display: none;">Télécharger la facture</button>
                 </div>
-                <p>En attente</p>
             </div>
-            <div class="status-step" data-status="Confirmée">
-                <div class="status-icon">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <p>Confirmée</p>
-            </div>
-            <div class="status-step" data-status="Expédiée">
-                <div class="status-icon">
-                    <i class="fas fa-truck"></i>
-                </div>
-                <p>Expédiée</p>
-            </div>
-            <div class="status-step" data-status="Livrée">
-                <div class="status-icon">
-                    <i class="fas fa-box"></i>
-                </div>
-                <p>Livrée</p>
-            </div>
-            <div class="status-step" data-status="Annulée">
-                <div class="status-icon">
-                    <i class="fas fa-times-circle"></i>
-                </div>
-                <p>Annulée</p>
-            </div>
-        </div>
-        <button id="downloadInvoiceButton" style="display: none;">Télécharger la facture</button>
-    </div>
-</div>
 
 
             <script>
                 function showStatus(orderId) {
-    fetch(`getOrderStatus.php?id=${orderId}`)
-        .then(response => response.json())
-        .then(data => {
-            const orderStatus = data.status;
-            const statusOrder = ['En attente', 'Confirmée', 'Expédiée', 'Livrée', 'Annulée'];
-            const steps = document.querySelectorAll('.status-step');
-            const downloadButton = document.getElementById('downloadInvoiceButton');
+                    fetch(`getOrderStatus.php?id=${orderId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const orderStatus = data.status;
+                            const statusOrder = ['En attente', 'Confirmée', 'Expédiée', 'Livrée', 'Annulée'];
+                            const steps = document.querySelectorAll('.status-step');
+                            const downloadButton = document.getElementById('downloadInvoiceButton');
 
-            const updateStatusSteps = (steps, orderStatus) => {
-                steps.forEach(step => {
-                    const stepStatus = step.getAttribute('data-status');
-                    const stepIndex = statusOrder.indexOf(stepStatus);
-                    const orderIndex = statusOrder.indexOf(orderStatus);
+                            const updateStatusSteps = (steps, orderStatus) => {
+                                steps.forEach(step => {
+                                    const stepStatus = step.getAttribute('data-status');
+                                    const stepIndex = statusOrder.indexOf(stepStatus);
+                                    const orderIndex = statusOrder.indexOf(orderStatus);
 
-                    step.classList.remove('active', 'cancelled', 'pending');
+                                    step.classList.remove('active', 'cancelled', 'pending');
 
-                    if (orderStatus === 'Annulée') {
-                        step.classList.add('cancelled');
-                        if (stepIndex < statusOrder.indexOf('Annulée')) {
-                            step.style.opacity = 0.5;
-                        }
-                    } else if (stepIndex <= orderIndex) {
-                        step.classList.add('active');
-                    }
+                                    if (orderStatus === 'Annulée') {
+                                        step.classList.add('cancelled');
+                                        if (stepIndex < statusOrder.indexOf('Annulée')) {
+                                            step.style.opacity = 0.5;
+                                        }
+                                    } else if (stepIndex <= orderIndex) {
+                                        step.classList.add('active');
+                                    }
 
-                    if (stepStatus === 'En attente') {
-                        step.classList.add('pending');
+                                    if (stepStatus === 'En attente') {
+                                        step.classList.add('pending');
+                                    }
+                                });
+                            };
+
+                            updateStatusSteps(steps, orderStatus);
+
+                            if (orderStatus === 'Livrée') {
+                                downloadButton.style.display = 'block';
+                                downloadButton.onclick = () => window.location.href = `generateInvoice.php?id=${orderId}`;
+                            } else {
+                                downloadButton.style.display = 'none';
+                            }
+
+                            const modal = document.getElementById('orderStatusModal');
+                            modal.style.display = 'flex';
+                            setTimeout(() => modal.style.opacity = 1, 10);
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
+
+                document.querySelector('.status-close').addEventListener('click', () => {
+                    const modal = document.getElementById('orderStatusModal');
+                    modal.style.opacity = 0;
+                    setTimeout(() => modal.style.display = 'none', 300);
+                });
+
+                window.addEventListener('click', (event) => {
+                    if (event.target === document.getElementById('orderStatusModal')) {
+                        const modal = document.getElementById('orderStatusModal');
+                        modal.style.opacity = 0;
+                        setTimeout(() => modal.style.display = 'none', 300);
                     }
                 });
-            };
-
-            updateStatusSteps(steps, orderStatus);
-
-            if (orderStatus === 'Livrée') {
-                downloadButton.style.display = 'block';
-                downloadButton.onclick = () => window.location.href = `generateInvoice.php?id=${orderId}`;
-            } else {
-                downloadButton.style.display = 'none';
-            }
-
-            const modal = document.getElementById('orderStatusModal');
-            modal.style.display = 'flex';
-            setTimeout(() => modal.style.opacity = 1, 10);
-        })
-        .catch(error => console.error('Error:', error));
-}
-
-document.querySelector('.status-close').addEventListener('click', () => {
-    const modal = document.getElementById('orderStatusModal');
-    modal.style.opacity = 0;
-    setTimeout(() => modal.style.display = 'none', 300);
-});
-
-window.addEventListener('click', (event) => {
-    if (event.target === document.getElementById('orderStatusModal')) {
-        const modal = document.getElementById('orderStatusModal');
-        modal.style.opacity = 0;
-        setTimeout(() => modal.style.display = 'none', 300);
-    }
-});
 
             </script>
 
@@ -558,6 +558,8 @@ window.addEventListener('click', (event) => {
 
                     const wilayaSelect = document.getElementById('wilaya');
                     const selectedWilaya = wilayaSelect.value;
+                    const addressInput = document.getElementById('adr_Liv');
+                    const addressValue = addressInput.value.trim();
 
                     if (selectedWilaya === '') {
                         Swal.fire({
@@ -572,6 +574,20 @@ window.addEventListener('click', (event) => {
                         return;
                     }
 
+                    if (addressValue === '') {
+                        Swal.fire({
+                            title: 'Adresse manquante',
+                            text: 'Veuillez entrer votre adresse de livraison.',
+                            icon: 'warning',
+                            confirmButtonText: 'D\'accord',
+                            confirmButtonColor: '#ff840a', // Your preferred button color
+                            background: '#fff', // Background color
+                            color: '#333' // Text color
+                        });
+                        return;
+                    }
+
+
                     // Collect items for the order
                     const items = wishlist.map(item => ({
                         id_com: null, // This will be set on the server
@@ -579,9 +595,11 @@ window.addEventListener('click', (event) => {
                         Qte_com: item.quantity
                     }));
                     var wilayaId = document.getElementById('wilaya').options[document.getElementById('wilaya').selectedIndex].value;
+                    var adr_Liv = document.getElementById('adr_Liv').value;
                     var data = {
                         wilayaId: wilayaId,
-                        userId: <?= $user_id ?>
+                        userId: <?= $user_id ?>,
+                        adr_Liv: adr_Liv
                     };
 
                     async function createOrderAndAddItems(data, items) {

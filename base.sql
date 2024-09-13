@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : sam. 07 sep. 2024 à 14:44
+-- Généré le : ven. 13 sep. 2024 à 18:34
 -- Version du serveur : 8.3.0
 -- Version de PHP : 8.2.18
 
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `categorie` (
   `id_cat` int NOT NULL AUTO_INCREMENT,
   `nom_cat` varchar(100) NOT NULL,
   PRIMARY KEY (`id_cat`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `categorie`
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `client` (
   `adresse` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `activation` tinyint(1) NOT NULL,
   PRIMARY KEY (`id_client`)
-) ENGINE=MyISAM AUTO_INCREMENT=195 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=196 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `client`
@@ -106,19 +106,12 @@ DROP TABLE IF EXISTS `commande`;
 CREATE TABLE IF NOT EXISTS `commande` (
   `id_com` int NOT NULL AUTO_INCREMENT,
   `date_com` date DEFAULT NULL,
-  `statut` varchar(30) NOT NULL,
+  `statut` enum('En attente','Confirmée','Expédiée','Livrée','Annulée') NOT NULL,
   `id_wilaya` int DEFAULT NULL,
+  `adr_Liv` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   PRIMARY KEY (`id_com`),
   KEY `fk_id_wilaya` (`id_wilaya`)
-) ENGINE=MyISAM AUTO_INCREMENT=310 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Déchargement des données de la table `commande`
---
-
-INSERT INTO `commande` (`id_com`, `date_com`, `statut`, `id_wilaya`) VALUES
-(309, '2024-09-06', 'pending', 98),
-(308, '2024-09-06', 'pending', 100);
+) ENGINE=MyISAM AUTO_INCREMENT=344 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -135,18 +128,6 @@ CREATE TABLE IF NOT EXISTS `conteniroutil` (
   KEY `id_outil` (`id_outil`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Déchargement des données de la table `conteniroutil`
---
-
-INSERT INTO `conteniroutil` (`id_com`, `id_outil`, `Qte_com`) VALUES
-(309, 3, 2),
-(309, 7, 1),
-(308, 8, 2),
-(307, 52, 2),
-(307, 49, 3),
-(307, 48, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -161,40 +142,32 @@ CREATE TABLE IF NOT EXISTS `effectuer_com` (
   KEY `id_client` (`id_client`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Déchargement des données de la table `effectuer_com`
---
-
-INSERT INTO `effectuer_com` (`id_com`, `id_client`) VALUES
-(307, 192),
-(308, 192),
-(309, 192);
-
 -- --------------------------------------------------------
 
 --
--- Structure de la table `image`
+-- Structure de la table `marque`
 --
 
-DROP TABLE IF EXISTS `image`;
-CREATE TABLE IF NOT EXISTS `image` (
-  `id_img` int NOT NULL AUTO_INCREMENT,
-  `url_img` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`id_img`)
-) ENGINE=MyISAM AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+DROP TABLE IF EXISTS `marque`;
+CREATE TABLE IF NOT EXISTS `marque` (
+  `id_marque` int NOT NULL AUTO_INCREMENT,
+  `url_marque` varchar(255) DEFAULT NULL,
+  `nom_marque` varchar(30) NOT NULL,
+  PRIMARY KEY (`id_marque`)
+) ENGINE=MyISAM AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Déchargement des données de la table `image`
+-- Déchargement des données de la table `marque`
 --
 
-INSERT INTO `image` (`id_img`, `url_img`) VALUES
-(33, 'images/logo7.png'),
-(32, 'images/logo6.png'),
-(31, 'images/logo5.png'),
-(30, 'images/logo4.png'),
-(29, 'images/logo3.png'),
-(28, 'images/logo2.png'),
-(43, 'uploads/logo1.png');
+INSERT INTO `marque` (`id_marque`, `url_marque`, `nom_marque`) VALUES
+(7, 'images/logo7.png', 'BEETRO'),
+(6, 'images/logo6.png', 'HOTECHE'),
+(5, 'images/logo5.png', 'CROWN'),
+(4, 'images/logo4.png', 'TOLSEN'),
+(3, 'images/logo3.png', 'BODA'),
+(2, 'images/logo2.png', 'HONESTPRO'),
+(1, 'uploads/logo1.png', 'YATO');
 
 -- --------------------------------------------------------
 
@@ -204,28 +177,13 @@ INSERT INTO `image` (`id_img`, `url_img`) VALUES
 
 DROP TABLE IF EXISTS `message`;
 CREATE TABLE IF NOT EXISTS `message` (
-  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `prenom` varchar(30) NOT NULL,
-  `nom` varchar(30) NOT NULL,
-  `phone` varchar(15) NOT NULL,
-  `email` varchar(50) DEFAULT NULL,
-  `sujet` varchar(50) DEFAULT NULL,
-  `contenu` text,
-  `date` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Déchargement des données de la table `message`
---
-
-INSERT INTO `message` (`id`, `prenom`, `nom`, `phone`, `email`, `sujet`, `contenu`, `date`) VALUES
-(70, 'walid', 'beddiar', '0540363847', 'chaouki@gmail.com', 'jfhjgshdgshdsdsds', 'ggggggggggggg', '2024-08-24 21:42:59'),
-(69, 'walid', 'beddiar', '0540363847', 'chaoukii@gmail.com', 'jfhjgshdgshdsdsds', 'gggggggg', '2024-08-21 19:50:37'),
-(68, 'walid', 'beddiar', '0540363847', 'chaoukii@gmail.com', 'jfhjgshdgshdsdsds', 'gggggggg', '2024-08-21 19:50:36'),
-(67, 'walid', 'beddiar', '0540363847', 'chaoukii@gmail.com', 'jfhjgshdgshdsdsds', 'gggggggg', '2024-08-21 19:50:34'),
-(66, 'walid', 'khelouffi', '0540363847', 'chaoffffuki@gmail.com', 'dddd', 'wawawaa', '2024-08-21 19:49:54'),
-(75, 'nabilll', 'boktab', '0540363847', 'walidkheloufi00@gmail.com', 'jfhjgshdgshdsdsdsd', 'ddddddddddddddddd', '2024-09-03 20:19:48');
+  `ID_Msg` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `Sjt_Msg` varchar(50) DEFAULT NULL,
+  `Ctn_Msg` text,
+  `Date_Msg` timestamp NULL DEFAULT NULL,
+  `id_client` int NOT NULL,
+  PRIMARY KEY (`ID_Msg`)
+) ENGINE=MyISAM AUTO_INCREMENT=99 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -241,38 +199,37 @@ CREATE TABLE IF NOT EXISTS `outil` (
   `ancien_prix` decimal(7,2) NOT NULL,
   `prix_actuel` decimal(7,2) NOT NULL,
   `image` varchar(255) NOT NULL,
-  `marque` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `id_cat` int NOT NULL,
+  `id_marque` int DEFAULT NULL,
   PRIMARY KEY (`id_outil`),
   KEY `fk_outil_categorie` (`id_cat`)
-) ENGINE=MyISAM AUTO_INCREMENT=58 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `outil`
 --
 
-INSERT INTO `outil` (`id_outil`, `nom`, `description`, `ancien_prix`, `prix_actuel`, `image`, `marque`, `id_cat`) VALUES
-(7, 'CLE CROIX', 'CLE CROIX 1/2″ 17*19*21 TOPTUL', 3600.00, 3900.00, 'AEAL1616.jpeg', 'HONESTPRO', 2),
-(6, 'CLE A GRIFE', '• Mâchoire mobile forgée avec de l’acier au carbone de haute qualité• Emballage : étiquette volante avec boîte de dessin', 1150.00, 1650.00, 'YT2490.jpeg', 'YATO', 2),
-(2, 'Bouloneuse', 'Puissance : 550 W max. couple : 300N.m Vitesse à vide : 0-3200min', 13700.00, 12500.00, 'YAE2388.jpeg', 'BODA', 1),
-(3, 'CLE A CHOC ', 'CLE A CHOC PNEUMATIQUE 1/4 YATO', 17500.00, 16900.00, 'YT09511.jpeg', 'YATO', 1),
-(5, 'CLE A CLIQUET', '• CrV• Chromé, finition satinée• Emballage : cintre en plastique avec étiquette de couleur', 1200.00, 1800.00, '15243.jpeg', 'TOLSEN', 2),
-(4, 'PONCEUSE', 'PONCEUSE POLISSEUSE PNEUMATIQUE YATO', 12700.00, 11500.00, 'YAE2229.jpeg', 'TOLSEN', 1),
-(1, 'Batterie', 'Tension 20V Temps de charge 1h Capacité 2.0Ah', 5000.00, 4800.00, 'YAE2375B.jpeg', 'HONESTPRO', 1),
-(8, 'CLE MIXTE 6', 'Toptul AAEB0606 Clé mixte standard 15° 6mmCaractéristiques :Matériau en acier au chrome vanadiumPerformances de couple élevées jusqu à plus de 1,6 fois comme ANSI &amp; Norme DINQualité professionnelle pour une durabilité et une résistance à la corrosion maximalesSpécifications :Finition : Satin ChromeTaille : 6 mmLongueur : 109 mm', 1200.00, 1500.00, 'AAEB0606.jpeg', 'BODA', 2),
-(9, 'AIRLESS MBRN', 'AIRLESS MBRN 3000W 5L/MIN HONESTPRO', 65000.00, 68000.00, 'YAE4701.jpeg', 'TOLSEN', 3),
-(10, 'BLOC AIRLESS', 'BLOC AIRLESS4707 HONESTPRO', 8300.00, 8900.00, 'YAE4811.jpeg', 'HONESTPRO', 3),
-(11, 'BUSE', 'Modèle de buse de pulvérisation : 417 Modèles applicables : YAE4701/YAE4705/YAE4706', 1300.00, 1800.00, 'YAE4832.jpeg', 'BODA', 3),
-(12, 'CAROTTEUSE', 'Puissance : 3200W max. diamètre de perçage : 230 mm Vitesse à vide : 700 min', 70000.00, 73500.00, 'YAE2733.jpeg', 'YATO', 3),
-(13, 'BOUTE 45', '• Approbation CE • Matériau : PVC • Embout en acier et semelle intercalaire en acier • Haut niveau de résistance à l huile, aux acides et aux alcalis, 100 % imperméable • Semelle de chaussure Desliching • Emballage : poly-sac avec étiquette de couleur', 2100.00, 2700.00, '45120-600x600.jpeg', 'TOLSEN', 4),
-(14, 'CASQUE ANTIBRUIT', '• Approuvé CE et ANSI • Suspension à alignement automatique, ajuste facilement les manchons sur le bandeau pour un ajustement rapide • Le coussin rempli de mousse souple offre une bonne étanchéité pour une protection contre les bruits nocifs • SNR : 26 dB, NRR=21 dB • Emballage : cintre en papier', 900.00, 1000.00, '45083.jpeg', 'HONESTPRO', 4),
-(15, 'CEINTURE', '• Panneaux avant effilés pour plus de confort lors de la flexion • Larges bretelles élastiques réglables • Baleines internes pour un soutien supplémentaire • Emballage : double blister', 2000.00, 2800.00, '45244.jpeg', 'BODA', 4),
-(16, 'LUNETTE DE SOUDAGE', 'LUNETTE DE SOUDAGE AUTO HOTECHE', 3000.00, 3500.00, '439005.jpeg', 'YATO', 4),
-(17, 'FOURCHE DE JARDIN', '• Acier à outils spécial forgé • Revêtement en poudre noire • Longueur totale : 310 mm • Épaisseur : 2,5 mm • Poignée en plastique à deux composants • Emballage : étiquette volante', 600.00, 650.00, '57506.jpeg', 'TOLSEN', 5),
-(18, 'TONDEUSE A MOUTON', 'Puissance : 500W 13 dents vitesse : 2800min', 12500.00, 13550.00, 'YAE2398.jpeg', 'YATO', 5),
-(19, 'DEBROUSSAILLEUSE', 'Cylindrée : 43cc Ralenti : 6500min Puissance moteur : 1.25kW', 17000.00, 18500.00, 'YAE0972.jpeg', 'HONESTPRO', 5),
-(20, 'RATEAU DE JARDIN', '• Acier à outils spécial forgé • Revêtement en poudre noire • Longueur totale : 285 mm • Diamètre de la tige principale : 8 mm • Poignée en plastique à deux composants • Emballage : à suspendre balise', 500.00, 650.00, '57504.jpeg', 'BODA', 5),
-(21, 'AGRAFEUSE PNEUMATIQUE', '• Homologation CE • Convient aux agrafes : Agrafes à couronne 21Ga. 0.95*0.66mm : 6-16mm • Capacité du magasin : 120 pcs • Pression de fonctionnement : 60psi(0.4Mpa)-100psi(0.7Mpa) • Entrée d’air : 1/4″ • Filet poids : 0,8 kg • Idéal pour le rembourrage, l’assemblage d’armoires, la fabrication de meubles • Accessoires : 300 agrafes à couronne 2 clés hexagonales 1 pot d’huile 3 attaches rapides avec filetage mâle 1/4 ″ PT • Emballage : boîte de couleur', 6500.00, 7500.00, '73425.jpeg', 'TOLSEN', 2);
+INSERT INTO `outil` (`id_outil`, `nom`, `description`, `ancien_prix`, `prix_actuel`, `image`, `id_cat`, `id_marque`) VALUES
+(7, 'CLE CROIX', 'CLE CROIX 1/2″ 17*19*21 TOPTUL', 3900.00, 3600.00, 'AEAL1616.jpeg', 1, 5),
+(6, 'CLE A GRIFE', '• Mâchoire mobile forgée avec de l’acier au carbone de haute qualité• Emballage : étiquette volante avec boîte de dessin', 1650.00, 1200.00, 'YT2490.jpeg', 1, 1),
+(2, 'Bouloneuse', 'Puissance : 550 W max. couple : 300N.m Vitesse à vide : 0-3200min', 13700.00, 12500.00, 'YAE2388.jpeg', 1, 4),
+(3, 'CLE A CHOC ', 'CLE A CHOC PNEUMATIQUE 1/4 YATO', 17500.00, 16900.00, 'YT09511.jpeg', 1, 1),
+(5, 'CLE A CLIQUET', '• CrV• Chromé, finition satinée• Emballage : cintre en plastique avec étiquette de couleur', 1800.00, 1300.00, '15243.jpeg', 2, 4),
+(4, 'PONCEUSE', 'PONCEUSE POLISSEUSE PNEUMATIQUE YATO', 12700.00, 11500.00, 'YAE2229.jpeg', 2, 4),
+(1, 'Batterie', 'Tension 20V Temps de charge 1h Capacité 2.0Ah', 5000.00, 4800.00, 'YAE2375B.jpeg', 2, 2),
+(8, 'CLE MIXTE 6', 'Toptul AAEB0606 Clé mixte standard 15° 6mmCaractéristiques :Matériau en acier au chrome vanadiumPerformances de couple élevées jusqu à plus de 1,6 fois comme ANSI &amp;amp;amp;amp; Norme DINQualité professionnelle pour une durabilité et une résistance à la corrosion maximalesSpécifications :Finition : Satin ChromeTaille : 6 mmLongueur : 109 mm', 1500.00, 1200.00, 'AAEB0606.jpeg', 2, 3),
+(9, 'AIRLESS MBRN', 'AIRLESS MBRN 3000W 5L/MIN HONESTPRO', 68000.00, 65000.00, 'YAE4701.jpeg', 3, 4),
+(10, 'BLOC AIRLESS', 'BLOC AIRLESS4707 HONESTPRO', 8900.00, 8300.00, 'YAE4811.jpeg', 3, 2),
+(11, 'BUSE', 'Modèle de buse de pulvérisation : 417 Modèles applicables : YAE4701/YAE4705/YAE4706', 1800.00, 1300.00, 'YAE4832.jpeg', 3, 3),
+(12, 'CAROTTEUSE', 'Puissance : 3200W max. diamètre de perçage : 230 mm Vitesse à vide : 700 min', 73500.00, 70000.00, 'YAE2733.jpeg', 3, 1),
+(13, 'BOUTE 45', '• Approbation CE • Matériau : PVC • Embout en acier et semelle intercalaire en acier • Haut niveau de résistance à l huile, aux acides et aux alcalis, 100 % imperméable • Semelle de chaussure Desliching • Emballage : poly-sac avec étiquette de couleur', 2700.00, 2100.00, '45120-600x600.jpeg', 4, 4),
+(14, 'CASQUE ANTIBRUIT', '• Approuvé CE et ANSI • Suspension à alignement automatique, ajuste facilement les manchons sur le bandeau pour un ajustement rapide • Le coussin rempli de mousse souple offre une bonne étanchéité pour une protection contre les bruits nocifs • SNR : 26 dB, NRR=21 dB • Emballage : cintre en papier', 1000.00, 900.00, '45083.jpeg', 4, 2),
+(15, 'CEINTURE', '• Panneaux avant effilés pour plus de confort lors de la flexion • Larges bretelles élastiques réglables • Baleines internes pour un soutien supplémentaire • Emballage : double blister', 2800.00, 2000.00, '45244.jpeg', 4, 3),
+(16, 'LUNETTE DE SOUDAGE', 'LUNETTE DE SOUDAGE AUTO HOTECHE', 3500.00, 3000.00, '439005.jpeg', 4, 7),
+(17, 'FOURCHE DE JARDIN', '• Acier à outils spécial forgé • Revêtement en poudre noire • Longueur totale : 310 mm • Épaisseur : 2,5 mm • Poignée en plastique à deux composants • Emballage : étiquette volante', 650.00, 600.00, '57506.jpeg', 5, 4),
+(18, 'TONDEUSE A MOUTON', 'Puissance : 500W 13 dents vitesse : 2800min', 13500.00, 12500.00, 'YAE2398.jpeg', 5, 1),
+(19, 'DEBROUSSAILLEUSE', 'Cylindrée : 43cc Ralenti : 6500min Puissance moteur : 1.25kW', 18500.00, 17000.00, 'YAE0972.jpeg', 5, 2),
+(20, 'RATEAU DE JARDIN', '• Acier à outils spécial forgé • Revêtement en poudre noire • Longueur totale : 285 mm • Diamètre de la tige principale : 8 mm • Poignée en plastique à deux composants • Emballage : à suspendre balise', 650.00, 500.00, '57504.jpeg', 5, 5);
 
 -- --------------------------------------------------------
 
