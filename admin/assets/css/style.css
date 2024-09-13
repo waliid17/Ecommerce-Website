@@ -1883,3 +1883,187 @@ input#file-upload-button{
       text-align: left;
   }
 }
+
+/* Modern, Professional Table Design */
+@media (max-width: 768px) {
+  .table-wrapper {
+    overflow-x: auto; /* Scrollable on mobile */
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Enhanced shadow for depth */
+    background-color: white;
+    padding: 15px;
+  }
+
+  .product-table, 
+  .client-table, 
+  .order-table, 
+  .message-table, 
+  .wilaya-table, 
+  .brand-table {
+    width: 100%;
+    border-collapse: collapse; /* Space-efficient, collapses borders */
+    font-size: 16px;
+    text-align: left;
+    background-color: #ffffff;
+  }
+
+  /* Table Headers */
+  .product-table th, 
+  .client-table th, 
+  .order-table th, 
+  .message-table th, 
+  .wilaya-table th, 
+  .brand-table th {
+    background-color: #FF840A; /* Orange color for headers */
+    color: white;
+    padding: 14px 10px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid #ddd; /* Thin border to separate header */
+    text-transform: uppercase; /* Professional uppercase text */
+    letter-spacing: 0.5px; /* Slightly spaced text */
+  }
+
+  /* Table Cells */
+  .product-table td, 
+  .client-table td, 
+  .order-table td, 
+  .message-table td, 
+  .wilaya-table td, 
+  .brand-table td {
+    padding: 14px 10px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0; /* Light border for separation */
+    color: #333; /* Darker text for better readability */
+    vertical-align: middle; /* Center content vertically */
+  }
+
+  /* Alternate Row Colors for Readability */
+  .product-table tbody tr:nth-child(even),
+  .client-table tbody tr:nth-child(even),
+  .order-table tbody tr:nth-child(even),
+  .message-table tbody tr:nth-child(even),
+  .wilaya-table tbody tr:nth-child(even),
+  .brand-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa; /* Light grey for alternate rows */
+  }
+
+  /* Hover Effect */
+  .product-table tbody tr:hover,
+  .client-table tbody tr:hover,
+  .order-table tbody tr:hover,
+  .message-table tbody tr:hover,
+  .wilaya-table tbody tr:hover,
+  .brand-table tbody tr:hover {
+    background-color: #ffefdb; /* Soft highlight when hovering */
+  }
+
+  /* Image inside tables */
+  .product-table img,
+  .client-table img,
+  .order-table img,
+  .message-table img,
+  .wilaya-table img,
+  .brand-table img {
+    max-width: 50px;
+    border-radius: 5px;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* Action Buttons (Edit/Delete) */
+  .table-action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center; /* Center the buttons */
+  }
+
+  .edit-button, 
+  .delete-button {
+    padding: 8px 14px;
+    font-size: 13px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    border: none;
+    font-weight: bold;
+  }
+
+  .edit-button {
+    background-color: #28A745; /* Green for edit */
+  }
+
+  .edit-button:hover {
+    background-color: #218838;
+  }
+
+  .delete-button {
+    background-color: #DC3545; /* Red for delete */
+  }
+
+  .delete-button:hover {
+    background-color: #C82333;
+  }
+}
+
+/* Main Cards (Clean, Professional) */
+@media (max-width: 768px) {
+  .MainCard {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 15px;
+  }
+
+  .MainCard .Card {
+    padding: 20px;
+    background: #FF840A;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  .MainCard .Card:hover {
+    transform: translateY(-5px); /* Lift on hover */
+  }
+
+  .MainCard .Card .num {
+    font-size: 28px;
+    color: white;
+    font-weight: bold;
+  }
+
+  .MainCard .Card .name {
+    font-size: 18px;
+    color: white;
+    font-weight: normal;
+  }
+
+  .MainCard .Card i {
+    font-size: 40px;
+    color: white;
+  }
+}
+
+/* Buttons */
+@media (max-width: 768px) {
+  .add-product-btn {
+    width: 100%;
+    font-size: 16px;
+    padding: 12px;
+    text-align: center;
+    border-radius: 6px;
+    background: #FF840A;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+
+  .add-product-btn:hover {
+    background-color: #E67503;
+  }
+}
