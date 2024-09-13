@@ -91,8 +91,8 @@
         }
     }
 
-    // Fetch unique statuses from the commande table
-    $sqlStatuses = "SELECT DISTINCT statut FROM commande";
+    // Fetch unique statuses from the commande_facture table
+    $sqlStatuses = "SELECT DISTINCT statut FROM commande_facture";
     $resultStatuses = $connection->query($sqlStatuses);
 
     $statuses = [];
@@ -315,7 +315,7 @@
                             </div>
                             <div class="icons">
                                 <a href="?targetId=Catégories-content">
-                                <i class="bx bx-category icon"></i>
+                                    <i class="bx bx-category icon"></i>
                                 </a>
                             </div>
                         </div>
@@ -924,8 +924,8 @@
 
             // Query to get client orders including product prices
             $query = "SELECT w.wilaya AS wilaya,w.delivery_price, c.id_client, c.prenom AS client_prenom, c.nom AS client_nom, c.telephone AS client_phone, 
-           com.id_com, com.date_com, com.statut, co.id_outil, co.Qte_com, o.prix_actuel AS product_price
-    FROM commande com
+           com.id_com, com.date_com, com.statut, com.adr_Liv, co.id_outil, co.Qte_com, o.prix_actuel AS product_price
+    FROM commande_facture com
     LEFT JOIN wilaya w ON com.id_wilaya = w.id_wilaya
     JOIN effectuer_com ec ON com.id_com = ec.id_com
     JOIN client c ON ec.id_client = c.id_client
@@ -966,6 +966,7 @@
                         'statut' => $order['statut'],
                         'wilaya' => $order['wilaya'],
                         'delivery_price' => $order['delivery_price'],
+                        'adresse_livraison' => $order['adr_Liv'],
                         'products' => [],
                         'total_price' => 0 // Initialize total price
                     ];
@@ -996,11 +997,12 @@
                 <table class="order-table">
                     <thead>
                         <tr>
+                            <th>Date Commande</th>
                             <th>Client</th>
                             <th>Numéro de téléphone</th>
-                            <th>Date Commande</th>
-                            <th>Statut</th>
                             <th>wilaya</th>
+                            <th>Adresse Livraison</th>
+                            <th>Statut</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -1008,10 +1010,12 @@
                         <?php foreach ($order_details as $order_id => $order_data): ?>
                             <!-- Order Row -->
                             <tr class="order-row" data-order-id="<?php echo htmlspecialchars($order_id); ?>">
-                                <td><?php echo htmlspecialchars($order_data['client_prenom']) . ' ' . htmlspecialchars($order_data['client_nom']); ?>
+                            <td><?php echo htmlspecialchars($order_data['date_com']); ?></td>
                                 </td>
+                                <td><?php echo htmlspecialchars($order_data['client_prenom']) . ' ' . htmlspecialchars($order_data['client_nom']); ?>
                                 <td><?php echo htmlspecialchars($order_data['client_phone']); ?></td>
-                                <td><?php echo htmlspecialchars($order_data['date_com']); ?></td>
+                                <td><?php echo htmlspecialchars($order_data['wilaya']); ?></td>
+                                <td><?php echo htmlspecialchars($order_data['adresse_livraison']); ?></td>
                                 <td>
                                     <select class="status-select" data-order-id="<?php echo htmlspecialchars($order_id); ?>">
                                         <?php foreach ($statuses as $status): ?>
@@ -1022,15 +1026,13 @@
                                         <?php endforeach; ?>
                                     </select>
                                 </td>
-
-                                <td><?php echo htmlspecialchars($order_data['wilaya']); ?></td>
                                 <td><button class="toggle-details">Show Details</button></td>
                             </tr>
 
                             <!-- Details Row -->
                             <tr class="details-row" id="details-<?php echo htmlspecialchars($order_id); ?>"
                                 style="display: none;">
-                                <td colspan="6">
+                                <td colspan="7">
                                     <div class="details-content">
                                         <?php foreach ($order_data['products'] as $product): ?>
                                             <div class="order-detail">
@@ -1087,14 +1089,33 @@
                             .then(response => response.json())
                             .then(data => {
                                 if (data.success) {
-                                    alert('Status updated successfully.');
+                                    Swal.fire({
+                                        title: 'Succès!',
+                                        text: 'Statut mis à jour avec succès.',
+                                        icon: 'success',
+                                        confirmButtonColor: '#ff840a'
+                                    });
                                 } else {
-                                    alert('Failed to update status.');
+                                    Swal.fire({
+                                        title: 'Erreur!',
+                                        text: 'Échec de la mise à jour du statut.',
+                                        icon: 'error',
+                                        confirmButtonColor: '#ff840a'
+                                    });
                                 }
+                            })
+                            .catch(error => {
+                                Swal.fire({
+                                    title: 'Erreur!',
+                                    text: 'Une erreur s\'est produite.',
+                                    icon: 'error',
+                                    confirmButtonColor: '#ff840a'
+                                });
                             });
                     });
                 });
             });
+
         </script>
 
         <script>

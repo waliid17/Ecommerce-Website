@@ -275,7 +275,7 @@ if ($stmt) {
             // Fetch the client's commands
             $stmt = $connection->prepare("
     SELECT c.id_com, c.date_com
-    FROM commande c
+    FROM commande_facture c
     JOIN effectuer_com e ON c.id_com = e.id_com
     WHERE e.id_client = ?
 ");

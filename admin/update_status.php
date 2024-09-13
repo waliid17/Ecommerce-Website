@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 }
 
 // Fetch unique statuses
-$status_sql = "SELECT DISTINCT statut FROM commande";
+$status_sql = "SELECT DISTINCT statut FROM commande_facture";
 $status_result = $conn->query($status_sql);
 
 $statuses = [];
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $status = isset($_POST['status']) ? $_POST['status'] : '';
 
     if ($order_id && $status) {
-        $sql = "UPDATE commande SET statut = ? WHERE id_com = ?";
+        $sql = "UPDATE commande_facture SET statut = ? WHERE id_com = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('si', $status, $order_id);
 

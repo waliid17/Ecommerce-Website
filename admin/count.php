@@ -16,7 +16,7 @@ if ($conn->connect_error) {
 $sqlUsers = "SELECT COUNT(*) as count FROM client";
 $sqlTools = "SELECT COUNT(*) as count FROM outil";
 $sqlMessages = "SELECT COUNT(*) as count FROM message";
-$sqlOrders = "SELECT COUNT(*) as count FROM commande";
+$sqlOrders = "SELECT COUNT(*) as count FROM commande_facture";
 $sqlWilayas = "SELECT COUNT(*) as count FROM wilaya";
 $sqlMarques = "SELECT COUNT(*) as count FROM marque";
 $sqlCatégories = "SELECT COUNT(*) as count FROM categorie";

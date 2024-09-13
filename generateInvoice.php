@@ -15,7 +15,7 @@ if ($connection->connect_error) {
 // Récupérer les détails de la commande avec le prix de livraison
 $orderStmt = $connection->prepare("
     SELECT c.id_com, c.date_com, cli.prenom, cli.nom, w.delivery_price
-    FROM commande c
+    FROM commande_facture c
     JOIN effectuer_com e ON c.id_com = e.id_com
     JOIN client cli ON e.id_client = cli.id_client
     JOIN wilaya w ON c.id_wilaya = w.id_wilaya

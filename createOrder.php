@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $wilayaId = $data['wilayaId'];
     $adr_Liv = $data['adr_Liv'];
     // Create new order
-    $stmt = $connection->prepare("INSERT INTO commande (date_com, statut, id_wilaya, adr_Liv) VALUES (NOW(), 'pending', $wilayaId, '$adr_Liv')");
+    $stmt = $connection->prepare("INSERT INTO commande_facture (date_com, statut, id_wilaya, adr_Liv) VALUES (NOW(), 'pending', $wilayaId, '$adr_Liv')");
     $stmt->execute();
     $orderId = $stmt->insert_id;
 

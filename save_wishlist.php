@@ -37,7 +37,7 @@ $connexion->begin_transaction();
 
 try {
     // Step 1: Create a new 'commande' with the status 'panier'
-    $sql = "INSERT INTO commande (date_com, statut) VALUES (CURDATE(), 'panier')";
+    $sql = "INSERT INTO commande_facture (date_com, statut) VALUES (CURDATE(), 'panier')";
     if ($connexion->query($sql) === TRUE) {
         $commandeId = $connexion->insert_id;
     } else {
