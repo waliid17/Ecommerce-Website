@@ -20,7 +20,7 @@ if ($result->num_rows > 0) {
         header("Location: login_signup.html?error=mdp");
     }
 } else {
-    header("Location: login_signup.html");
+    header("Location: login_signup.html?error=email");
     exit(); 
 }
 ?>
