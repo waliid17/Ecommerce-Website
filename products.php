@@ -73,7 +73,7 @@ $selectedcategories = isset($_GET['category']) ? $_GET['category'] : [];
         <div class="mid-header container">
           <div class="logo">
             <a href="index.php">
-              <img src="images/prooutil1.png" alt="LOGO">
+              <img src="images/prooutil.gif" alt="LOGO">
             </a>
           </div>
           <div class="search">

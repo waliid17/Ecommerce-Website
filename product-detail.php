@@ -78,7 +78,7 @@
                 <div class="bg-main">
                     <div class="mid-header container">
                         <div class="logo">
-                            <a href="index.php"><img src="images/prooutil1.png" alt="LOGO"></a>
+                            <a href="index.php"><img src="images/prooutil.gif" alt="LOGO"></a>
                         </div>
                         <div class="search">
                             <input type="text" placeholder="Search">
