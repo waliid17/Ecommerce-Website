@@ -55,8 +55,11 @@
             <!-- Mobile Menu -->
             <div class="mobile-menu bg-second">
                 <div class="logo">
-                    <img src="images/prooutil.png" alt="LOGO">
+                    <a href="index.php">
+                        <img src="images/prooutil1.png" alt="LOGO">
+                    </a>
                 </div>
+
                 <span class="mb-menu-toggle" id="mb-menu-toggle">
                     <i class='bx bx-menu'></i>
                 </span>
@@ -73,7 +76,7 @@
                 <div class="bg-main">
                     <div class="mid-header container">
                         <div class="logo">
-                            <a href="index.php"><img src="images/prooutil.gif" alt="LOGO"></a>
+                            <a href="index.php"><img src="images/prooutil1.png" alt="LOGO"></a>
                         </div>
                         <div class="search">
                             <input type="text" placeholder="Search">

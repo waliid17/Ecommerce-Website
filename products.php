@@ -51,7 +51,11 @@ $selectedcategories = isset($_GET['category']) ? $_GET['category'] : [];
   <header>
     <!-- mobile menu -->
     <div class="mobile-menu bg-second">
-      <a href="#" class="mb-logo">pro-outil</a>
+      <div class="logo">
+        <a href="index.php">
+          <img src="images/prooutil1.png" alt="LOGO">
+        </a>
+      </div>
       <span class="mb-menu-toggle" id="mb-menu-toggle">
         <i class="bx bx-menu"></i>
       </span>
@@ -66,7 +70,9 @@ $selectedcategories = isset($_GET['category']) ? $_GET['category'] : [];
       <div class="bg-main">
         <div class="mid-header container">
           <div class="logo">
-            <a href="index.php"><img src="images/prooutil.gif" alt="LOGO" /></a>
+            <a href="index.php">
+              <img src="images/prooutil1.png" alt="LOGO">
+            </a>
           </div>
           <div class="search">
             <input type="text" placeholder="Search" />

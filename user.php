@@ -62,8 +62,11 @@ if ($stmt) {
         <!-- Mobile Menu -->
         <div class="mobile-menu bg-second">
             <div class="logo">
-                <img src="images/prooutil.gif" alt="LOGO">
+                <a href="index.php">
+                    <img src="images/prooutil1.png" alt="LOGO">
+                </a>
             </div>
+
             <span class="mb-menu-toggle" id="mb-menu-toggle">
                 <i class='bx bx-menu'></i>
             </span>
