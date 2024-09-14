@@ -1965,12 +1965,13 @@ button:focus:before {
 }
 
 .contact-container {
-  display: flex;
+  display: grid;
   justify-content: space-between;
   align-items: flex-start;
   max-width: 1200px;
   margin: 0 auto;
   gap: 40px; /* Add spacing between form and info */
+  grid-template-columns: 1fr 1fr;
 }
 
 /* Contact Information Box */
@@ -1982,6 +1983,7 @@ button:focus:before {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: left; /* Align text to the left */
+  height: 100%;
 }
 
 .contact-info h2 {
@@ -2000,7 +2002,7 @@ button:focus:before {
 /* Map container */
 .map-container {
   width: 100%;
-  height: 300px; /* Set a fixed height */
+  height: 500px; /* Set a fixed height */
   margin-bottom: 20px;
 }
 
@@ -2019,6 +2021,7 @@ button:focus:before {
   border-radius: 8px;
   border: 1px solid #ff840a;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 100%;
 }
 
 .contact-form-container h2 {
@@ -2082,6 +2085,7 @@ button:focus:before {
   .contact-container {
     flex-direction: column;
     align-items: center;
+    grid-template-columns: 1fr;
   }
 
   .contact-info,
@@ -2177,6 +2181,11 @@ button:focus:before {
 @media only screen and (max-width: 992px) {
   .carousel-inner img {
     max-width: 50%; /* Show 2 items on medium screens */
+  }
+  .slider, .slider .container {
+    min-height: 300px;
+    position: relative;
+    width: 100%;
   }
 }
 
