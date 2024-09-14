@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pro-outil</title>
+     <!-- Favicon -->
+     <link rel="icon" href="images/e.png" type="image/png">
     <!-- google font -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link
@@ -44,7 +46,7 @@
                 <div class="mid-header container">
                     <div class="logo">
                         <a href="index.php">
-                            <img src="images/prooutil1.png" alt="LOGO">
+                            <img src="images/prooutil.gif" alt="LOGO">
                         </a>
                     </div>
                     <div class="search">
