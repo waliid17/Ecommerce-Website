@@ -335,6 +335,7 @@
                         <th>Email</th>
                         <th>Téléphone</th>
                         <th>Adresse</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -342,20 +343,53 @@
                     if (!empty($clients)) {
                         foreach ($clients as $client) {
                             echo "<tr data-client-id='{$client['id_client']}'>
-                            <td>{$client['prenom']}</td>
-                            <td>{$client['nom']}</td>
-                            <td>{$client['email']}</td>
-                            <td>{$client['telephone']}</td>
-                            <td>{$client['adresse']}</td>
-                          </tr>";
+                    <td>{$client['prenom']}</td>
+                    <td>{$client['nom']}</td>
+                    <td>{$client['email']}</td>
+                    <td>{$client['telephone']}</td>
+                    <td>{$client['adresse']}</td>
+                    <td>
+                        <form method='POST' action='delete_client.php' style='display:inline-block;'>
+                            <input type='hidden' name='id_client' value='{$client['id_client']}'>
+                            <button type='submit' class='delete-btn'>Supprimer</button>
+                        </form>
+                    </td>
+                  </tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='7'>No clients found</td></tr>";
+                        echo "<tr><td colspan='7'>Aucun client trouvé</td></tr>";
                     }
                     ?>
                 </tbody>
             </table>
         </div>
+
+        <!-- Include SweetAlert2 library -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script>
+            // Check if the 'message' and 'targetId' parameters are set in the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetId = urlParams.get('targetId');
+
+            if (urlParams.get('message') === 'success' && targetId) {
+                // Scroll to the specific section
+                document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' });
+
+                // Show the SweetAlert2 popup
+                Swal.fire({
+                    title: 'Client Deleted!',
+                    text: 'The client account has been successfully deleted.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = 'http://localhost/pro-outil/admin/admin.php?targetId=' + targetId;
+                    }
+                });
+            }
+        </script>
+
         <div class="content" id="outil-content" style="display: none;">
             <div id="ShowProducts" class="tabcontent">
                 <h2>LES OUTILS :</h2>
@@ -1010,7 +1044,7 @@
                         <?php foreach ($order_details as $order_id => $order_data): ?>
                             <!-- Order Row -->
                             <tr class="order-row" data-order-id="<?php echo htmlspecialchars($order_id); ?>">
-                            <td><?php echo htmlspecialchars($order_data['date_com']); ?></td>
+                                <td><?php echo htmlspecialchars($order_data['date_com']); ?></td>
                                 </td>
                                 <td><?php echo htmlspecialchars($order_data['client_prenom']) . ' ' . htmlspecialchars($order_data['client_nom']); ?>
                                 <td><?php echo htmlspecialchars($order_data['client_phone']); ?></td>

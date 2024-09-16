@@ -1312,6 +1312,16 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+.client-table button {
+  background-color: #ff840a;
+  color: #ffffff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
 
 .brand-table button:hover {
   background-color: #e67503;
