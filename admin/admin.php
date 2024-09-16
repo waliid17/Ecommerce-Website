@@ -1205,7 +1205,7 @@
                 echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script><script>
     Swal.fire({
         title: 'Success!',
-        text: 'Your operation was successful.',
+        text: 'Marque supprimée avec succès.',
         icon: 'success',
         confirmButtonText: 'OK'
     });
@@ -1255,7 +1255,7 @@
                     echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script><script>
         Swal.fire({
             title: 'Success!',
-            text: 'Image uploaded successfully.',
+            text: 'Marque ajoutée avec succès.',
             icon: 'success',
             confirmButtonText: 'OK'
         });
@@ -1359,7 +1359,7 @@
             $stmt = $conn->prepare($query);
             $stmt->bind_param('i', $id);
             if ($stmt->execute()) {
-                echo "<p>Wilaya deleted successfully.</p>";
+                echo "<p>La wilaya a été supprimée avec succès.</p>";
                 echo "<meta http-equiv='refresh' content='0'>"; // Refresh the page to reflect changes
             } else {
                 echo "Error deleting record: " . $conn->error;
@@ -1724,7 +1724,6 @@
             function confirmDelete(id) {
                 Swal.fire({
                     title: 'Êtes-vous sûr ?',
-                    text: "Vous ne pourrez pas annuler cela!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#ff840a',

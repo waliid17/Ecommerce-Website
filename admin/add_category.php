@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nom_cat'])) {
 
     $response = [];
     if ($conn->query($sql) === TRUE) {
-        $response = ['success' => true, 'message' => 'Category added successfully.'];
+        $response = ['success' => true, 'message' => 'Catégorie ajoutée avec succès.'];
     } else {
         $response = ['success' => false, 'message' => 'Error adding category.'];
     }
