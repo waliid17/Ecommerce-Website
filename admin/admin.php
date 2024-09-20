@@ -220,6 +220,13 @@
                             <span class="text nav-text">LES CATÉGORIES</span>
                         </a>
                     </li>
+                    <li class="nav-link">
+                        <a href="#" class="nav-item" data-target="Admin-content">
+                        <i class="bx bx-user-circle icon"></i>
+
+                            <span class="text nav-text">LES ADMINS</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
 
@@ -316,6 +323,17 @@
                             <div class="icons">
                                 <a href="?targetId=Catégories-content">
                                     <i class="bx bx-category icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="Card">
+                            <div>
+                                <div class="num"><?php echo $countAdmins; ?></div>
+                                <div class="name">ADMINS</div>
+                            </div>
+                            <div class="icons">
+                                <a href="?targetId=Admin-content">
+                                <i class="bx bx-user-circle icon"></i>
                                 </a>
                             </div>
                         </div>
@@ -1787,8 +1805,107 @@
             });
         </script>
 
+        <?php
+        // Connection to the database
+        $mysqli = new mysqli("localhost", "root", "", "base");
+
+        if ($mysqli->connect_error) {
+            die("Connection failed: " . $mysqli->connect_error);
+        }
+
+        // Fetch all admins from the admin table
+        $query = "SELECT * FROM admin";
+        $result = $mysqli->query($query);
+        ?>
+
+        <div class="content" id="Admin-content">
+            <h2>LES ADMINS :</h2><br>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php while ($row = $result->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo $row['nom_ad']; ?></td>
+                            <td><?php echo $row['email_ad']; ?></td>
+                            <td>
+                                <button class="action-button" onclick="deleteAdmin(<?php echo $row['id_ad']; ?>)">Supprimer</button>
+                            </td>
+                        </tr>
+                    <?php endwhile; ?>
+                </tbody>
+            </table><br><br>
+            <div>
+                <h3>AJOUTER UN ADMIN :</h3>
+                <form method="POST" action="add_admin.php">
+                    <input type="text" name="nom_ad" placeholder="Nom" required>
+                    <input type="email" name="email_ad" placeholder="Email" required>
+                    <input type="password" name="pwd_ad" placeholder="Mot de passe" required>
+                    <button type="submit">Ajouter</button>
+                </form>
+            </div>
+        </div>
+
+        <?php
+        $mysqli->close();
+        ?>
+        <script>
+            function deleteAdmin(id) {
+                // Show SweetAlert2 confirmation dialog in French
+                Swal.fire({
+                    title: 'Êtes-vous sûr ?',
+                    text: "supprimer cet admin ? !",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Oui, supprimez-le !',
+                    cancelButtonText: 'Annuler'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // If the user confirms, send the delete request via AJAX
+                        const xhr = new XMLHttpRequest();
+                        xhr.open("POST", "delete_admin.php", true);
+                        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                const response = JSON.parse(xhr.responseText);
+                                if (response.status === 'success') {
+                                    // Show a success alert in French and refresh the page after confirming deletion
+                                    Swal.fire({
+                                        title: 'Supprimé !',
+                                        text: 'L\'admin a été supprimé.',
+                                        icon: 'success',
+                                        confirmButtonText: 'OK'
+                                    }).then(() => {
+                                        // Refresh the page after the success alert is closed
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    // Show an error message if something went wrong
+                                    Swal.fire(
+                                        'Erreur !',
+                                        response.message,
+                                        'error'
+                                    );
+                                }
+                            }
+                        };
+
+                        // Send the admin ID in the request body
+                        xhr.send("id=" + id);
+                    }
+                });
+            }
 
 
+        </script>
     </section>
 
     <!-- Scripts -->

@@ -20,6 +20,7 @@ $sqlOrders = "SELECT COUNT(*) as count FROM commande_facture";
 $sqlWilayas = "SELECT COUNT(*) as count FROM wilaya";
 $sqlMarques = "SELECT COUNT(*) as count FROM marque";
 $sqlCatégories = "SELECT COUNT(*) as count FROM categorie";
+$sqlAdmins = "SELECT COUNT(*) as count FROM admin";
 // Execute the queries and fetch the counts
 $resultUsers = $conn->query($sqlUsers);
 $resultTools = $conn->query($sqlTools);
@@ -28,6 +29,7 @@ $resultOrders = $conn->query($sqlOrders);
 $resultWilayas = $conn->query($sqlWilayas);
 $resultMarques = $conn->query($sqlMarques);
 $resultCatégories = $conn->query($sqlCatégories);
+$resultAdmins = $conn->query($sqlAdmins);
 
 $countUsers = $resultUsers->fetch_assoc()['count'];
 $countTools = $resultTools->fetch_assoc()['count'];
@@ -36,6 +38,7 @@ $countOrders = $resultOrders->fetch_assoc()['count'];
 $countWilayas = $resultWilayas->fetch_assoc()['count'];
 $countMarques = $resultMarques->fetch_assoc()['count'];
 $countCatégories = $resultCatégories->fetch_assoc()['count'];
+$countAdmins = $resultAdmins->fetch_assoc()['count'];
 
 $conn->close();
 ?>
