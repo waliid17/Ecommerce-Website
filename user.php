@@ -146,7 +146,6 @@ if ($stmt) {
                             <div class="icon"><i class="fas fa-envelope"></i></div>
                             <input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>"
                                 placeholder="Adresse e-mail" required readonly>
-                            <div class="edit-icon" onclick="toggleEdit('email')"><i class="fa-solid fa-pen"></i></div>
                         </div>
                     </div>
 
@@ -653,7 +652,7 @@ if ($stmt) {
                                     });
 
                                     // Redirect to the homepage
-                                    window.location.href = "index.php";
+                                    window.location.href = "go_to_status.php";
                                 } else {
                                     throw new Error('Failed to add items to order.');
                                 }

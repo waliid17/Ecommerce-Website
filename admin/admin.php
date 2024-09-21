@@ -1078,7 +1078,7 @@
                                         <?php endforeach; ?>
                                     </select>
                                 </td>
-                                <td><button class="toggle-details">Show Details</button></td>
+                                <td><button class="toggle-details">Afficher les détails</button></td>
                             </tr>
 
                             <!-- Details Row -->
@@ -1180,17 +1180,17 @@
                     document.querySelectorAll('.details-row').forEach(row => {
                         if (row !== detailsRow) {
                             row.style.display = 'none';
-                            row.previousElementSibling.querySelector('.toggle-details').textContent = 'Show Details';
+                            row.previousElementSibling.querySelector('.toggle-details').textContent = 'Afficher les détails';
                         }
                     });
 
                     // Toggle the clicked row
                     if (detailsRow.style.display === 'none' || detailsRow.style.display === '') {
                         detailsRow.style.display = 'table-row';
-                        this.textContent = 'Hide Details';
+                        this.textContent = 'Masquer les détails';
                     } else {
                         detailsRow.style.display = 'none';
-                        this.textContent = 'Show Details';
+                        this.textContent = 'Afficher les détails';
                     }
                 });
             });

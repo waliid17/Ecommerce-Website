@@ -77,7 +77,7 @@
 
                     if ($showIcons) {
                         echo "<ul class='user-menu'>
-        <li><a href='#'><i class='bx bx-bell'></i></a></li>
+        <li><a href='#'><i class='bx bx-bell' style='display: none;'></i></a></li>
         <li><a href='user.php'><i class='bx bx-user-circle'></i></a></li>
         <li><a href='user.php#Wishlist'><i class='bx bx-cart'></i></a></li>
     </ul>";
@@ -401,8 +401,8 @@
                 localStorage.setItem("wishlist", JSON.stringify(wishlist));
 
                 Swal.fire({
-                    title: 'Added!',
-                    text: `${product.name} has been added to your wishlist.`,
+                    title: 'ajouté!',
+                    text: `${product.name} a été ajouté à votre panier.`,
                     icon: 'success',
                     confirmButtonText: 'OK'
                 });

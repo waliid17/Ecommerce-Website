@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PRO-OUTIL</title>
-     <!-- Favicon -->
-     <link rel="icon" href="images/e.png" type="image/png">
+    <!-- Favicon -->
+    <link rel="icon" href="images/e.png" type="image/png">
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link
@@ -85,7 +85,7 @@
                             <i class='bx bx-search-alt'></i>
                         </div>
                         <ul class="user-menu">
-                            <li><a href="#"><i class='bx bx-bell'></i></a></li>
+                            <li><a href='#'><i class='bx bx-bell' style='display: none;'></i></a></li>
                             <li><a href="user.php"><i class='bx bx-user-circle'></i></a></li>
                             <li><a href="user.php#Wishlist"><i class='bx bx-cart'></i></a></li>
                         </ul>
