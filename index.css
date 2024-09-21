@@ -2079,6 +2079,9 @@ button:focus:before {
 .submit-btn:hover {
   background-color: #e67503;
 }
+.searchh {
+  border: none;
+}
 
 /* Responsive Design Adjustments */
 @media only screen and (max-width: 992px) {

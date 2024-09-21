@@ -49,10 +49,12 @@
                             <img src="images/prooutil.gif" alt="LOGO">
                         </a>
                     </div>
+                    <form action="products.php" method="GET">
                     <div class="search">
-                        <input type="text" placeholder="Search">
-                        <i class='bx bx-search-alt'></i>
+                        <input type="text" name="search" placeholder="Search">
+                        <button class="searchh" type="submit"><i class='bx bx-search-alt'></i></button>
                     </div>
+                    </form>
                     <?php
                     session_start();
                     $connection = new mysqli("localhost", "root", "", "base");

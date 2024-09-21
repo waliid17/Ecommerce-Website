@@ -26,6 +26,7 @@ if ($result_brands->num_rows > 0) {
 }
 $selectedbrands = isset($_GET['brand']) ? $_GET['brand'] : [];
 $selectedcategories = isset($_GET['category']) ? $_GET['category'] : [];
+$searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,8 +36,8 @@ $selectedcategories = isset($_GET['category']) ? $_GET['category'] : [];
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>pro-outil</title>
-   <!-- Favicon -->
-   <link rel="icon" href="images/e.png" type="image/png">
+  <!-- Favicon -->
+  <link rel="icon" href="images/e.png" type="image/png">
   <!-- google font -->
   <link rel="preconnect" href="https://fonts.gstatic.com" />
   <link
@@ -76,12 +77,14 @@ $selectedcategories = isset($_GET['category']) ? $_GET['category'] : [];
               <img src="images/prooutil.gif" alt="LOGO">
             </a>
           </div>
-          <div class="search">
-            <input type="text" placeholder="Search" />
-            <i class="bx bx-search-alt"></i>
-          </div>
+          <form action="products.php" method="GET">
+            <div class="search">
+              <input type="text" <?= !empty($searchTerm) ? "value='$searchTerm'" : ""; ?> name="search" placeholder="Search">
+              <button type="submit" class="searchh"><i class='bx bx-search-alt'></i></button>
+            </div>
+          </form>
           <ul class="user-menu">
-          <li><a href='#'><i class='bx bx-bell' style='display: none;'></i></a></li>
+            <li><a href='#'><i class='bx bx-bell' style='display: none;'></i></a></li>
             <li>
               <a href="user.php"><i class="bx bx-user-circle"></i></a>
             </li>
@@ -191,6 +194,7 @@ $selectedcategories = isset($_GET['category']) ? $_GET['category'] : [];
               <div class="container">
                 <div class="row" id="latest-products">
                   <?php
+                  // Check if the search term is present
                   $items_per_page = 12;
                   $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
                   $offset = ($page - 1) * $items_per_page;
@@ -217,7 +221,12 @@ $selectedcategories = isset($_GET['category']) ? $_GET['category'] : [];
                   // Combine all clauses
                   $whereClause = implode(' AND ', $whereClauses);
                   $query = "SELECT * FROM `outil` WHERE $whereClause LIMIT $items_per_page OFFSET $offset";
-
+                  if (!empty($searchTerm)) {
+                    $searchTerm = "%" . $connection->real_escape_string($searchTerm) . "%"; 
+                    $query = "SELECT * FROM `outil` WHERE $whereClause AND (nom LIKE '$searchTerm' OR description LIKE '$searchTerm') LIMIT $items_per_page OFFSET $offset";
+                }else{
+                  $query = "SELECT * FROM `outil` WHERE $whereClause LIMIT $items_per_page OFFSET $offset";
+                }
                   $result = $connection->query($query);
 
 
